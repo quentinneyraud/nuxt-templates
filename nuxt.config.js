@@ -21,6 +21,22 @@ export default {
   buildModules: [
     '@nuxtjs/eslint-module'
   ],
-  modules: [],
-  build: {}
+  modules: [
+    '~/modules/events'
+  ],
+  build: {},
+  /**
+   * Events module
+   */
+  events: [
+    'ticker',
+    'resize',
+    'visibility',
+    {
+      type: 'resize',
+      options: {
+        name: 'resize:debounced',
+        debounce: 300
+      }
+    }]
 }
