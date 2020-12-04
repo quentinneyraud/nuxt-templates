@@ -150,6 +150,39 @@ const getVisibility = _ => ({
 
 /**
  *
+ * Orientation
+ *
+ */
+const getOrientation = _ => ({
+  options: {},
+  init (options = {}) {
+    this.options = options
+
+    this.onOrientation = this.onOrientationChanged.bind(this)
+
+    return this
+  },
+  start () {
+    window.addEventListener('orientationchange', this.onOrientationChanged)
+  },
+  onOrientationChanged () {
+    const eventName = this.options?.name || 'orientation'
+    const orientation = (window.orientation === 90 || window.orientation === -90) ? 'landscape' : 'portrait'
+
+    Events.$emit(eventName, {
+      options: this.options,
+      orientation
+    })
+
+    Events.$emit(`${eventName}:${orientation}`, {
+      options: this.options,
+      orientation
+    })
+  }
+})
+
+/**
+ *
  * Init events
  *
  */
@@ -176,6 +209,12 @@ options.forEach(event => {
 
   case 'visibility':
     getVisibility()
+      .init(eventt.options)
+      .start()
+    break
+
+  case 'orientation':
+    getOrientation()
       .init(eventt.options)
       .start()
     break

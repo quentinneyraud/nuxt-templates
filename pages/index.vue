@@ -25,6 +25,18 @@ export default {
       console.log('visibility:blur', options)
     })
 
+    this.$events.$on('orientation', options => {
+      alert(JSON.stringify(options))
+    })
+
+    this.$events.$on('orientation:portrait', options => {
+      alert(JSON.stringify(options))
+    })
+
+    this.$events.$on('orientation:landscape', options => {
+      alert(JSON.stringify(options))
+    })
+
     // this.$events.$on('ticker', options => {
     //   console.log('ticker', options)
     // })

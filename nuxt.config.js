@@ -32,6 +32,7 @@ export default {
     'ticker',
     'resize',
     'visibility',
+    'orientation',
     {
       type: 'resize',
       options: {
