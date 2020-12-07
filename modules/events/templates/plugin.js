@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { debounce, isModuleInstalled, requireModule } from './utils'
+import { debounce } from './utils'
 
 const Events = new Vue()
 
@@ -88,7 +88,8 @@ const getGsapTicker = _ => ({
   init (options = {}) {
     this.options = options
     this.onTick = this.onTick.bind(this)
-    this.gsap = requireModule('gsap')
+    // eslint-disable-next-line no-undef
+    this.gsap = __non_webpack_require__('gsap')
 
     return this
   },
@@ -187,35 +188,36 @@ const getOrientation = _ => ({
  *
  */
 const options = JSON.parse('<%= JSON.stringify(options) %>')
-options.forEach(event => {
-  const eventt = {
+
+options.events.forEach(event => {
+  const formattedEvent = {
     type: event?.type || event,
     options: event?.options || {}
   }
 
-  switch (eventt.type) {
+  switch (formattedEvent.type) {
   case 'resize':
     getResize()
-      .init(eventt.options)
+      .init(formattedEvent.options)
       .start()
 
     break
 
   case 'ticker':
-    (isModuleInstalled('gsap') ? getGsapTicker() : getTicker())
-      .init(eventt.options)
+    (options.isGsapInstalled ? getGsapTicker() : getTicker())
+      .init(formattedEvent.options)
       .start()
     break
 
   case 'visibility':
     getVisibility()
-      .init(eventt.options)
+      .init(formattedEvent.options)
       .start()
     break
 
   case 'orientation':
     getOrientation()
-      .init(eventt.options)
+      .init(formattedEvent.options)
       .start()
     break
 

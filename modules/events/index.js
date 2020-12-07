@@ -2,8 +2,20 @@ import path from 'path'
 
 const ROOT_DIR = 'events'
 
+const isModuleInstalled = moduleName => {
+  let path
+
+  try {
+    path = require.resolve(moduleName)
+  } catch (_) {}
+
+  return path
+}
+
 export default function (moduleOptions) {
   const options = this.options.events || moduleOptions || {}
+
+  options.isGsapInstalled = isModuleInstalled('gsap')
 
   this.addPlugin({
     src: path.resolve(__dirname, 'templates/plugin.js'),

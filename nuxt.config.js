@@ -28,16 +28,19 @@ export default {
   /**
    * Events module
    */
-  events: [
-    'ticker',
-    'resize',
-    'visibility',
-    'orientation',
-    {
-      type: 'resize',
-      options: {
-        name: 'resize:debounced',
-        debounce: 300
+  events: {
+    events: [
+      'ticker',
+      'resize',
+      'visibility',
+      'orientation',
+      {
+        type: 'resize',
+        options: {
+          name: 'resize:debounced',
+          debounce: 300
+        }
       }
-    }]
+    ]
+  }
 }
