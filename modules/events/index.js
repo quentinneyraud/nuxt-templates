@@ -13,7 +13,7 @@ const isModuleInstalled = moduleName => {
 
   try {
     path = require.resolve(moduleName)
-  } catch _ {
+  } catch (_) {
     return false
   }
 
