@@ -1,31 +1,47 @@
 import path from 'path'
 
-const ROOT_DIR = 'events'
+const MODULE_NAME = 'events'
+
+const DEFAULT_OPTIONS = {
+  events: [],
+  debug: false,
+  isGsapInstalled: false
+}
 
 const isModuleInstalled = moduleName => {
   let path
 
   try {
     path = require.resolve(moduleName)
-  } catch (_) {}
+  } catch _ {
+    return false
+  }
 
   return path
 }
 
 export default function (moduleOptions) {
-  const options = this.options.events || moduleOptions || {}
+  let options = this.options.events || moduleOptions || {}
 
-  options.isGsapInstalled = isModuleInstalled('gsap')
+  options = {
+    ...DEFAULT_OPTIONS,
+    ...options,
+    MODULE_NAME,
+    isGsapInstalled: isModuleInstalled('gsap')
+  }
 
+  // Plugin
   this.addPlugin({
     src: path.resolve(__dirname, 'templates/plugin.js'),
-    fileName: path.join(ROOT_DIR, 'plugin.js'),
+    fileName: path.join(MODULE_NAME, 'plugin.js'),
     options,
     ssr: false
   })
 
+  // Utils
   this.addTemplate({
     src: path.resolve(__dirname, 'templates/utils.js'),
-    fileName: path.join(ROOT_DIR, 'utils.js')
+    fileName: path.join(MODULE_NAME, 'utils.js'),
+    options
   })
 }

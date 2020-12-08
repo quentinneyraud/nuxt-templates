@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { debounce } from './utils'
+import { debounce, warn, infos } from './utils'
 
 const Events = new Vue()
 
@@ -27,6 +27,8 @@ const getResize = _ => ({
     return this
   },
   start () {
+    infos('Start listening for resize event')
+
     window.addEventListener('resize', this.callback)
   },
   onResize () {
@@ -57,6 +59,8 @@ const getTicker = _ => ({
     return this
   },
   start () {
+    infos('Start listening for requestAnimationFrame event')
+
     this.startTime = new Date().getTime()
     this.onTick()
   },
@@ -94,6 +98,8 @@ const getGsapTicker = _ => ({
     return this
   },
   start () {
+    infos('Start listening for GSAP ticker event')
+
     this.gsap.ticker.add(this.onTick)
   },
   onTick (time, deltaTime, frame, elapsed) {
@@ -124,6 +130,8 @@ const getVisibility = _ => ({
     return this
   },
   start () {
+    infos('Start listening for visibilitychange event')
+
     document.addEventListener('visibilitychange', this.onVisibilityChanged)
   },
   onVisibilityChanged () {
@@ -164,6 +172,8 @@ const getOrientation = _ => ({
     return this
   },
   start () {
+    infos('Start listening for orientationchange event')
+
     window.addEventListener('orientationchange', this.onOrientationChanged)
   },
   onOrientationChanged () {
@@ -222,6 +232,7 @@ options.events.forEach(event => {
     break
 
   default:
+    warn(`Cannot find event ${formattedEvent.type}`)
     break
   }
 })
