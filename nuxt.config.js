@@ -15,12 +15,24 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
-  css: [],
+  css: [
+    '~assets/styles/global/index.styl'
+  ],
   plugins: [],
   components: true,
   buildModules: [
     '@nuxtjs/eslint-module'
   ],
-  modules: [],
-  build: {}
+  modules: [
+    '@nuxtjs/style-resources'
+  ],
+  build: {},
+  /*
+  ** Styles resources module
+  */
+  styleResources: {
+    stylus: [
+      '~assets/styles/shared/index.styl'
+    ]
+  }
 }
