@@ -2,7 +2,8 @@
   <div
     class="Debug-component"
     :class="{
-      '--is-open': isOpen
+      '--is-open': isOpen,
+      ...featuresState
     }"
   >
     <ul class="Debug-options">
@@ -53,7 +54,7 @@ export default {
     buttonText () {
       return this.isOpen ? 'Close' : 'Open'
     },
-    localStorageValue () {
+    featuresState () {
       return this.options
         .reduce((acc, option) => {
           acc[option.key] = option.active
@@ -66,7 +67,9 @@ export default {
     options: {
       deep: true,
       handler () {
-        this?.persistToLocalStorage()
+        this.persistToLocalStorage()
+
+        this.setBodyClasses()
       }
     }
   },
@@ -89,11 +92,35 @@ export default {
     persistToLocalStorage () {
       if (!process.browser) return
 
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(this.localStorageValue))
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(this.featuresState))
+    },
+    setBodyClasses () {
+      if (!process.browser) return
+
+      Object.entries(this.featuresState)
+        .forEach(([featureName, isActive]) => {
+          const className = `feature-${featureName}`
+
+          if (isActive) {
+            document.body.classList.add(className)
+          } else {
+            document.body.classList.remove(className)
+          }
+        })
     }
   }
 }
 </script>
+
+<style>
+body.feature-image img:not([alt]) {
+  outline: 10px solid red !important;
+}
+
+body.feature-image img[alt=""] {
+  outline: 10px solid red !important;
+}
+</style>
 
 <style lang="css" scoped>
 /**
