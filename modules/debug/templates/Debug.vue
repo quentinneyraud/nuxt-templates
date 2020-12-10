@@ -2,26 +2,48 @@
   <div
     class="Debug-component"
     :class="{
-      '--is-open': isOpen,
-      ...featuresState
+      '--is-open': isOpen
+    }"
+    :style="{
+      '--columns': columns,
+      '--gutter': gutter + 'px'
     }"
   >
-    <ul class="Debug-options">
-      <li
-        v-for="(option, optionIndex) in options"
-        :key="optionIndex"
-        class="Debug-option"
-      >
-        <span class="Debug-optionText">{{ option.text }}</span>
-        <input v-model="option.active" class="Debug-optionInput" type="checkbox">
-      </li>
-    </ul>
-    <button
-      class="Debug-button"
-      @click="isOpen = !isOpen"
+    <!-- Grid -->
+    <div
+      v-if="featuresState.grid"
+      class="Debug-grid"
+      :class="containerClass"
     >
-      <span>{{ buttonText }}</span>
-    </button>
+      <div
+        v-for="index in columns"
+        :key="index"
+        class="Debug-gridColumn"
+      />
+    </div>
+
+    <!-- Controls -->
+    <div class="Debug-controls">
+      <!-- Options -->
+      <ul class="Debug-options">
+        <li
+          v-for="(option, optionIndex) in options"
+          :key="optionIndex"
+          class="Debug-option"
+        >
+          <span class="Debug-optionText">{{ option.text }}</span>
+          <input v-model="option.active" class="Debug-optionInput" type="checkbox">
+        </li>
+      </ul>
+
+      <!-- Open / Close button -->
+      <button
+        class="Debug-button"
+        @click="isOpen = !isOpen"
+      >
+        <span>{{ buttonText }}</span>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -29,24 +51,46 @@
 const LOCAL_STORAGE_KEY = 'debug-module'
 
 export default {
+  props: {
+    containerClass: {
+      type: String,
+      required: false,
+      default: null
+    },
+    columns: {
+      type: Number,
+      required: false,
+      default: 12
+    },
+    gutter: {
+      type: Number,
+      required: false,
+      default: 0
+    }
+  },
   data () {
     return {
       isOpen: false,
       options: [{
-        key: 'image',
+        key: 'image-no-alt',
         text: 'Outline images without alt attribute',
-        active: false,
-        callback: this.onImageChange
+        active: false
       }, {
-        key: 'links',
+        key: 'image-empty-alt',
+        text: 'Outline images with empty alt attribute',
+        active: false
+      }, {
+        key: 'link-no-title',
         text: 'Outline links without title attribute',
-        active: false,
-        callback: this.onLinksChange
+        active: false
+      }, {
+        key: 'link-empty-title',
+        text: 'Outline links with empty title attribute',
+        active: false
       }, {
         key: 'grid',
         text: 'Show grid',
-        active: false,
-        callback: this.onGridChange
+        active: false
       }]
     }
   },
@@ -73,7 +117,7 @@ export default {
       }
     }
   },
-  created () {
+  mounted () {
     this.setOptionsFromLocalStorage()
   },
   methods: {
@@ -99,7 +143,7 @@ export default {
 
       Object.entries(this.featuresState)
         .forEach(([featureName, isActive]) => {
-          const className = `feature-${featureName}`
+          const className = `debug-${featureName}`
 
           if (isActive) {
             document.body.classList.add(className)
@@ -113,12 +157,20 @@ export default {
 </script>
 
 <style>
-body.feature-image img:not([alt]) {
+body.debug-image-no-alt img:not([alt]) {
   outline: 10px solid red !important;
 }
 
-body.feature-image img[alt=""] {
+body.debug-image-empty-alt img[alt=""] {
   outline: 10px solid red !important;
+}
+
+body.debug-link-no-title a:not([title]) {
+  outline: 3px solid red !important;
+}
+
+body.debug-link-empty-title a[title=""] {
+  outline: 3px solid red !important;
 }
 </style>
 
@@ -160,10 +212,34 @@ span {
 .Debug-component {
   position: fixed;
   top: 0;
-  right: 20px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
   z-index: 100000;
+  pointer-events: none;
+}
+
+.Debug-grid {
+  height: 100%;
+  box-shadow: -1px 0px 0px 0px red, 1px 0px 0px 0px red;
+  display: flex;
+  justify-content: space-between;
+}
+
+.Debug-gridColumn {
+  position: relative;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  flex: 0 0 calc(1/var(--columns) * 100% - var(--gutter));
+  box-shadow: -1px 0px 0px 0px rgba(0, 0, 0, 0.3), 1px 0px 0px 0px rgba(0, 0, 0, 0.3);
+}
+.Debug-controls {
+  position: absolute;
+  top: 0;
+  right: 20px;
   background-color: #000;
   width: 300px;
+  pointer-events: auto;
 }
 
 .Debug-component.--is-open .Debug-options {
@@ -176,7 +252,7 @@ span {
 }
 
 .Debug-option {
-  padding: 10px 20px;
+  padding: 7px 20px;
   border-bottom: 1px solid rgba(218, 218, 218, 0.5);
   display: flex;
   justify-content: space-between;
