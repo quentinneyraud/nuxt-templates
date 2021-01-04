@@ -3,6 +3,7 @@
     <AppImage
       class="test"
       :src="main_image.url"
+      :ratio="800/1200"
     />
   </div>
 </template>
@@ -26,8 +27,4 @@ export default {
 </script>
 
 <style scoped>
-.test {
-  width: 250px;
-  height: 500px;
-}
 </style>

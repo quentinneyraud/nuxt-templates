@@ -12,37 +12,37 @@
       'has-ratio': !!ratio,
       'has-not-src': !src
     }"
-    :style="background"
+    :style="{
+      '--ratio': ratio * 100 + '%'
+    }"
   >
+    <!-- Placeholder -->
     <div
-      class="AppImage-ratioHelper"
-      :style="ratio ? {
-        paddingTop: ratio * 100 + '%'
-      } : null"
-    >
-      <picture>
+      class="AppImage-placeholder"
+      :style="placeholderStyle"
+    />
 
-        <source
-          v-for="(source, sourceIndex) in internalSources"
-          :key="sourceIndex"
-          ref="sources"
-          v-bind="source"
-        >
+    <picture>
+      <source
+        v-for="(source, sourceIndex) in internalSources"
+        :key="sourceIndex"
+        ref="sources"
+        v-bind="source"
+      >
 
-        <!-- Image -->
-        <img
-          v-if="!!src"
-          ref="image"
-          :data-src="src"
-          :alt="alt"
-          :style="{
-            objectFit: fit,
-            objectPosition: position
-          }"
-          class="AppImage-image"
-        >
-      </picture>
-    </div>
+      <!-- Image -->
+      <img
+        v-if="!!src"
+        ref="image"
+        :data-src="src"
+        :alt="alt"
+        :style="{
+          objectFit: fit,
+          objectPosition: position
+        }"
+        class="AppImage-image"
+      >
+    </picture>
   </div>
   <!-- </ViewportObserver> -->
 </template>
@@ -100,7 +100,7 @@ export default {
     placeholder: {
       type: String,
       required: false,
-      default: 'color'
+      default: 'blur'
     }
   },
   data () {
@@ -109,12 +109,12 @@ export default {
       loading: false,
       error: false,
       internalSources: [],
-      background: null
+      placeholderStyle: null
     }
   },
   mounted () {
     this.setSources()
-    this.setBackground()
+    this.setPlaceholderStyle()
 
     if (this.src && !this.lazyload) {
       this.$nextTick(this.load)
@@ -125,9 +125,9 @@ export default {
     }, 1500)
   },
   methods: {
-    async setBackground () {
+    async setPlaceholderStyle () {
       if (this.placeholder === 'blur') {
-        this.background = {
+        this.placeholderStyle = {
           backgroundImage: `url(${ this.src + '&blur=300' })`,
           backgroundSize: 'cover',
           backgroundPosition: 'center center'
@@ -135,7 +135,7 @@ export default {
       } else if (this.placeholder === 'color') {
         const palette = await (await fetch(this.src + '&palette=json&colors=1')).json()
 
-        this.background = {
+        this.placeholderStyle = {
           backgroundColor: palette.dominant_colors.muted.hex
         }
       }
@@ -209,26 +209,42 @@ export default {
 
 <style scoped>
 .AppImage-component {
+  position: relative;
   overflow: hidden;
 }
+
+.AppImage-component::before {
+  content: "";
+  width: 1px;
+  margin-left: -1px;
+  float: left;
+  height: 0;
+  padding-top: var(--ratio);
+}
+
+.AppImage-component::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
 .AppImage-component.loaded .AppImage-image {
   opacity: 1;
   transition: opacity 0.3s;
 }
+
 .AppImage-component.has-not-src {
   background-color: #000;
 }
-.AppImage-component.has-ratio .AppImage-ratioHelper {
-  height: 0;
-}
-.AppImage-component:not(.has-ratio) .AppImage-ratioHelper {
+
+.AppImage-placeholder {
+  position: absolute;
+  width: 100%;
   height: 100%;
 }
-.AppImage-ratioHelper {
-  position: relative;
-  width: 100%;
-}
+
 .AppImage-image {
+  position: absolute;
   width: 100%;
   height: 100%;
   opacity: 0;
