@@ -30,6 +30,14 @@ export default function (moduleOptions) {
     isGsapInstalled: isModuleInstalled('gsap')
   }
 
+  this.extendBuild(config => {
+    if (!options.isGsapInstalled) {
+      config.externals = {
+        gsap: 'gsap'
+      }
+    }
+  })
+
   // Plugin
   this.addPlugin({
     src: path.resolve(__dirname, 'templates/plugin.js'),

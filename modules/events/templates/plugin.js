@@ -93,7 +93,7 @@ const getGsapTicker = _ => ({
     this.options = options
     this.onTick = this.onTick.bind(this)
     // eslint-disable-next-line no-undef
-    this.gsap = __non_webpack_require__('gsap')
+    this.gsap = require('gsap').default
 
     return this
   },
