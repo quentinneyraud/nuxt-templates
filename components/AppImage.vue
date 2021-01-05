@@ -1,34 +1,30 @@
 <template>
-  <!-- <ViewportObserver
-    v-bind="viewportObserverOptions"
-    :active="lazyload !== 'called'"
-    @enter="!loaded && load()"
-  > -->
   <div
     class="AppImage-component"
     :class="{
+      loading,
       loaded,
+      error,
       lazyload,
-      'has-ratio': !!ratio,
-      'has-not-src': !src
+      'has-not-src': !src,
+      'has-ratio': !!ratio
     }"
     :style="{
-      '--ratio': ratio * 100 + '%'
+      '--ratio': `${ratio * 100}%`
     }"
   >
     <!-- Placeholder -->
     <div
+      v-if="placeholder"
       class="AppImage-placeholder"
       :style="placeholderStyle"
     />
 
+    <!-- Picture -->
     <picture>
-      <source
-        v-for="(source, sourceIndex) in internalSources"
-        :key="sourceIndex"
-        ref="sources"
-        v-bind="source"
-      >
+
+      <!-- Sources -->
+      <slot />
 
       <!-- Image -->
       <img
@@ -44,22 +40,15 @@
       >
     </picture>
   </div>
-  <!-- </ViewportObserver> -->
 </template>
 
 <script>
 export default {
-  name: 'AppImage',
   props: {
     src: {
       type: String,
       required: false,
-      default: 'https://source.unsplash.com/600x300/?nature,water'
-    },
-    sources: {
-      type: Array,
-      required: false,
-      default: _ => []
+      default: null
     },
     alt: {
       type: String,
@@ -92,15 +81,18 @@ export default {
       required: false,
       default: 500
     },
-    viewportObserverOptions: {
-      type: Object,
+    lazyloadThreshold: {
+      type: Number,
       required: false,
-      default: null
+      default: 0
     },
+    /**
+     * 'blur', 'color' or an URL
+     */
     placeholder: {
       type: String,
       required: false,
-      default: 'blur'
+      default: null
     }
   },
   data () {
@@ -108,24 +100,28 @@ export default {
       loaded: false,
       loading: false,
       error: false,
-      internalSources: [],
       placeholderStyle: null
     }
   },
+  computed: {
+    sources () {
+      return this.$children
+        .filter(child => child.type === 'AppSource')
+    }
+  },
   mounted () {
-    this.setSources()
-    this.setPlaceholderStyle()
+    if (this.placeholder) this.setPlaceholder()
 
-    if (this.src && !this.lazyload) {
-      this.$nextTick(this.load)
+    if (this.lazyload === true || this.lazyload === 'observer') {
+      this.createLazyloadObserver()
     }
 
-    window.setTimeout(_ => {
-      this.load()
-    }, 1500)
+    if (this.lazyload === false) {
+      this.$nextTick(this.load)
+    }
   },
   methods: {
-    async setPlaceholderStyle () {
+    async setPlaceholder () {
       if (this.placeholder === 'blur') {
         this.placeholderStyle = {
           backgroundImage: `url(${ this.src + '&blur=300' })`,
@@ -133,37 +129,68 @@ export default {
           backgroundPosition: 'center center'
         }
       } else if (this.placeholder === 'color') {
-        const palette = await (await fetch(this.src + '&palette=json&colors=1')).json()
+        const color = await this.getImagePalette()
 
+        if (color) {
+          this.placeholderStyle = {
+            backgroundColor: color
+          }
+        }
+      } else if (typeof this.placeholder === 'string' && this.placeholder.length > 0) {
         this.placeholderStyle = {
-          backgroundColor: palette.dominant_colors.muted.hex
+          backgroundImage: `url(${this.placeholder})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center center'
         }
       }
     },
-    setSources () {
-      this.internalSources = this.sources.map(({ src, media, sizes }) => {
-        const cleanSource = {
-          'data-srcset': src?.srcSet || src
+    async getImagePalette () {
+      try {
+        const paletteUrl = new URL(this.src)
+        paletteUrl.searchParams.set('palette', 'json')
+        paletteUrl.searchParams.set('colors', '1')
+
+        const paletteResponse = await fetch(paletteUrl)
+        const palette = await paletteResponse.json()
+
+        return palette?.dominant_colors?.muted?.hex || null
+      } catch (_) {
+        return null
+      }
+    },
+    createLazyloadObserver () {
+      this.observer = new IntersectionObserver(
+        this.handleIntersect,
+        {
+          root: null,
+          rootMargin: `0px 0px ${-this.lazyloadOffset}px 0px`,
+          threshold: this.lazyloadThreshold
         }
+      )
 
-        if (media) {
-          cleanSource.media = media
+      this.observer.observe(this.$el)
+    },
+    handleIntersect (entries, observer) {
+      let entry = entries[0]
+
+      // Fix bug multiple entries
+      if (entries.length > 1) {
+        const intersectingEntry = entries.find(e => e.isIntersecting)
+        if (intersectingEntry) {
+          entry = intersectingEntry
         }
+      }
 
-        if (sizes) {
-          cleanSource.sizes = sizes
-        }
+      const isIntersecting = entry.isIntersecting && entry.intersectionRatio >= observer.thresholds[0]
 
-        return cleanSource
-      })
-
-      // Push default source
-      this.internalSources.push({
-        'data-srcset': this.src
-      })
+      if (isIntersecting) {
+        this.load()
+      }
     },
     load () {
-      if (this.loaded) return null
+      this.observer?.disconnect()
+
+      if (this.loaded) return Promise.resolve()
 
       this.loading = true
 
@@ -174,7 +201,7 @@ export default {
 
       return new Promise((resolve, reject) => {
         this.$refs.image.addEventListener('load', _ => {
-          this.onLoad()
+          this.onLoaded()
           resolve()
         })
 
@@ -187,15 +214,16 @@ export default {
           this.$refs.image.src = this.$refs.image.dataset.src
         }
 
-        this.$refs.sources
+        this.sources
           .forEach(source => {
-            source.srcset = source.dataset.srcset
+            source.$el.srcset = source.$el.dataset.srcset
           })
       })
     },
-    onLoad () {
+    onLoaded () {
       this.loaded = true
       this.loading = false
+      this.error = false
       this.$emit('loaded')
     },
     onError () {
@@ -211,9 +239,12 @@ export default {
 .AppImage-component {
   position: relative;
   overflow: hidden;
+  width: 100%;
+  height: 100%;
+  font-size: 0px;
 }
 
-.AppImage-component::before {
+.AppImage-component.has-ratio::before {
   content: "";
   width: 1px;
   margin-left: -1px;
@@ -222,7 +253,7 @@ export default {
   padding-top: var(--ratio);
 }
 
-.AppImage-component::after {
+.AppImage-component.has-ratio::after {
   content: "";
   display: table;
   clear: both;
@@ -233,20 +264,18 @@ export default {
   transition: opacity 0.3s;
 }
 
-.AppImage-component.has-not-src {
-  background-color: #000;
-}
-
 .AppImage-placeholder {
   position: absolute;
   width: 100%;
   height: 100%;
+  z-index: 1;
 }
 
 .AppImage-image {
-  position: absolute;
-  width: 100%;
+  position: relative;
   height: 100%;
+  width: 100%;
+  z-index: 2;
   opacity: 0;
 }
 </style>
