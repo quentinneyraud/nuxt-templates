@@ -43,6 +43,12 @@ const smoothScroll = new Vue({
       return this
     },
 
+    setMain (main) {
+      this.main = main
+
+      return this
+    },
+
     setActive (active) {
       this.active = active
 
@@ -115,7 +121,7 @@ const smoothScroll = new Vue({
     setBoundings () {
       if (!this.active) return
 
-      document.body.style.height = `${this.container.childNodes[0].clientHeight}px`
+      document.body.style.height = `${this.main.clientHeight}px`
     },
 
     destroy () {

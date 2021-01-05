@@ -7,6 +7,9 @@ Vue.directive('ss-main', {
 
     if (!smoothScrollPlugin) warn('$smoothScroll plugin not installed')
 
+    smoothScrollPlugin
+      .setMain(el)
+
     const onScroll = _ => {
       el.style.transform = `translate3d(0px, ${(smoothScrollPlugin.current * -1).toFixed(2)}px, 0px)`
     }
