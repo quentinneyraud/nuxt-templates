@@ -38,6 +38,7 @@
 
       <!-- Open / Close button -->
       <button
+        :title="buttonText"
         class="Debug-button"
         @click="isOpen = !isOpen"
       >
@@ -86,6 +87,14 @@ export default {
       }, {
         key: 'link-empty-title',
         text: 'Outline links with empty title attribute',
+        active: false
+      }, {
+        key: 'button-no-title',
+        text: 'Outline buttons without title attribute',
+        active: false
+      }, {
+        key: 'button-empty-title',
+        text: 'Outline buttons with empty title attribute',
         active: false
       }, {
         key: 'grid',
@@ -170,6 +179,14 @@ body.debug-link-no-title a:not([title]) {
 }
 
 body.debug-link-empty-title a[title=""] {
+  outline: 3px solid red !important;
+}
+
+body.debug-button-no-title button:not([title]) {
+  outline: 3px solid red !important;
+}
+
+body.debug-button-empty-title button[title=""] {
   outline: 3px solid red !important;
 }
 </style>

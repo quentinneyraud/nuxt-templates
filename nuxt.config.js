@@ -24,5 +24,8 @@ export default {
   modules: [
     '~/modules/debug'
   ],
-  build: {}
+  build: {},
+  debug: {
+    force: false
+  }
 }

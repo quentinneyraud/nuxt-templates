@@ -3,20 +3,7 @@ import path from 'path'
 const MODULE_NAME = 'debug'
 
 const DEFAULT_OPTIONS = {
-  debug: false,
   force: false
-}
-
-const isModuleInstalled = moduleName => {
-  let path
-
-  try {
-    path = require.resolve(moduleName)
-  } catch (_) {
-    return false
-  }
-
-  return path
 }
 
 export default function (moduleOptions) {
