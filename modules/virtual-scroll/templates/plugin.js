@@ -135,7 +135,10 @@ const createVirtualScroll = ctx => new Vue({
     onTick () {
       this.current = lerp(this.current, this.target, this.ratio)
 
-      this.$emit('scroll')
+      this.$emit('scroll', {
+        current: this.current,
+        target: this.target
+      })
     },
 
     onResize () {
@@ -146,6 +149,10 @@ const createVirtualScroll = ctx => new Vue({
       if (!this.active) return
 
       this.bounding = this.container.getBoundingClientRect().height - window.innerHeight
+
+      this.$emit('setBoundings')
+
+      this.updateTarget(0)
     },
 
     destroy () {
