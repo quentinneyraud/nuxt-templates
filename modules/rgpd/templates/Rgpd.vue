@@ -6,6 +6,23 @@
         <p class="Rgpd-popupTitle">
           Gestion des cookies
         </p>
+
+        <ul class="Rgpd-popupServices">
+          <li
+            v-for="(service, serviceIndex) in $rgpd.services"
+            :key="serviceIndex"
+            class="Rgpd-popupService"
+          >
+            <span class="Rgpd-popupServiceTitle">{{ service.name }}</span>
+
+            <input
+              :id="service.id"
+              type="checkbox"
+            >
+
+            {{ service.name }}
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -29,11 +46,19 @@ export default {
         })
       }
     }
+  },
+  mounted () {
+    this.$rgpd.registerServices(this.services)
   }
 }
 </script>
 
 <style>
+[class^='Rgpd'], [class*=' Rgpd'] {
+  margin: 0;
+  padding: 0;
+}
+
 .Rgpd-component {
   position: fixed;
   top: 0;
@@ -63,6 +88,7 @@ export default {
 
 .Rgpd-popup {
   width: 600px;
+
   max-width: calc(100vw - 60px);
   height: auto;
   max-height: 100vh;
