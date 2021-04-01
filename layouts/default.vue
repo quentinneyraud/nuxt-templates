@@ -1,5 +1,9 @@
 <template>
   <div>
+    <Loader />
+
+    <PageTransition />
+
     <Nuxt />
   </div>
 </template>

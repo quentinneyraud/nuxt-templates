@@ -2,10 +2,10 @@
   <div>
     <NuxtLink
       :to="{
-        name: 'second-page'
+        name: 'index'
       }"
     >
-      second page
+      home page
     </NuxtLink>
   </div>
 </template>
@@ -19,8 +19,8 @@ export default {
   methods: {
     preload () {
       return new Promise(resolve => {
-        console.log('loading something in home')
-        window.setTimeout(resolve, 2000)
+        console.log('loading something in second page')
+        window.setTimeout(resolve, 1000)
       })
     }
   }

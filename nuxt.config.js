@@ -16,7 +16,9 @@ export default {
     ]
   },
   css: [],
-  plugins: [],
+  plugins: [
+    { src: '~/plugins/event-bus.js', ssr: false }
+  ],
   components: true,
   buildModules: [
     '@nuxtjs/eslint-module'
