@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Loader />
+    <PageLoader />
 
     <PageTransition />
 

@@ -1,5 +1,11 @@
 <template>
   <div>
+    <h1 ref="title">
+      First page
+    </h1>
+
+    <DogImage />
+
     <NuxtLink
       :to="{
         name: 'second-page'
@@ -12,15 +18,18 @@
 
 <script>
 // Mixins
-import Transitions from '@/mixins/transitions'
+import HasTransition from 'hasTransition'
 
 export default {
-  mixins: [Transitions],
+  mixins: [HasTransition],
   methods: {
     preload () {
       return new Promise(resolve => {
-        console.log('loading something in home')
-        window.setTimeout(resolve, 2000)
+        console.log('Loading home...')
+        window.setTimeout(_ => {
+          console.log('Home loaded !')
+          resolve()
+        }, 1000)
       })
     }
   }

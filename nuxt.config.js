@@ -16,13 +16,13 @@ export default {
     ]
   },
   css: [],
-  plugins: [
-    { src: '~/plugins/event-bus.js', ssr: false }
-  ],
+  plugins: [],
   components: true,
   buildModules: [
     '@nuxtjs/eslint-module'
   ],
-  modules: [],
+  modules: [
+    '~/modules/transitions/index.js'
+  ],
   build: {}
 }
