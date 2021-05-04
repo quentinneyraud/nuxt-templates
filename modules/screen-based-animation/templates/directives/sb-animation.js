@@ -31,7 +31,8 @@ class ScreenBased {
     this.observer = new IntersectionObserver(
       this.handleIntersect,
       {
-        threshold: 0
+        threshold: 0,
+        rootMargin: '100px 0px 100px 0px'
       }
     )
     this.observer.observe(this.el)

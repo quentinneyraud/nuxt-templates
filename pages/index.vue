@@ -2,7 +2,8 @@
   <div>
     <div
       v-sb-animation="{
-        cssVars: true
+        cssVars: true,
+        lerpRatio: 0.02
       }"
       class="ok"
     />
@@ -17,11 +18,12 @@ export default {}
 .ok {
   width: 200px;
   height: 200px;
-  background-color: red;
+  border: 3px solid #000;
   margin-top: 150vh;
   margin-bottom: 150vh;
-  margin-left: 150px;
+  margin-left: 0;
 
-  transform: translate3d(calc(var(--lerped-progress) * 520px), 0px, 0px);
+  transform: translate3d(calc(var(--lerped-progress) * 100vw), 0px, 0px) rotate(calc(var(--lerped-progress) * 360deg));
+  will-change: transform;
 }
 </style>
