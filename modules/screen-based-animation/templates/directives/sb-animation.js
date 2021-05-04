@@ -27,6 +27,15 @@ class ScreenBased {
     this.createObserver()
   }
 
+  start () {
+    this.observer.observe(this.el)
+  }
+
+  stop () {
+    window.cancelAnimationFrame(this.rafId)
+    this.observer.unobserve(this.el)
+  }
+
   createObserver () {
     this.observer = new IntersectionObserver(
       this.handleIntersect,
@@ -35,7 +44,6 @@ class ScreenBased {
         rootMargin: '100px 0px 100px 0px'
       }
     )
-    this.observer.observe(this.el)
   }
 
   handleIntersect (entries) {
@@ -61,14 +69,6 @@ class ScreenBased {
     } else {
       window.cancelAnimationFrame(this.rafId)
     }
-  }
-
-  observe () {
-    this.observer.observe(this.el)
-  }
-
-  unobserve () {
-    this.observer.unobserve(this.el)
   }
 
   onTick () {
@@ -115,35 +115,36 @@ class ScreenBased {
   }
 }
 
-function bind (el, { value }, vnode) {
-  const state = new ScreenBased(el, value, vnode.context.$events)
+function bind (el, { value }) {
+  const state = new ScreenBased(el, value)
+
+  if (!(value.active === false)) state.start()
 
   el._vue_sb_animation = state
 }
 
-// function update (el, { value }, vnode) {
-//   const state = el._vue_visibilityState
+function update (el, { value }) {
+  const state = el._vue_sb_animation
 
-//   if (state) {
-//     const equal = Object.keys(value || {})
-//       .every(k => {
-//         return (value[k] === state.options[k])
-//       })
+  if (state) {
+    if (!(value.active === false)) {
+      state.start()
+    } else {
+      state.stop()
+    }
 
-//     if (!equal) {
-//       state.createObserver(value)
-//       if (state.options.active && vnode.context.$viewportObserverState.active) {
-//         state.observe()
-//       }
-//     }
+    const equal = Object.keys(value || {})
+      .every(k => {
+        return (value[k] === state.options[k])
+      })
 
-//     if (state.isIntersecting) {
-//       state.addClass()
-//     }
-//   } else {
-//     bind(el, { value })
-//   }
-// }
+    if (!equal) {
+      state.options = Object.assign({}, state.options, value)
+    }
+  } else {
+    bind(el, { value })
+  }
+}
 
 function unbind (el) {
   const state = el._vue_sb_animation
@@ -155,6 +156,6 @@ function unbind (el) {
 
 Vue.directive('sb-animation', {
   bind,
-  // update,
+  update,
   unbind
 })
