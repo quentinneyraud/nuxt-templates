@@ -1,20 +1,29 @@
-# nuxt-templates
+# Nuxt templates
 
-## Build Setup
+> Collection of Nuxt modules, plugins, components
 
-```bash
-# install dependencies
-$ yarn install
 
-# serve with hot reload at localhost:3000
-$ yarn dev
+## Transition
 
-# build for production and launch server
-$ yarn build
-$ yarn start
+> Module and components to set a site loader and page transitions with preload and animations
 
-# generate static project
-$ yarn generate
+
+### Installation
+
+- Copy `modules/transitions` in your `modules` directory
+- Add `~/modules/transitions/index.js` to the `modules` section of `nuxt.config.js`
+
+```js
+// nuxt.config.js
+{
+  modules: [
+    '~/modules/transitions/index.js'
+  ]
+}
+
 ```
 
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+
+### Setup
+
+1. Include 
