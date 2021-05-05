@@ -21,6 +21,43 @@ export default {
   buildModules: [
     '@nuxtjs/eslint-module'
   ],
-  modules: [],
-  build: {}
+  modules: [
+    '~/modules/signature'
+  ],
+  build: {},
+  /**
+   * Signature module
+   */
+  signature: {
+    force: true,
+    name: 'Akaru Studio',
+    website: 'https://twitter.com/Akaru_studio',
+    facebook: 'https://twitter.com/Akaru_studio',
+    twitter: 'https://twitter.com/Akaru_studio',
+    team: [{
+      name: 'Quentin Neyraud',
+      status: 'Developer',
+      github: 'https://www.github.com/quentinneyraud',
+      twitter: 'https://www.twitter.com/quentin_neyraud'
+    }],
+    libraries: [{
+      name: 'GSAP',
+      author: 'Greensock',
+      website: 'https://greensock.com/gsap'
+    }, {
+      name: 'Nuxt.js',
+      author: 'Nuxt',
+      website: 'https://nuxtjs.org'
+    }],
+    fonts: [{
+      name: 'Comic Sans',
+      author: 'Vincent Connare',
+      website: 'http://www.connare.com/'
+    }],
+    icons: [{
+      name: 'Menu',
+      author: 'Tara Nadhifa Salsabila',
+      website: 'https://thenounproject.com/taraicon/'
+    }]
+  }
 }
