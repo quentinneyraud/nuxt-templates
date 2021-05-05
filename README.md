@@ -1,9 +1,4 @@
-# Nuxt templates
-
-> Collection of Nuxt modules, plugins, components
-
-
-## Signature
+# Signature
 
 > Script to log informations about the authors, libraries, fonts and icons used in the project.
   
@@ -13,9 +8,7 @@
 
 </br>
 
-### Installation
-
----
+## Installation
 
 - Copy `modules/signature` in your `modules` directory
 - Add `~/modules/signature/index.js` to the `modules` section of `nuxt.config.js`
@@ -45,19 +38,15 @@
 ```
 
 
-### Usage
-
----
+## Usage
 
 This script is called on `window.onNuxtReady` event.
 
 > :warning:  This module is disabled in development, set `force` option to `true` to always log the signature.
   
-### Options
+## Options
 
----
-
-#### Name
+### Name
 
 type: `String`  
 default: `null`  
@@ -66,7 +55,7 @@ Agency/Website name
 
 </br>
 
-#### website
+### website
 
 type: `String`  
 default: `null`  
@@ -75,7 +64,7 @@ Agency website URL
 
 </br>
 
-#### twitter
+### twitter
 
 type: `String`  
 default: `null`  
@@ -84,7 +73,7 @@ Agency twitter profile URL
 
 </br>
 
-#### facebook
+### facebook
 
 type: `String`  
 default: `null`  
@@ -93,7 +82,7 @@ Agency facebook page URL
 
 </br>
 
-#### team
+### team
 
 type: `Array`  
 default: `[]`  
@@ -102,7 +91,7 @@ Array of object with these properties: `name`, `status`, `github`, `twitter`, `w
 
 </br>
 
-#### libraries
+### libraries
 
 type: `Array`  
 default: `[]`  
@@ -111,7 +100,7 @@ Array of object with these properties: `name`, `author`, `github`, `website`
 
 </br>
 
-#### fonts
+### fonts
 
 type: `Array`  
 default: `[]`  
@@ -120,7 +109,7 @@ Array of object with these properties: `name`, `author`, `website`
 
 </br>
 
-#### icons
+### icons
 
 type: `Array`  
 default: `[]`  
@@ -129,7 +118,7 @@ Array of object with these properties: `name`, `author`, `website`
 
 </br>
 
-#### force
+### force
 
 type: `Boolean`  
 default: `false`  
@@ -139,9 +128,7 @@ Whether to log signature in development
 </br>
 
 
-### Example
-
-----
+## Example
 
 ```js
 // nuxt.config.js
