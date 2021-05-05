@@ -9,7 +9,7 @@ const lerp = (value, target, coeff) => {
 class ScreenBased {
   constructor (el, options) {
     this.el = el
-    this.options = Object.assign({}, MODULE_OPTIONS.directiveOptions, options)
+    this.options = Object.assign({}, MODULE_OPTIONS.directiveDefaultOptions, options)
     this.rafId = null
 
     this.progress = {

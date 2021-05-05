@@ -3,7 +3,7 @@ import path from 'path'
 const MODULE_NAME = 'screen-based-animation'
 
 const DEFAULT_OPTIONS = {
-  directiveOptions: {
+  directiveDefaultOptions: {
     clamp: true,
     callback: null,
     timeline: null,
@@ -19,9 +19,9 @@ export default function (moduleOptions) {
   options = {
     ...DEFAULT_OPTIONS,
     ...options,
-    directiveOptions: {
-      ...DEFAULT_OPTIONS.directiveOptions,
-      ...options.directiveOptions
+    directiveDefaultOptions: {
+      ...DEFAULT_OPTIONS.directiveDefaultOptions,
+      ...options.directiveDefaultOptions
     },
     MODULE_NAME
   }
