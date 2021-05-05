@@ -64,12 +64,16 @@ default: `null`
 
 Agency/Website name
 
+</br>
+
 #### website
 
 type: `String`  
 default: `null`  
 
 Agency website URL
+
+</br>
 
 #### twitter
 
@@ -78,12 +82,16 @@ default: `null`
 
 Agency twitter profile URL
 
+</br>
+
 #### facebook
 
 type: `String`  
 default: `null`  
 
 Agency facebook page URL
+
+</br>
 
 #### team
 
@@ -92,12 +100,16 @@ default: `[]`
 
 Array of object with these properties: `name`, `status`, `github`, `twitter`, `website`
 
+</br>
+
 #### libraries
 
 type: `Array`  
 default: `[]`  
 
 Array of object with these properties: `name`, `author`, `github`, `website`
+
+</br>
 
 #### fonts
 
@@ -106,6 +118,8 @@ default: `[]`
 
 Array of object with these properties: `name`, `author`, `website`
 
+</br>
+
 #### icons
 
 type: `Array`  
@@ -113,12 +127,16 @@ default: `[]`
 
 Array of object with these properties: `name`, `author`, `website`
 
+</br>
+
 #### force
 
 type: `Boolean`  
 default: `false`  
 
 Whether to log signature in development
+
+</br>
 
 
 ### Example
