@@ -60,7 +60,7 @@
 
 - `clamp` (default: `true`)
 
-Clamp value between 0 and 1 (progress) and -1 and 1 (lerped progress). Passing `false` gives you values less than 0 and greater than 1 (progress) and less than -1 and greater than 1 (n progress).
+Clamp value between 0 and 1 (progress) and -1 and 1 (n progress). Passing `false` gives you values less than 0 and greater than 1 (progress) and less than -1 and greater than 1 (n progress).
 
 - `callback` (default: `null`)
 
