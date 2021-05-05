@@ -6,15 +6,16 @@
 ## Signature
 
 > Script to log informations about the authors, libraries, fonts and icons used in the project.
-
   
+</br>
 
 ![Result gif](./doc/console.gif)
 
-  
-
+</br>
 
 ### Installation
+
+---
 
 - Copy `modules/signature` in your `modules` directory
 - Add `~/modules/signature/index.js` to the `modules` section of `nuxt.config.js`
@@ -46,50 +47,83 @@
 
 ### Usage
 
+---
+
 This script is called on `window.onNuxtReady` event.
 
-> :warning: This module is disabled in development, set `force` option to `true` to always log the signature.
-
+> :warning:  This module is disabled in development, set `force` option to `true` to always log the signature.
+  
 ### Options
 
-- `name` (type: `String`, default: `null`)
+---
+
+#### Name
+
+type: `String`  
+default: `null`  
 
 Agency/Website name
 
-- `website` (type: `String`, default: `null`)
+#### website
+
+type: `String`  
+default: `null`  
 
 Agency website URL
 
-- `twitter` (type: `String`, default: `null`)
+#### twitter
+
+type: `String`  
+default: `null`  
 
 Agency twitter profile URL
 
-- `facebook` (type: `String`, default: `null`)
+#### facebook
+
+type: `String`  
+default: `null`  
 
 Agency facebook page URL
 
-- `team` (type: `Array`, default: `[]`)
+#### team
+
+type: `Array`  
+default: `[]`  
 
 Array of object with these properties: `name`, `status`, `github`, `twitter`, `website`
 
-- `libraries` (type: `Array`, default: `[]`)
+#### libraries
+
+type: `Array`  
+default: `[]`  
 
 Array of object with these properties: `name`, `author`, `github`, `website`
 
-- `fonts` (type: `Array`, default: `[]`)
+#### fonts
+
+type: `Array`  
+default: `[]`  
 
 Array of object with these properties: `name`, `author`, `website`
 
-- `icons` (type: `Array`, default: `[]`)
+#### icons
+
+type: `Array`  
+default: `[]`  
 
 Array of object with these properties: `name`, `author`, `website`
 
-- `force` (type: `Boolean`, default: `false`)
+#### force
+
+type: `Boolean`  
+default: `false`  
 
 Whether to log signature in development
 
 
 ### Example
+
+----
 
 ```js
 // nuxt.config.js
