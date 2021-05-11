@@ -1,10 +1,13 @@
+/* eslint-disable no-console */
 import Vue from 'vue'
-import Prismic from 'prismic-javascript'
-import { error, infos } from './utils'
+import Prismic from '@prismicio/client'
 
 const options = JSON.parse('<%= JSON.stringify(options) %>')
 
 const prismicTranslations = new Vue({
+  fetch () {
+    console.log('ok')
+  },
   data () {
     return {
       api: null,
@@ -37,19 +40,13 @@ const prismicTranslations = new Vue({
         translations: result.data.translations[0]
       }
     })
-
-    infos('Translations')
-    if (options.debug) {
-      // eslint-disable-next-line no-console
-      console.log(this.translations)
-    }
   },
   methods: {
     async setApi () {
       try {
         this.api = await Prismic.getApi(options.endpoint)
       } catch (err) {
-        error('Error while trying to get Prismic API', err)
+        console.error(`❌ [${options.MODULE_NAME}]: Error while trying to get Prismic API`, err)
       }
     },
     async setDocument () {
@@ -61,37 +58,8 @@ const prismicTranslations = new Vue({
           }
         )
       } catch (err) {
-        error(`Error while getting document, did you create a custom type "${options.customTypeApiID}" with this config: \n\n ${this.getCustomTypeConfig()}`, err)
+        console.error(`❌ [${options.MODULE_NAME}]: Error while getting document, did you create a custom type`, err)
       }
-    },
-    getCustomTypeConfig () {
-      const config = {
-        Main: {
-          title: {
-            type: 'Text',
-            config: {
-              label: 'Titre'
-            }
-          },
-          [options.groupFieldApiID]: {
-            type: 'Group',
-            config: {
-              repeat: false,
-              fields: {
-                button_text: {
-                  type: 'Text',
-                  config: {
-                    label: 'Texte du bouton'
-                  }
-                }
-              },
-              label: 'Liste des traductions'
-            }
-          }
-        }
-      }
-
-      return JSON.stringify(config, null, 2)
     },
     setLocale (locale) {
       this.locale = locale
@@ -110,7 +78,26 @@ const prismicTranslations = new Vue({
  * Inject
  *
  */
-export default (_, inject) => {
+export default (ctx, inject) => {
   // inject('prismicTranslations', prismicTranslations)
   inject('pt', prismicTranslations.getTranslation)
+
+  console.log(ctx.store)
+
+  ctx.store.registerModule('prismicTranslations', {
+    namespaced: true,
+    state: _ => ({
+      translations: []
+    }),
+    actions: _ => ({
+      setTranslations ({ commit }, translations) {
+        commit('setTranslations', translations)
+      }
+    }),
+    mutations: {
+      setTranslations (state, translations) {
+        state.translations = translations
+      }
+    }
+  })
 }

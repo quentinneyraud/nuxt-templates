@@ -21,6 +21,15 @@ export default {
   buildModules: [
     '@nuxtjs/eslint-module'
   ],
-  modules: [],
-  build: {}
+  modules: [
+    '@nuxtjs/prismic',
+    '~/modules/prismic-translations'
+  ],
+  build: {},
+  /**
+   * Prismic module
+   */
+  prismic: {
+    endpoint: 'https://zorbagroup.cdn.prismic.io/api/v2'
+  }
 }
