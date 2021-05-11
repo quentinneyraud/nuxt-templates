@@ -1,42 +1,58 @@
 import path from 'path'
 
 const MODULE_NAME = 'rgpd'
+
 const DEFAULT_OPTIONS = {
-  debug: true
+  debug: false,
+  cookieName: 'ok',
+  cookieExpiresAfterDays: 365,
+  lang: 'fr',
+  defaultLang: 'fr',
+  translations: [{
+    lang: 'fr',
+    detailsTitle: 'Les informations que nous collectons',
+    detailsDescription: 'Ici, vous pouvez voir et personnaliser les informations que nous collectons sur vous',
+    noticeText: 'En poursuivant votre navigation sur ce site, vous acceptez l’utilisation de cookies utilisés pour réaliser des statistiques de visites.',
+    accept: 'Accepter',
+    acceptAll: 'Tout accepter',
+    refuse: 'Refuser',
+    refuseAll: 'Tout refuser',
+    save: 'Sauvegarder',
+    openDetails: 'Personnaliser',
+    closeDetails: 'Voir moins',
+    checkBoxEnabled: 'Activé',
+    checkBoxDisabled: 'Désactivé'
+  }],
+  services: []
 }
 
 export default function (moduleOptions) {
-  /**
-   *
-   * Create options
-   *
-   */
-  let options = this.options.rgpd || moduleOptions || {}
-
-  options = {
+  const options = {
     ...DEFAULT_OPTIONS,
-    ...options,
+    ...this.options.rgpd,
+    ...moduleOptions,
     MODULE_NAME
   }
 
-  /**
-   *
-   * Add templates and plugins
-   *
-   */
-
-  // Plugin
+  // Component
   this.addPlugin({
-    src: path.resolve(__dirname, 'templates/plugin.js'),
-    fileName: path.join(MODULE_NAME, 'plugin.js'),
+    src: path.resolve(__dirname, 'components/index.js'),
+    fileName: path.join(MODULE_NAME, 'components/index.js'),
+    options,
+    ssr: true
+  })
+  this.addTemplate({
+    src: path.resolve(__dirname, 'components/Rgpd.vue'),
+    fileName: path.join(MODULE_NAME, 'components/Rgpd.vue'),
     options,
     ssr: true
   })
 
-  // Utils
-  this.addTemplate({
-    src: path.resolve(__dirname, 'templates/Rgpd.vue'),
-    fileName: path.join(MODULE_NAME, 'Rgpd.vue'),
-    options
+  // Plugin
+  this.addPlugin({
+    src: path.resolve(__dirname, 'plugins/index.js'),
+    fileName: path.join(MODULE_NAME, 'plugins/index.js'),
+    options,
+    ssr: true
   })
 }
