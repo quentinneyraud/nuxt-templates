@@ -18,7 +18,7 @@ export default (ctx, inject) => {
               DEBUG && console.warn('Service need a name and an id')
             }
 
-            service.checked = service.default || false
+            service.checked = service.required || service.default || false
             service.enabled = service.checked
 
             return true
@@ -32,9 +32,9 @@ export default (ctx, inject) => {
         this.$emit('service:check-all')
       },
       uncheckAll () {
-        this.services.forEach(this.refuse)
+        this.services.forEach(this.uncheck)
 
-        this.$emit('service:refuse-all', { services: this.services })
+        this.$emit('service:uncheck-all', { services: this.services })
       },
       check (service) {
         service.checked = true
@@ -42,6 +42,8 @@ export default (ctx, inject) => {
         this.$emit('service:check', { service })
       },
       uncheck (service) {
+        if (service.required) return
+
         service.checked = false
 
         this.$emit('service:uncheck', { service })

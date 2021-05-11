@@ -7,6 +7,8 @@
   >
     <!-- Details -->
     <div class="Rgpd-details">
+      <button class="Rgpd-detailsClose" @click="closeDetails" />
+
       <div class="Rgpd-detailsInner">
         <!-- Details heading -->
         <div class="Rgpd-detailsHeading">
@@ -55,7 +57,10 @@
         </div>
 
         <!-- Save button -->
-        <button class="Rgpd-detailsSave">
+        <button
+          class="Rgpd-detailsSave"
+          @click="$rgpd.save()"
+        >
           {{ tt('save') }}
         </button>
       </div>
@@ -74,23 +79,23 @@
       <div class="Rgpd-noticeActions">
         <button
           class="Rgpd-noticeAction"
-          @click="$rgpd.acceptAll()"
+          @click="$rgpd.checkAll()"
         >
           {{ tt('acceptAll') }}
         </button>
 
         <button
           class="Rgpd-noticeAction"
-          @click="$rgpd.refuseAll()"
+          @click="$rgpd.uncheckAll()"
         >
           {{ tt('refuseAll') }}
         </button>
 
         <button
           class="Rgpd-noticeAction"
-          @click="isExpanded ? closeDetails() : openDetails()"
+          @click="openDetails"
         >
-          {{ isExpanded ? tt('openDetails') : tt('closeDetails') }}
+          {{ tt('openDetails') }}
         </button>
       </div>
     </div>
@@ -178,6 +183,7 @@ export default {
 
 .Rgpd-component button {
   cursor: pointer;
+  border: none;
 }
 
 /**
@@ -208,6 +214,7 @@ export default {
 }
 
 .Rgpd-details {
+  position: relative;
   opacity: 0;
   transition: opacity 0.3s;
   background-color: var(--primary-color);
@@ -215,9 +222,34 @@ export default {
   min-height: 0;
 }
 
+.Rgpd-detailsClose {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  height: 20px;
+  width: 20px;
+}
+
+.Rgpd-detailsClose:before, .Rgpd-detailsClose:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 9px;
+  width: 2px;
+  height: 100%;
+  background-color: var(--secondary-color);
+}
+
+.Rgpd-detailsClose:before {
+  transform: rotate(45deg);
+}
+
+.Rgpd-detailsClose:after {
+  transform: rotate(-45deg);
+}
+
 .Rgpd-detailsInner {
-  padding: 35px;
-  padding-bottom: 20px;
+  padding: 45px 25px 20px 25px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

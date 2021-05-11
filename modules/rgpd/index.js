@@ -18,10 +18,7 @@ const DEFAULT_OPTIONS = {
     refuse: 'Refuser',
     refuseAll: 'Tout refuser',
     save: 'Sauvegarder',
-    openDetails: 'Personnaliser',
-    closeDetails: 'Voir moins',
-    checkBoxEnabled: 'Activé',
-    checkBoxDisabled: 'Désactivé'
+    openDetails: 'Personnaliser'
   }],
   services: []
 }

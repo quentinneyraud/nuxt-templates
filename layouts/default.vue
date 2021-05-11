@@ -9,7 +9,7 @@
         name: 'Cookies de performance et de mesure d’audience',
         description: 'Nous recourons aux cookies de performance et de mesure d’audience pour analyser la manière dont vous utilisez le Site Internet',
         required: false,
-        default: true
+        default: false
       }, {
         id: 'general',
         name: 'Cookies de fonctionnement',
