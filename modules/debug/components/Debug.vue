@@ -38,7 +38,7 @@
 
       <!-- Open / Close button -->
       <button
-        :title="buttonText"
+        :aria-label="buttonText"
         class="Debug-button"
         @click="isOpen = !isOpen"
       >
@@ -73,28 +73,16 @@ export default {
     return {
       isOpen: false,
       options: [{
-        key: 'image-no-alt',
+        key: 'image-alt',
         text: 'Outline images without alt attribute',
         active: false
       }, {
-        key: 'image-empty-alt',
-        text: 'Outline images with empty alt attribute',
-        active: false
-      }, {
-        key: 'link-no-title',
+        key: 'link-title',
         text: 'Outline links without title attribute',
         active: false
       }, {
-        key: 'link-empty-title',
-        text: 'Outline links with empty title attribute',
-        active: false
-      }, {
-        key: 'button-no-title',
+        key: 'button-title',
         text: 'Outline buttons without title attribute',
-        active: false
-      }, {
-        key: 'button-empty-title',
-        text: 'Outline buttons with empty title attribute',
         active: false
       }, {
         key: 'grid',
@@ -166,27 +154,33 @@ export default {
 </script>
 
 <style>
-body.debug-image-no-alt img:not([alt]) {
+body.debug-image-alt img:not([alt]), body.debug-image-alt img[alt=""] {
   outline: 10px solid red !important;
 }
 
-body.debug-image-empty-alt img[alt=""] {
-  outline: 10px solid red !important;
-}
-
-body.debug-link-no-title a:not([title]) {
+/*
+  no title and no aria-label
+  empty title and no aria-label
+  no title and empty aria-label
+  empty title and empty aria-label
+*/
+body.debug-link-title a:not([title]):not([aria-label]),
+body.debug-link-title a[title=""]:not([aria-label]),
+body.debug-link-title a:not([title])[aria-label=""],
+body.debug-link-title a[title=""][aria-label=""] {
   outline: 3px solid red !important;
 }
 
-body.debug-link-empty-title a[title=""] {
-  outline: 3px solid red !important;
-}
-
-body.debug-button-no-title button:not([title]) {
-  outline: 3px solid red !important;
-}
-
-body.debug-button-empty-title button[title=""] {
+/*
+  no title and no aria-label
+  empty title and no aria-label
+  no title and empty aria-label
+  empty title and empty aria-label
+*/
+body.debug-link-title button:not([title]):not([aria-label]),
+body.debug-link-title button[title=""]:not([aria-label]),
+body.debug-link-title button:not([title])[aria-label=""],
+body.debug-link-title button[title=""][aria-label=""] {
   outline: 3px solid red !important;
 }
 </style>
@@ -246,7 +240,6 @@ span {
 .Debug-gridColumn {
   position: relative;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.2);
   flex: 0 0 calc(1/var(--columns) * 100% - var(--gutter));
   box-shadow: -1px 0px 0px 0px rgba(0, 0, 0, 0.3), 1px 0px 0px 0px rgba(0, 0, 0, 0.3);
 }
