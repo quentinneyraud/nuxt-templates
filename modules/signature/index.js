@@ -15,17 +15,14 @@ const DEFAULT_OPTIONS = {
 }
 
 export default function (moduleOptions) {
-  let options = this.options.signature || moduleOptions || {}
-
-  options = {
+  const options = {
     ...DEFAULT_OPTIONS,
-    ...options,
+    ...this.options.signature,
+    ...moduleOptions,
     MODULE_NAME
   }
 
-  const isDev = this.options.dev
-
-  if (isDev && !options.force) {
+  if (this.options.dev && !options.force) {
     // eslint-disable-next-line no-console
     console.warn(`⚠️ [${MODULE_NAME}]: Module not enabled`)
     return
@@ -33,7 +30,7 @@ export default function (moduleOptions) {
 
   // Script
   this.addPlugin({
-    src: path.resolve(__dirname, 'templates/index.js'),
+    src: path.resolve(__dirname, 'scripts/index.js'),
     fileName: path.join(MODULE_NAME, 'index.js'),
     options,
     ssr: false

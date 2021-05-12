@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-
 const options = JSON.parse('<%= JSON.stringify(options) %>')
 
 const IS_DARK_MODE = !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
@@ -92,7 +91,6 @@ export const sign = _ => {
    * Socials
    *
    */
-
   if (options.website) {
     logInfo({
       icon: 'website',
