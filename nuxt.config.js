@@ -23,7 +23,8 @@ export default {
   ],
   modules: [
     '@nuxtjs/prismic',
-    '~/modules/prismic-translations'
+    '~/modules/prismic-translations',
+    'nuxt-i18n'
   ],
   build: {},
   /**
@@ -31,5 +32,25 @@ export default {
    */
   prismic: {
     endpoint: 'https://zorbagroup.cdn.prismic.io/api/v2'
+  },
+
+  /**
+   * I18n module
+   */
+  i18n: {
+    strategy: 'prefix',
+    locales: [{
+      code: 'en',
+      iso: 'en',
+      prismicCode: 'en-pa'
+    }, {
+      code: 'fr',
+      iso: 'fr',
+      prismicCode: 'fr-pa'
+    }],
+    defaultLocale: 'en',
+    vueI18n: {
+      fallbackLocale: 'en'
+    }
   }
 }

@@ -1,17 +1,13 @@
 /* eslint-disable no-console */
+import '../middlewares/index'
 import Vue from 'vue'
-import Prismic from '@prismicio/client'
+import { getTranslations } from '../utils/api'
 
-const options = JSON.parse('<%= JSON.stringify(options) %>')
+const options = JSON.parse('<%= JSON.stringify(options).replace(/\'/g, "a") %>')
 
 const prismicTranslations = new Vue({
-  fetch () {
-    console.log('ok')
-  },
   data () {
     return {
-      api: null,
-      document: null,
       translations: [],
       locale: options.defaultLocale,
       defaultLocale: options.defaultLocale
@@ -19,56 +15,41 @@ const prismicTranslations = new Vue({
   },
   computed: {
     currentTranslations () {
-      return this.translations
-        .find(translation => translation.locale === this.locale)
-    },
-    defaultTranslations () {
-      return this.translations
-        .find(translation => translation.locale === this.defaultLocale)
+      return this.translations.find(translation => translation.locale === this.locale)
     }
   },
   async created () {
-    await this.setApi()
-    await this.setDocument()
-
-    if (!this.defaultLocale) this.setDefaultLocale(this.api.languages[0].id)
-    if (!this.locale) this.setLocale(this.api.languages[0].id)
-
-    this.translations = this.document.results.map(result => {
-      return {
-        locale: result.lang,
-        translations: result.data.translations[0]
-      }
-    })
+    if (!options.translations) {
+      this.translations = await getTranslations({
+        endpoint: options.endpoint,
+        customTypeId: options.customTypeId
+      })
+    } else {
+      this.translations = options.translations
+    }
   },
   methods: {
-    async setApi () {
-      try {
-        this.api = await Prismic.getApi(options.endpoint)
-      } catch (err) {
-        console.error(`❌ [${options.MODULE_NAME}]: Error while trying to get Prismic API`, err)
-      }
-    },
-    async setDocument () {
-      try {
-        this.document = await this.api.query(
-          Prismic.Predicates.at('document.type', 'translations'),
-          {
-            lang: '*'
-          }
-        )
-      } catch (err) {
-        console.error(`❌ [${options.MODULE_NAME}]: Error while getting document, did you create a custom type`, err)
-      }
-    },
     setLocale (locale) {
       this.locale = locale
     },
-    setDefaultLocale (defaultLocale) {
-      this.defaultLocale = defaultLocale
-    },
-    getTranslation (key) {
-      return this.currentTranslations?.translations?.[key] || key
+    getTranslation (key, { defaultText = key, variables = {} } = {}) {
+      let translation = this.currentTranslations?.translations?.[key]
+
+      if (!translation) {
+        options.warnMissingKey && console.warn(`[${options.MODULE_NAME}] Cannot find key ${key}`)
+
+        translation = defaultText
+      }
+
+      if (variables) {
+        Object.entries(variables)
+          .forEach(([key, value]) => {
+            translation = translation
+              .replace(new RegExp(`{${key}}`, 'gi'), value)
+          })
+      }
+
+      return translation
     }
   }
 })
@@ -79,25 +60,12 @@ const prismicTranslations = new Vue({
  *
  */
 export default (ctx, inject) => {
-  // inject('prismicTranslations', prismicTranslations)
+  inject('prismicTranslations', prismicTranslations)
   inject('pt', prismicTranslations.getTranslation)
 
-  console.log(ctx.store)
+  prismicTranslations.setLocale(ctx.app.i18n.localeProperties.prismicCode)
 
-  ctx.store.registerModule('prismicTranslations', {
-    namespaced: true,
-    state: _ => ({
-      translations: []
-    }),
-    actions: _ => ({
-      setTranslations ({ commit }, translations) {
-        commit('setTranslations', translations)
-      }
-    }),
-    mutations: {
-      setTranslations (state, translations) {
-        state.translations = translations
-      }
-    }
-  })
+  ctx.app.i18n.onLanguageSwitched = _ => {
+    prismicTranslations.setLocale(ctx.app.i18n.localeProperties.prismicCode)
+  }
 }
