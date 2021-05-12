@@ -1,9 +1,10 @@
 import path from 'path'
+import defu from 'defu'
 
 const MODULE_NAME = 'screen-based-animation'
 
 const DEFAULT_OPTIONS = {
-  directiveDefaultOptions: {
+  directiveOptions: {
     clamp: true,
     callback: null,
     timeline: null,
@@ -14,22 +15,15 @@ const DEFAULT_OPTIONS = {
 }
 
 export default function (moduleOptions) {
-  let options = this.options.screenBasedAnimation || moduleOptions || {}
-
-  options = {
-    ...DEFAULT_OPTIONS,
-    ...options,
-    directiveDefaultOptions: {
-      ...DEFAULT_OPTIONS.directiveDefaultOptions,
-      ...options.directiveDefaultOptions
-    },
+  const options = {
+    ...defu(moduleOptions, this.options[MODULE_NAME], this.options.screenBasedAnimation, DEFAULT_OPTIONS),
     MODULE_NAME
   }
 
   // Directive
   this.addPlugin({
-    src: path.resolve(__dirname, 'templates/directives/sb-animation.js'),
-    fileName: path.join(MODULE_NAME, 'sb-animation.js'),
+    src: path.resolve(__dirname, 'directives/sb-animation.js'),
+    fileName: path.join(MODULE_NAME, 'directives/sb-animation.js'),
     options,
     ssr: true
   })
