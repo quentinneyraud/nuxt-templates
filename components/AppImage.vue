@@ -1,14 +1,16 @@
 <template>
   <div
     class="AppImage-component"
-    :class="{
-      loading,
-      loaded,
-      error,
-      lazyload,
-      'has-not-src': !src,
-      'has-ratio': !!ratio
-    }"
+    :class="[{
+               loading,
+               loaded,
+               error,
+               lazyload,
+               'has-not-src': !src,
+               'has-ratio': !!ratio
+             },
+             `fit-${fit}`
+    ]"
     :style="{
       '--ratio': `${ratio * 100}%`
     }"
@@ -30,8 +32,9 @@
       <img
         v-if="!!src"
         ref="image"
+        :draggable="draggable"
         :data-src="src"
-        :alt="alt"
+        :alt="(alt && alt.length > 0) ? alt : 'No alternate text'"
         :style="{
           objectFit: fit,
           objectPosition: position
@@ -53,13 +56,13 @@ export default {
     alt: {
       type: String,
       required: false,
-      default: 'Image non disponible'
+      default: 'No alternate text'
     },
     fit: {
       type: String,
       required: false,
       default: 'cover',
-      validator: value => ['cover', 'contain', 'none'].includes(value)
+      validator: value => ['cover', 'contain', 'none', 'unset'].includes(value)
     },
     position: {
       type: String,
@@ -79,12 +82,17 @@ export default {
     lazyloadOffset: {
       type: Number,
       required: false,
-      default: 500
+      default: -500
     },
     lazyloadThreshold: {
       type: Number,
       required: false,
       default: 0
+    },
+    draggable: {
+      type: Boolean,
+      required: false,
+      default: false
     },
     /**
      * 'blur', 'color' or an URL
@@ -123,8 +131,13 @@ export default {
   methods: {
     async setPlaceholder () {
       if (this.placeholder === 'blur') {
+        const url = new URL(this.src)
+        url.searchParams.set('w', url.searchParams.get('w') / 2)
+        url.searchParams.set('h', url.searchParams.get('h') / 2)
+        url.searchParams.set('blur', 250)
+
         this.placeholderStyle = {
-          backgroundImage: `url(${ this.src + '&blur=300' })`,
+          backgroundImage: `url(${ url })`,
           backgroundSize: 'cover',
           backgroundPosition: 'center center'
         }
@@ -216,7 +229,7 @@ export default {
 
         this.sources
           .forEach(source => {
-            source.$el.srcset = source.$el.dataset.srcset
+            if (source.$el) source.$el.srcset = source.$el.dataset.srcset
           })
       })
     },
@@ -225,6 +238,9 @@ export default {
       this.loading = false
       this.error = false
       this.$emit('loaded')
+      // this.$nextTick(_ => {
+      //   this.$virtualScroll.setBoundings()
+      // })
     },
     onError () {
       this.loaded = false
@@ -239,9 +255,14 @@ export default {
 .AppImage-component {
   position: relative;
   overflow: hidden;
-  width: 100%;
-  height: 100%;
   font-size: 0px;
+  user-select: none;
+}
+
+.AppImage-component.fit-cover .AppImage-image, .AppImage-component.fit-contain .AppImage-image {
+  position: absolute;
+  height: 100%;
+  width: 100%;
 }
 
 .AppImage-component.has-ratio::before {
@@ -268,14 +289,12 @@ export default {
   position: absolute;
   width: 100%;
   height: 100%;
-  z-index: 1;
 }
 
 .AppImage-image {
   position: relative;
-  height: 100%;
-  width: 100%;
-  z-index: 2;
   opacity: 0;
+  width: 100%;
+  height: 100%;
 }
 </style>

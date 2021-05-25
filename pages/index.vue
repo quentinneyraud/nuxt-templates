@@ -4,6 +4,7 @@
       class="test"
       :src="image.url"
       placeholder="blur"
+      fit="unset"
     >
       <AppSource
         :src="image.Mobile.url"

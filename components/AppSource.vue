@@ -66,15 +66,12 @@ export default {
       // sizes
       if (this.sizes && typeof this.sizes === 'object') {
         attributes.sizes = Object.entries(this.sizes)
-          ?.map(([windowWidth, imageSize]) => windowWidth === 'default' ? `${imageSize}vw` : `(min-width: ${windowWidth}) ${imageSize}vw`)
+          ?.map(([windowWidth, imageSize]) => windowWidth === 'default' ? `${imageSize}vw` : `(min-width: ${windowWidth}px) ${imageSize}vw`)
           ?.join(', ') || null
       }
 
       return attributes
     }
-  },
-  render () {
-    return null
   }
 }
 </script>
