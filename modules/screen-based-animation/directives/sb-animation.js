@@ -7,9 +7,10 @@ const lerp = (value, target, coeff) => {
 }
 
 class ScreenBased {
-  constructor (el, options) {
+  constructor (el, options, context) {
     this.el = el
-    this.options = Object.assign({}, MODULE_OPTIONS.directiveDefaultOptions, options)
+    this.options = Object.assign({}, MODULE_OPTIONS.directiveOptions, options)
+    this.context = context
     this.rafId = null
 
     this.progress = {
@@ -33,6 +34,7 @@ class ScreenBased {
 
   stop () {
     window.cancelAnimationFrame(this.rafId)
+    this.context?.eventsPlugin?.$off('ticker', this.onTick)
     this.observer.unobserve(this.el)
   }
 
@@ -65,15 +67,23 @@ class ScreenBased {
       this.progress.current = progress
       this.progress.lerped = progress
 
-      this.onTick()
+      if (this.context.eventsPlugin) {
+        this.context.eventsPlugin.$on('ticker', this.onTick)
+      } else {
+        const onTick = _ => {
+          this.onTick()
+          this.rafId = requestAnimationFrame(onTick)
+        }
+
+        onTick()
+      }
     } else {
       window.cancelAnimationFrame(this.rafId)
+      this.context?.eventsPlugin?.$off('ticker', this.onTick)
     }
   }
 
   onTick () {
-    this.rafId = window.requestAnimationFrame(this.onTick)
-
     this.progress.current = this.getProgress()
     this.progress.lerped = lerp(this.progress.lerped, this.progress.current, this.options.lerpRatio)
 
@@ -115,10 +125,10 @@ class ScreenBased {
   }
 }
 
-function bind (el, { value }) {
-  const state = new ScreenBased(el, value)
+function bind (el, { value }, { context }) {
+  const state = new ScreenBased(el, value, context)
 
-  if (!(value.active === false)) state.start()
+  if (state.options.active) state.start()
 
   el._vue_sb_animation = state
 }
@@ -127,19 +137,19 @@ function update (el, { value }) {
   const state = el._vue_sb_animation
 
   if (state) {
-    if (!(value.active === false)) {
-      state.start()
-    } else {
-      state.stop()
-    }
-
     const equal = Object.keys(value || {})
       .every(k => {
         return (value[k] === state.options[k])
       })
 
     if (!equal) {
-      state.options = Object.assign({}, state.options, value)
+      state.options = Object.assign({}, MODULE_OPTIONS.directiveDefaultOptions, value)
+
+      if (state.options.active) {
+        state.start()
+      } else {
+        state.stop()
+      }
     }
   } else {
     bind(el, { value })
@@ -149,9 +159,7 @@ function update (el, { value }) {
 function unbind (el) {
   const state = el._vue_sb_animation
 
-  if (state) {
-    delete el._vue_sb_animation
-  }
+  if (state) delete el._vue_sb_animation
 }
 
 Vue.directive('sb-animation', {

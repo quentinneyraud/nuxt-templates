@@ -5,6 +5,7 @@ const MODULE_NAME = 'screen-based-animation'
 
 const DEFAULT_OPTIONS = {
   directiveOptions: {
+    active: true,
     clamp: true,
     callback: null,
     timeline: null,
