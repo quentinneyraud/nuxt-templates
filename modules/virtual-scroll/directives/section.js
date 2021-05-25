@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import { warn } from '../utils'
 
 const SECTION_OFFSET_MARGIN = 100
 
@@ -7,7 +6,7 @@ Vue.directive('vs-section', {
   bind (el, _, vnode) {
     const virtualScrollPlugin = vnode.context.$virtualScroll
 
-    if (!virtualScrollPlugin) warn('$virtualScroll plugin not installed')
+    if (!virtualScrollPlugin.active) return
 
     // Optimize transform
     el.style.willChange = 'transform'
@@ -18,8 +17,10 @@ Vue.directive('vs-section', {
 
       const style = getComputedStyle(el)
       const transform = style.transform || style.webkitTransform || style.mozTransform
+      if (!transform) return { x: 0, y: 0 }
 
       let mat = transform.match(/^matrix3d\((.+)\)$/)
+
       if (mat) {
         translate.x = mat ? parseFloat(mat[1].split(', ')[12]) : 0
         translate.y = mat ? parseFloat(mat[1].split(', ')[13]) : 0
@@ -46,9 +47,9 @@ Vue.directive('vs-section', {
     // Listen to scroll event and update element transform on each call
     el.__scroll_callback__ = ({ current }) => {
       if (current > offset.yStart && current < offset.yStop) {
-        el.style.transform = `matrix3d(1,0,0.00,0,0.00,1,0.00,0,0,0,1,0,0,${current * -1},0,1)`
-        el.style.webkitTransform = `matrix3d(1,0,0.00,0,0.00,1,0.00,0,0,0,1,0,0,${current * -1},0,1)`
-        el.style.msTransform = `matrix3d(1,0,0.00,0,0.00,1,0.00,0,0,0,1,0,0,${current * -1},0,1)`
+        el.style.transform = `matrix3d(1,0,0.00,0,0.00,1,0.00,0,0,0,1,0,0,${(current * -1).toFixed(0)},0,1)`
+        el.style.webkitTransform = `matrix3d(1,0,0.00,0,0.00,1,0.00,0,0,0,1,0,0,${(current * -1).toFixed(0)},0,1)`
+        el.style.msTransform = `matrix3d(1,0,0.00,0,0.00,1,0.00,0,0,0,1,0,0,${(current * -1).toFixed(0)},0,1)`
 
         if (!isVisible) {
           isVisible = true
@@ -72,7 +73,6 @@ Vue.directive('vs-section', {
   unbind (el, __, vnode) {
     // Get virtualScroll plugin
     const virtualScrollPlugin = vnode.context.$virtualScroll
-    if (!virtualScrollPlugin) warn('$virtualScroll plugin not installed')
 
     // Remove scroll event listener
     virtualScrollPlugin.$off('scroll', el.__scroll_callback__)
