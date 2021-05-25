@@ -30,7 +30,7 @@ export default {
    */
   events: {
     events: [
-      'ticker',
+      'raf',
       'resize',
       'visibility',
       'orientation',

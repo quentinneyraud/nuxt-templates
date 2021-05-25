@@ -3,9 +3,7 @@ import path from 'path'
 const MODULE_NAME = 'events'
 
 const DEFAULT_OPTIONS = {
-  events: [],
-  debug: false,
-  isGsapInstalled: false
+  events: []
 }
 
 const isModuleInstalled = moduleName => {
@@ -21,11 +19,10 @@ const isModuleInstalled = moduleName => {
 }
 
 export default function (moduleOptions) {
-  let options = this.options.events || moduleOptions || {}
-
-  options = {
+  const options = {
     ...DEFAULT_OPTIONS,
-    ...options,
+    ...this.options.events,
+    ...moduleOptions,
     MODULE_NAME,
     isGsapInstalled: isModuleInstalled('gsap')
   }
@@ -40,16 +37,9 @@ export default function (moduleOptions) {
 
   // Plugin
   this.addPlugin({
-    src: path.resolve(__dirname, 'templates/plugin.js'),
-    fileName: path.join(MODULE_NAME, 'plugin.js'),
+    src: path.resolve(__dirname, 'plugins/index.js'),
+    fileName: path.join(MODULE_NAME, 'plugins/index.js'),
     options,
     ssr: false
-  })
-
-  // Utils
-  this.addTemplate({
-    src: path.resolve(__dirname, 'templates/utils.js'),
-    fileName: path.join(MODULE_NAME, 'utils.js'),
-    options
   })
 }

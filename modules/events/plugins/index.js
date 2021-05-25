@@ -1,7 +1,19 @@
 import Vue from 'vue'
-import { debounce, warn, infos } from './utils'
 
-const Events = new Vue()
+/**
+ *
+ * Utils
+ *
+ */
+
+const debounce = (callback, wait) => {
+  let timeout
+
+  return () => {
+    window.clearTimeout(timeout)
+    timeout = setTimeout(() => callback(), wait)
+  }
+}
 
 /**
  *
@@ -10,6 +22,25 @@ const Events = new Vue()
  *
  *
  */
+
+const Events = new Vue({
+  data () {
+    return {
+      resize: {
+        active: false
+      },
+      raf: {
+        active: false
+      },
+      visibility: {
+        active: false
+      },
+      orientation: {
+        active: false
+      }
+    }
+  }
+})
 
 /**
  *
@@ -27,8 +58,6 @@ const getResize = _ => ({
     return this
   },
   start () {
-    infos('Start listening for resize event')
-
     window.addEventListener('resize', this.callback)
   },
   onResize () {
@@ -45,10 +74,10 @@ const getResize = _ => ({
 
 /**
  *
- * Ticker
+ * RAF
  *
  */
-const getTicker = _ => ({
+const getRaf = _ => ({
   startTime: null,
   lastTime: null,
   options: {},
@@ -59,17 +88,13 @@ const getTicker = _ => ({
     return this
   },
   start () {
-    infos('Start listening for requestAnimationFrame event')
-
     this.startTime = new Date().getTime()
     this.onTick()
   },
   onTick () {
     const currentTime = new Date().getTime()
 
-    const eventName = this.options?.name || 'ticker'
-
-    Events.$emit(eventName, {
+    Events.$emit('raf', {
       options: this.options,
       time: currentTime - this.startTime,
       deltaTime: currentTime - this.lastTime
@@ -86,7 +111,7 @@ const getTicker = _ => ({
  * GSAP ticker
  *
  */
-const getGsapTicker = _ => ({
+const getGsapRaf = _ => ({
   gsap: null,
   options: {},
   init (options = {}) {
@@ -98,14 +123,10 @@ const getGsapTicker = _ => ({
     return this
   },
   start () {
-    infos('Start listening for GSAP ticker event')
-
     this.gsap.ticker.add(this.onTick)
   },
   onTick (time, deltaTime, frame, elapsed) {
-    const eventName = this.options?.name || 'ticker'
-
-    Events.$emit(eventName, {
+    Events.$emit('raf', {
       options: this.options,
       time,
       deltaTime,
@@ -117,7 +138,7 @@ const getGsapTicker = _ => ({
 
 /**
  *
- * Window focus
+ * Visibility
  *
  */
 const getVisibility = _ => ({
@@ -130,26 +151,23 @@ const getVisibility = _ => ({
     return this
   },
   start () {
-    infos('Start listening for visibilitychange event')
-
     document.addEventListener('visibilitychange', this.onVisibilityChanged)
   },
   onVisibilityChanged () {
-    const eventName = this.options?.name || 'visibility'
     const hasFocus = !document.hidden
 
-    Events.$emit(eventName, {
+    Events.$emit('visibility', {
       options: this.options,
       hasFocus
     })
 
     if (hasFocus) {
-      Events.$emit(`${eventName}:focus`, {
+      Events.$emit('visibility:focus', {
         options: this.options,
         hasFocus
       })
     } else {
-      Events.$emit(`${eventName}:blur`, {
+      Events.$emit('visibility:blur', {
         options: this.options,
         hasFocus
       })
@@ -172,20 +190,17 @@ const getOrientation = _ => ({
     return this
   },
   start () {
-    infos('Start listening for orientationchange event')
-
     window.addEventListener('orientationchange', this.onOrientationChanged)
   },
   onOrientationChanged () {
-    const eventName = this.options?.name || 'orientation'
     const orientation = (window.orientation === 90 || window.orientation === -90) ? 'landscape' : 'portrait'
 
-    Events.$emit(eventName, {
+    Events.$emit('orientation', {
       options: this.options,
       orientation
     })
 
-    Events.$emit(`${eventName}:${orientation}`, {
+    Events.$emit(`orientation:${orientation}`, {
       options: this.options,
       orientation
     })
@@ -207,32 +222,45 @@ options.events.forEach(event => {
 
   switch (formattedEvent.type) {
   case 'resize':
+
     getResize()
       .init(formattedEvent.options)
       .start()
 
+    Events.resize.active = true
+
     break
 
-  case 'ticker':
-    (options.isGsapInstalled ? getGsapTicker() : getTicker())
+  case 'raf':
+
+    (options.isGsapInstalled ? getGsapRaf() : getRaf())
       .init(formattedEvent.options)
       .start()
+
+    Events.raf.active = true
+    console.log('ok')
+
     break
 
   case 'visibility':
     getVisibility()
       .init(formattedEvent.options)
       .start()
+
+    Events.visibility.active = true
+
     break
 
   case 'orientation':
     getOrientation()
       .init(formattedEvent.options)
       .start()
+
+    Events.orientation.active = true
+
     break
 
   default:
-    warn(`Cannot find event ${formattedEvent.type}`)
     break
   }
 })

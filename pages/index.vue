@@ -5,6 +5,7 @@
 <script>
 export default {
   mounted () {
+    console.log(this.$events)
     this.$events.$on('resize', options => {
       console.log('resize', options)
     })
@@ -37,8 +38,8 @@ export default {
       alert(JSON.stringify(options))
     })
 
-    // this.$events.$on('ticker', options => {
-    //   console.log('ticker', options)
+    // this.$events.$on('raf', options => {
+    //   console.log('raf', options)
     // })
   }
 }
