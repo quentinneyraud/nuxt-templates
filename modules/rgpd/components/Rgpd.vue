@@ -2,7 +2,8 @@
   <div
     class="Rgpd-component"
     :class="{
-      '--is-expanded': isExpanded
+      '--is-expanded': isExpanded,
+      '--is-shown': isShown
     }"
   >
     <!-- Details -->
@@ -29,7 +30,7 @@
               :key="serviceIndex"
               class="Rgpd-service"
               :class="{
-                '--is-checked': service.checked,
+                '--is-checked': service.enabled,
                 '--is-required': service.required
               }"
             >
@@ -37,7 +38,11 @@
                 class="Rgpd-serviceLeft"
               >
                 <div class="Rgpd-serviceCheckboxWrapper">
-                  <input :id="service.id" type="checkbox" @click="service.checked ? $rgpd.uncheck(service) : $rgpd.check(service)">
+                  <input
+                    :id="service.id"
+                    type="checkbox"
+                    @click="service.enabled ? $rgpd.disable(service) : $rgpd.enable(service)"
+                  >
                   <label :for="service.id" />
                   <span class="Rgpd-serviceCheckboxBullet" />
                 </div>
@@ -55,14 +60,6 @@
             </li>
           </ul>
         </div>
-
-        <!-- Save button -->
-        <button
-          class="Rgpd-detailsSave"
-          @click="$rgpd.save()"
-        >
-          {{ tt('save') }}
-        </button>
       </div>
     </div>
 
@@ -75,37 +72,47 @@
         {{ tt('noticeText') }}
       </p>
 
-      <!-- Notice actions -->
       <div class="Rgpd-noticeActions">
-        <button
-          class="Rgpd-noticeAction"
-          @click="$rgpd.checkAll()"
-        >
-          {{ tt('acceptAll') }}
-        </button>
+        <Transition name="a" mode="out-in">
+          <!-- Save button -->
+          <button
+            v-if="isExpanded"
+            class="Rgpd-noticeAction a"
+            @click="onSaveButtonClick"
+          >
+            {{ tt('save') }}
+          </button>
 
-        <button
-          class="Rgpd-noticeAction"
-          @click="$rgpd.uncheckAll()"
-        >
-          {{ tt('refuseAll') }}
-        </button>
+          <!-- Notice actions -->
+          <div v-else class="Rgpd-noticeIdleActions a">
+            <button
+              class="Rgpd-noticeAction"
+              @click="onAcceptAllButtonClick"
+            >
+              {{ tt('acceptAll') }}
+            </button>
 
-        <button
-          class="Rgpd-noticeAction"
-          @click="openDetails"
-        >
-          {{ tt('openDetails') }}
-        </button>
+            <button
+              class="Rgpd-noticeAction"
+              @click="onRefuseAllButtonClick"
+            >
+              {{ tt('refuseAll') }}
+            </button>
+
+            <button
+              class="Rgpd-noticeAction"
+              @click="openDetails"
+            >
+              {{ tt('openDetails') }}
+            </button>
+          </div>
+        </Transition>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-// Libraries
-import Cookies from 'js-cookie'
-
 const moduleOptions = JSON.parse('<%= JSON.stringify(options) %>')
 
 export default {
@@ -123,22 +130,27 @@ export default {
   },
   data () {
     return {
-      isExpanded: true
+      isShown: false,
+      isExpanded: false
     }
   },
   computed: {
     defaultTranslations () {
-      return moduleOptions.translations.find(translation => translation.lang === moduleOptions.defaultLang)
+      return moduleOptions.translations.find(
+        translation => translation.lang === moduleOptions.defaultLang
+      )
     },
     currentTranslations () {
-      return moduleOptions.translations.find(translation => translation.lang === this.lang)
+      return moduleOptions.translations.find(
+        translation => translation.lang === this.lang
+      )
     }
   },
   mounted () {
-    this.$rgpd.registerServices([...this.services, ...moduleOptions.services])
-    this.$rgpd.$on('service:accept-all', this.closeDetails)
-    this.$rgpd.$on('service:refuse-all', this.closeDetails)
-    // const a = Cookies.get(moduleOptions.cookieName)
+    this.$rgpd.$on('show', this.show)
+    this.$rgpd.$on('hide', this.hide)
+
+    this.$rgpd.init([...this.services, ...moduleOptions.services])
   },
   methods: {
     /**
@@ -154,11 +166,30 @@ export default {
      * Translations
      */
     tt (key) {
-      return this.currentTranslations[key] || this.defaultTranslations[key] || key
-    }
+      return (
+        this.currentTranslations[key] || this.defaultTranslations[key] || key
+      )
+    },
     /**
      * Events
      */
+    show () {
+      this.isShown = true
+    },
+    hide () {
+      this.isShown = false
+    },
+    onAcceptAllButtonClick () {
+      this.$rgpd.enableAll()
+      this.$rgpd.save()
+    },
+    onRefuseAllButtonClick () {
+      this.$rgpd.disableAll()
+      this.$rgpd.save()
+    },
+    onSaveButtonClick () {
+      this.$rgpd.save()
+    }
   }
 }
 </script>
@@ -204,8 +235,18 @@ export default {
   flex-direction: column;
   justify-content: flex-end;
 
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
   --primary-color: #EEEEEE;
   --secondary-color: #292929;
+}
+
+.Rgpd-component.--is-shown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 .Rgpd-component.--is-expanded .Rgpd-details {
@@ -377,13 +418,6 @@ p.Rgpd-serviceDescription {
   font-weight: 400;
 }
 
-button.Rgpd-detailsSave {
-  padding: 5px 8px;
-  margin-top: 35px;
-  border: 1px solid #000;
-  flex-shrink: 0;
-}
-
 /**
 
   Notice
@@ -403,9 +437,25 @@ button.Rgpd-detailsSave {
 }
 
 .Rgpd-noticeActions {
-  display: flex;
+  min-height: 50px;
   margin-top: 10px;
   margin-left: -15px;
+}
+
+.a-enter-active, .a-leave-active {
+  transition: all .3s
+}
+
+.a-enter, .a-leave-active {
+  opacity: 0
+}
+
+.a-leave-to {
+  transform: translateY(10px);
+}
+
+.Rgpd-noticeIdleActions {
+  display: flex;
 }
 
 button.Rgpd-noticeAction {
