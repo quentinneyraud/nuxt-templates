@@ -36,7 +36,9 @@ export default (ctx, inject) => {
           return acc
         }, {})
 
-        Cookies.set(options.cookieName, JSON.stringify(servicesState))
+        Cookies.set(options.cookieName, JSON.stringify(servicesState), {
+          expires: options.cookieExpiresAfterDays
+        })
       },
       registerServices (services) {
         this.services = services
