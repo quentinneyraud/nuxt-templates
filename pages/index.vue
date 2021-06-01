@@ -1,38 +1,70 @@
 <template>
   <div class="page">
+    <!-- Simple in-view -->
     <div
-      v-for="(a, ai) in as"
-      :key="ai"
-      v-observe="square1"
-      :data-index="ai"
+      v-observe
       class="square square1"
     >
-      <pre>{{ square1 }}</pre>
+      <span>Default threshold (0) and offset (0)</span>
+    </div>
+
+    <!-- threshold 1 -->
+    <div
+      v-observe="{
+        threshold: 1
+      }"
+      class="square"
+    >
+      <span>Threshold 1 and default offset (0)</span>
+    </div>
+
+    <!-- offset 100 -->
+    <div
+      v-observe="{
+        offset: 100
+      }"
+      class="square"
+    >
+      <span>Offset 100 and default threshold (0)</span>
+    </div>
+
+    <!-- onEnter callback -->
+    <div
+      v-observe="{
+        onEnter
+      }"
+      class="square"
+    >
+      <span>Default threshold (0) and offset (0), call onEnter() </span>
+    </div>
+
+    <!-- onEnter and onLeave callbacks -->
+    <div
+      v-observe="{
+        once: false,
+        onEnter,
+        onLeave
+      }"
+      class="square"
+    >
+      <span>Default threshold (0) and offset (0), once = false, call onEnter() and onLeave() </span>
     </div>
   </div>
 </template>
 
 <script>
+/* eslint-disable no-console */
 export default {
-  data () {
-    return {
-      as: [],
-      square1: {
-        active: true,
-        once: false,
-        onEnter: a => {
-          console.log('enter', a.el.dataset.index)
-        },
-        onLeave: a => {
-          console.log('leave', a.el.dataset.index)
-        }
-      }
-    }
-  },
   mounted () {
-    window.setInterval(_ => {
-      this.as.push('sss')
-    }, 3000)
+    this.$viewportObserverState.active = true
+  },
+  methods: {
+    onEnter () {
+      console.log('on enter')
+    },
+    onLeave () {
+      console.log('on leave')
+    }
   }
 }
 </script>
@@ -42,11 +74,18 @@ export default {
   min-height: 500vh;
 }
 
+span {
+  display: block;
+  color: white;
+  margin: 20px;
+}
+
 .square {
   width: 200px;
-  height: 100px;
-  background-color: red;
+  height: 200px;
+  background-color: black;
   border: 10px solid transparent;
+  margin-top: 50vh;
 }
 
 .square.in-view {
@@ -54,13 +93,7 @@ export default {
 }
 
 .square1 {
-  margin-top: 50px;
-  background-color: blue;
-}
-
-.square2 {
-  top: 150vh;
-  background-color: red;
+  margin-top: 100vh;
 }
 
 </style>
