@@ -1,14 +1,14 @@
 import TransitionBus from '../bus/index'
 
 // Return all children of a component, recursively
-const recuriveFlattenComponentChildren = component => {
+const recursiveFlattenComponentChildren = component => {
   return component
     .$children
     .reduce((acc, curr) => {
       acc.push(curr)
 
       if (curr.$children && Array.isArray(curr.$children) && curr.$children.length > 0) {
-        acc.push(...recuriveFlattenComponentChildren(curr))
+        acc.push(...recursiveFlattenComponentChildren(curr))
       }
 
       return acc
@@ -27,16 +27,16 @@ export default {
       transition = {
         ...transition,
         enter (el, done) {
-          const promises = recuriveFlattenComponentChildren(this.$root)
-            .filter(component => component.preload)
+          const promises = recursiveFlattenComponentChildren(this.$root)
+            .filter(component => component.preload && typeof component.preload === 'function')
             .map(component => component.preload({ to, from }))
 
           TransitionBus.$emit('loader:hide', {
-            promises,
             el,
-            done,
             to,
-            from
+            from,
+            promises,
+            done
           })
         }
       }
@@ -44,21 +44,21 @@ export default {
       transition = {
         ...transition,
         enter (el, done) {
-          const promises = recuriveFlattenComponentChildren(this)
-            .filter(component => component.preload)
+          const promises = recursiveFlattenComponentChildren(this)
+            .filter(component => component.preload && typeof component.preload === 'function')
             .map(component => component.preload({ to, from }))
 
           TransitionBus.$emit('transition:hide', {
-            promises,
             el,
-            done,
             to,
-            from
+            from,
+            promises,
+            done
           })
         },
         leave (el, done) {
-          const promises = recuriveFlattenComponentChildren(this)
-            .filter(component => component.transitionHide)
+          const promises = recursiveFlattenComponentChildren(this)
+            .filter(component => component.transitionHide && typeof component.transitionHide === 'function')
             .map(component => {
               return new Promise(resolve => {
                 component.transitionHide({
@@ -70,11 +70,11 @@ export default {
             })
 
           TransitionBus.$emit('transition:show', {
-            promises,
             el,
-            done,
             to,
-            from
+            from,
+            promises,
+            done
           })
         }
       }

@@ -35,16 +35,18 @@ export default {
     this.$transitionsBus.$off('loader:hide', this.hide)
   },
   methods: {
-    async hide ({ done = null, promises = [] } = {}) {
+    async hide ({ el, to, from, promises = [], done } = {}) {
       this.preloadPromises = promises
       this.prepareProgress()
 
       await Promise.all(this.preloadPromises)
+      this.$transitionsBus.$emit('loader:hide:page-loaded', { el, to, from })
 
       this.isHidden = true
 
       window.setTimeout(_ => {
         done()
+        this.$transitionsBus.$emit('loader:hide:done', { el, to, from })
       }, 500)
     },
     prepareProgress () {

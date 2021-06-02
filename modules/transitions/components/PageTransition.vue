@@ -35,24 +35,28 @@ export default {
     this.$transitionsBus.$off('transition:hide', this.hide)
   },
   methods: {
-    async hide ({ done = null, promises = [] } = {}) {
+    async hide ({ el, to, from, promises = [], done } = {}) {
       this.preloadPromises = promises
       this.prepareProgress()
 
       await Promise.all(this.preloadPromises)
+      this.$transitionsBus.$emit('transition:hide:next-page-loaded', { el, to, from })
 
       this.isHidden = true
       window.setTimeout(_ => {
         done()
+        this.$transitionsBus.$emit('transition:hide:done', { el, to, from })
       }, 500)
     },
-    async show ({ done = null, promises = [] } = {}) {
+    async show ({ el, to, from, promises = [], done } = {}) {
       await Promise.all(promises)
+      this.$transitionsBus.$emit('transition:show:previous-page-hidden', { el, to, from })
 
       this.isHidden = false
 
       window.setTimeout(_ => {
         done()
+        this.$transitionsBus.$emit('transition:show:done', { el, to, from })
       }, 500)
     },
     prepareProgress () {
