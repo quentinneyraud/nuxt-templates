@@ -46,6 +46,10 @@ export default {
       window.setTimeout(_ => {
         done()
         this.$transitionsBus.$emit('transition:hide:done', { el, to, from })
+
+        this.fulfilledPromises = 0
+        this.progress = 0
+        this.preloadPromises = []
       }, 500)
     },
     async show ({ el, to, from, promises = [], done } = {}) {

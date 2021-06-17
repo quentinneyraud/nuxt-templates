@@ -16,9 +16,12 @@ export default {
       })
         .catch(_ => {})
     },
-    transitionHide ({ done }) {
+    transitionHide () {
       this.$refs.image.classList.add('--is-hidden')
-      window.setTimeout(done, 500)
+
+      return new Promise(resolve => {
+        window.setTimeout(resolve, 500)
+      })
     }
   }
 }

@@ -59,15 +59,7 @@ export default {
         leave (el, done) {
           const promises = recursiveFlattenComponentChildren(this)
             .filter(component => component.transitionHide && typeof component.transitionHide === 'function')
-            .map(component => {
-              return new Promise(resolve => {
-                component.transitionHide({
-                  done: resolve,
-                  to,
-                  from
-                })
-              })
-            })
+            .map(component => component.transitionHide({ to, from }))
 
           TransitionBus.$emit('transition:show', {
             el,
