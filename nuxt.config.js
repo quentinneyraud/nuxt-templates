@@ -21,6 +21,16 @@ export default {
   buildModules: [
     '@nuxtjs/eslint-module'
   ],
-  modules: [],
-  build: {}
+  modules: [
+    '~/modules/prismic-api',
+    '@nuxtjs/prismic'
+  ],
+  build: {},
+
+  /**
+   * Prismic module
+   */
+  prismic: {
+    endpoint: 'https://nuxt-templates.cdn.prismic.io/api/v2'
+  }
 }

@@ -11,6 +11,7 @@
     "lint": "yarn lint:js"
   },
   "dependencies": {
+    "@nuxtjs/prismic": "^1.3.1",
     "core-js": "^3.6.5",
     "nuxt": "^2.14.6"
   },
