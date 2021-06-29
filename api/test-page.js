@@ -1,4 +1,4 @@
-import Formatter from './Formatter'
+import Formatter from '../utils/Formatter.js'
 
 export default app => async _ => {
   try {

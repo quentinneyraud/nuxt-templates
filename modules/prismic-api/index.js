@@ -54,9 +54,22 @@ export default async function (moduleOptions) {
     ssr: true
   })
 
+  // Helpers
   this.addTemplate({
     src: path.resolve(__dirname, 'utils/Formatter.js'),
-    fileName: path.join(MODULE_NAME, 'routes', 'Formatter.js'),
+    fileName: path.join(MODULE_NAME, 'utils/Formatter.js'),
+    options
+  })
+
+  this.addTemplate({
+    src: path.resolve(__dirname, 'utils/helpers.js'),
+    fileName: path.join(MODULE_NAME, 'utils/helpers.js'),
+    options
+  })
+
+  this.addTemplate({
+    src: path.resolve(__dirname, 'utils/prismic.js'),
+    fileName: path.join(MODULE_NAME, 'utils/prismic.js'),
     options
   })
   /**
