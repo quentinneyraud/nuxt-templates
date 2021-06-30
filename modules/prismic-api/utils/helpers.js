@@ -44,11 +44,9 @@ export const snakeToCamel = str => str.replace(
 
 // Return an array which has a length between min and max
 // ignoreMax = true migt give an array with length superior to max, but items are not next to themselves
-export const minMaxArray = (arr = [], min = 0, max = arr.length, ignoreMax = false) => {
-  if ((arr.length >= min && arr.length <= max) || (min > max)) return arr
-
+export const minMaxArray = (arr = [], min = 0, max = min, ignoreMax = false) => {
+  if (arr.length >= min && arr.length <= max) return arr
   if (arr.length > max) return arr.slice(0, max)
-
   return Array(Math.ceil(min / arr.length))
     .fill(arr)
     .flat()
