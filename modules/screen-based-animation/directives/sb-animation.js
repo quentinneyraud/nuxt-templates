@@ -112,19 +112,19 @@ class ScreenBased {
   }
 
   setCssVars () {
-    this.el.style.setProperty('--current-progress', this.progress.current)
-    this.el.style.setProperty('--lerped-progress', this.progress.lerped)
+    this.el.style.setProperty('--sbp', this.progress.current)
+    this.el.style.setProperty('--lsbp', this.progress.lerped)
 
-    this.el.style.setProperty('--current-nprogress', this.nProgress.current)
-    this.el.style.setProperty('--lerped-nprogress', this.nProgress.lerped)
+    this.el.style.setProperty('--sbpn', this.nProgress.current)
+    this.el.style.setProperty('--lsbpn', this.nProgress.lerped)
   }
 
   setDatasetAttributes () {
-    this.el.dataset.currentProgress = this.progress.current
-    this.el.dataset.lerpedProgress = this.progress.lerped
+    this.el.dataset.sbp = this.progress.current
+    this.el.dataset.lsbp = this.progress.lerped
 
-    this.el.dataset.currentNProgress = this.nProgress.current
-    this.el.dataset.lerpedNProgress = this.nProgress.lerped
+    this.el.dataset.sbpn = this.nProgress.current
+    this.el.dataset.lsbpn = this.nProgress.lerped
   }
 }
 
