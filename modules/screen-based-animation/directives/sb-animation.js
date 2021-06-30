@@ -3,12 +3,15 @@ import Vue from 'vue'
 const MODULE_OPTIONS = JSON.parse('<%= JSON.stringify(options) %>')
 
 const lerp = (value, target, coeff) => {
+  if (Math.abs(target - value) < 0.001) return target
   return value * (1 - coeff) + target * coeff
 }
 
 class ScreenBased {
   constructor (el, options, context) {
     this.el = el
+    this.ref = this.el.querySelector('[data-watch]') || this.el
+
     this.options = Object.assign({}, MODULE_OPTIONS.directiveOptions, options)
     this.context = context
     this.rafId = null
@@ -29,13 +32,13 @@ class ScreenBased {
   }
 
   start () {
-    this.observer.observe(this.el)
+    this.observer.observe(this.ref)
   }
 
   stop () {
     window.cancelAnimationFrame(this.rafId)
     this.context?.eventsPlugin?.$off('ticker', this.onTick)
-    this.observer.unobserve(this.el)
+    this.observer.unobserve(this.ref)
   }
 
   createObserver () {
@@ -104,7 +107,7 @@ class ScreenBased {
   }
 
   getProgress () {
-    const { top, height } = this.el.getBoundingClientRect()
+    const { top, height } = this.ref.getBoundingClientRect()
     return (top + height) / (window.innerHeight + height)
   }
 
