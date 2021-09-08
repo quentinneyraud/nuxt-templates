@@ -257,6 +257,7 @@ export default {
 .Rgpd-details {
   position: relative;
   opacity: 0;
+  pointer-events: none;
   transition: opacity 0.3s;
   background-color: var(--primary-color);
   flex: 0 1 auto;
