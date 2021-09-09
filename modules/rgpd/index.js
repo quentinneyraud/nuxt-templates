@@ -4,8 +4,8 @@ const MODULE_NAME = 'rgpd'
 
 const DEFAULT_OPTIONS = {
   debug: false,
-  cookieName: 'ok',
-  cookieExpiresAfterDays: 365,
+  cookieName: 'RGPD_COOKIES',
+  cookieExpiresAfterDays: 90,
   lang: 'fr',
   defaultLang: 'fr',
   translations: [{
