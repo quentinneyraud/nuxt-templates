@@ -1,5 +1,5 @@
 // Utils
-import Formatter from './routes/Formatter'
+import Formatter from './utils/Formatter'
 
 <% _.forEach(options.files, function(file) { %>
 import <%= file.method %> from '<%= file.path %>'
