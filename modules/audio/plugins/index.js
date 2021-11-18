@@ -6,6 +6,8 @@ import silence from './silence.js'
 // Class
 import Sound from './Sound'
 
+const randomId = _ => '_' + Math.random().toString(36).substr(2, 9)
+
 const AudioManager = new Vue({
   data () {
     return {
@@ -48,9 +50,13 @@ const AudioManager = new Vue({
       if (!Array.isArray(sounds)) sounds = [sounds]
 
       sounds.forEach(sound => {
+        if (!sound.url) return
+
+        const name = sound.name || sound.url?.split('/')?.pop()?.split('.')?.shift() || randomId()
+
         this.sounds.push(new Sound({
           audioContext: this.audioContext,
-          name: sound.name,
+          name,
           url: sound.url,
           loop: sound.loop,
           maxVolume: sound.maxVolume
@@ -84,15 +90,28 @@ const AudioManager = new Vue({
     get (name) {
       return this.sounds?.find(sound => sound.name === name)
     },
-    play (name, params) {
+    load (name) {
+      const sound = this.get(name)
+
+      if (!sound) return
+
+      return sound.load()
+    },
+    async play (name, { duration } = {}) {
       !this.iosDebugged && this.debugIos()
 
-      this.get(name)
-        ?.play(params)
+      const sound = this.get(name)
+      if (!sound) return
+
+      if (!sound.loaded) await sound.load()
+      sound.play({ duration })
     },
-    pause (name, params) {
-      this.get(name)
-        ?.pause(params)
+    pause (name, { duration } = {}) {
+      const sound = this.get(name)
+
+      if (!sound) return
+
+      sound.pause({ duration })
     }
   }
 })

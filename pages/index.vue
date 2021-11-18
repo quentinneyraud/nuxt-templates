@@ -13,6 +13,10 @@
     </p>
 
     <p>
+      <ClientOnly v-if="$audio.get('ambient')">
+        <pre>{{ $audio.get('ambient').state }}</pre>
+      </ClientOnly>
+
       <button @click="ambientStart">
         ambient start
       </button>
@@ -22,9 +26,15 @@
       </button>
     </p>
 
-    <button v-audio:click>
-      Interaction
-    </button>
+    <p>
+      <ClientOnly v-if="$audio.get('click')">
+        <pre>{{ $audio.get('click').state }}</pre>
+      </ClientOnly>
+
+      <button v-audio:click>
+        Interaction
+      </button>
+    </p>
   </div>
 </template>
 
@@ -45,7 +55,7 @@ export default {
       url: click
     }])
 
-    this.$audio.loadAll()
+    this.$audio.load('ambient')
   },
   methods: {
     mute () {

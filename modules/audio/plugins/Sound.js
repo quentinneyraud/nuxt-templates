@@ -53,7 +53,11 @@ export default class Sound {
     this.loop = loop
     this.maxVolume = Math.min(maxVolume, 1)
 
-    this.loaded = false
+    this.state = {
+      loading: false,
+      loaded: false,
+      playing: false
+    }
     this.isMuted = false
 
     this.source = null
@@ -67,11 +71,14 @@ export default class Sound {
   }
 
   async load () {
-    try {
-      const { buffer } = await loadSound(this.audioContext, this.url)
-      this.loaded = true
-      this.buffer = buffer
-    } catch (_) {}
+    this.state.loading = true
+
+    const { buffer } = await loadSound(this.audioContext, this.url)
+    this.loaded = true
+    this.buffer = buffer
+
+    this.state.loading = false
+    this.state.loaded = true
   }
 
   createSource () {
@@ -81,22 +88,19 @@ export default class Sound {
     this.source.connect(this.gainNode)
   }
 
-  fadeUpVolume ({ duration = 0 } = {}) {
-    this.gainNode.gain.value = 0
-
-    this.stopVolumeAnimation?.()
-    const { stop } = animTo(this.gainNode.gain.value, this.maxVolume, duration, value => {
-      this.gainNode.gain.value = value
-    })
-
-    this.stopVolumeAnimation = stop
+  setVolume (volume) {
+    this.gainNode.gain.value = volume
   }
 
-  fadeDownVolume ({ duration = 0 } = {}) {
+  getVolume () {
+    return this.gainNode.gain.value
+  }
+
+  fadeVolumeTo ({ duration = 0, volume = 0 }) {
     this.stopVolumeAnimation?.()
 
-    const { stop, then } = animTo(this.gainNode.gain.value, 0, duration, value => {
-      this.gainNode.gain.value = value
+    const { stop, then } = animTo(this.gainNode.gain.value, volume, duration, value => {
+      this.setVolume(value)
     })
 
     this.stopVolumeAnimation = stop
@@ -108,38 +112,37 @@ export default class Sound {
     if (!this.loaded) return
 
     this.isMuted = true
-    this.fadeDownVolume({ duration })
+    this.fadeVolumeTo({ duration, volume: 0 })
   }
 
   unmute ({ duration } = {}) {
     if (!this.loaded) return
 
     this.isMuted = false
-    this.fadeUpVolume({ duration })
+    this.fadeVolumeTo({ duration, volume: this.maxVolume })
   }
 
-  play (params) {
+  play ({ duration } = {}) {
     if (!this.loaded) return
 
     try {
       this.source?.stop()
     } catch (_) {}
 
-    try {
-      this.createSource()
-      this.audioContext.resume()
-      this.source.start()
-      !this.isMuted && this.fadeUpVolume(params)
-    } catch (_) {}
+    this.state.playing = true
+
+    this.createSource()
+    this.audioContext.resume()
+    this.source.start()
+    !this.isMuted && this.fadeVolumeTo({ duration, volume: this.maxVolume })
   }
 
-  async pause (params) {
+  async pause ({ duration } = {}) {
     if (!this.loaded) return
 
-    await this.fadeDownVolume(params)
+    await this.fadeVolumeTo({ duration, volume: 0 })
 
-    try {
-      this.source.stop()
-    } catch (_) {}
+    this.source?.stop()
+    this.state.playing = false
   }
 }
