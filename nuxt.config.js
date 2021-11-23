@@ -21,6 +21,8 @@ export default {
   buildModules: [
     '@nuxtjs/eslint-module'
   ],
-  modules: [],
+  modules: [
+    '~/modules/pixel-perfect'
+  ],
   build: {}
 }
