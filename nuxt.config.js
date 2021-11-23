@@ -24,5 +24,16 @@ export default {
   modules: [
     '~/modules/pixel-perfect'
   ],
-  build: {}
+  build: {},
+
+  /**
+   *
+   * Pixel perfect module
+   *
+   */
+  pixelPerfect: {
+    images: [
+      'page_faq.png'
+    ]
+  }
 }

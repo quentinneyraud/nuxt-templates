@@ -4,7 +4,8 @@ import path from 'path'
 const MODULE_NAME = 'pixel-perfect'
 
 const DEFAULT_OPTIONS = {
-  force: false
+  force: false,
+  images: []
 }
 
 export default function (moduleOptions) {
