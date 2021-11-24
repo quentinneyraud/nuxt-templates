@@ -33,7 +33,13 @@ export default {
    */
   pixelPerfect: {
     images: [
-      'page_faq.png'
+      'page_about.png',
+      'page_cgv.png',
+      'page_contact.png',
+      'page_faq.png',
+      'page_legals.png',
+      'page_manifeste.png',
+      'page_press.png'
     ]
   }
 }
