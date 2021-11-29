@@ -9,7 +9,12 @@
     }"
   >
     <!-- Image -->
-    <img v-if="currentImageIndex !== null" class="PixelPerfect-currentImage" :style="{ opacity }" :src="require(`@/pixel-perfect/${currentImage}`)">
+    <img
+      v-if="currentImageIndex !== null"
+      class="PixelPerfect-currentImage"
+      :style="{ opacity }"
+      :src="require(`@/pixel-perfect/${currentImage.src}`)"
+    >
 
     <!-- Interface -->
     <div class="PixelPerfect-interface">
@@ -42,7 +47,7 @@
           >
             <img
               class="PixelPerfect-image"
-              :src="require(`@/pixel-perfect/${image}`)"
+              :src="require(`@/pixel-perfect/${image.src}`)"
             >
           </button>
         </div>
@@ -53,21 +58,36 @@
 
 <script>
 // Module options
-const options = JSON.parse('<%= JSON.stringify(options) %>')
+const options = JSON.parse('<%= JSON.stringify(options, (key, value) => value instanceof RegExp ? value.toString() : value) %>')
 
 export default {
   data () {
     return {
+      options,
       images: options.images,
       currentImageIndex: null,
       opacity: 0.5,
-      isEditMode: true,
+      isEditMode: false,
       editModeTimeoutId: null
     }
   },
   computed: {
     currentImage () {
       return this.images[this.currentImageIndex]
+    }
+  },
+  watch: {
+    $route () {
+      if (!this?.$route?.name || !options.changeOnNavigation) return
+
+      const imageIndex = this.images.findIndex(image => {
+        if (image.route === this.$route.name) return true
+      })
+
+      if (imageIndex >= 0) this.currentImageIndex = imageIndex
+    },
+    currentImageIndex () {
+      this.persistToLocaleStorage()
     }
   },
   mounted () {
@@ -148,7 +168,6 @@ export default {
     hideEditMode () {
       this.editModeTimeoutId && window.clearTimeout(this.editModeTimeoutId)
       this.isEditMode = false
-      this.persistToLocaleStorage()
     },
     updateOpacity (value) {
       this.opacity = Math.max(0, Math.min(1, this.opacity + value))

@@ -5,7 +5,9 @@ const MODULE_NAME = 'pixel-perfect'
 
 const DEFAULT_OPTIONS = {
   force: false,
-  images: []
+  images: [],
+  directory: 'pixel-perfect',
+  changeOnNavigation: false
 }
 
 export default function (moduleOptions) {
@@ -20,6 +22,9 @@ export default function (moduleOptions) {
     console.warn(`⚠️ [${MODULE_NAME}]: Module not enabled`)
     return
   }
+
+  options.changeOnNavigation = options.images.some(image => Object.prototype.hasOwnProperty.call(image, 'route'))
+  options.images = options.images.map(image => typeof image === 'string' ? { src: image } : image)
 
   // Component
   this.addPlugin({
