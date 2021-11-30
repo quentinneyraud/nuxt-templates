@@ -20,18 +20,17 @@ export default function (moduleOptions) {
     return
   }
 
-  // Plugin
+  // Component
   this.addPlugin({
     src: path.resolve(__dirname, 'components/index.js'),
-    fileName: path.join(MODULE_NAME, 'plugin.js'),
+    fileName: path.join(MODULE_NAME, 'components/plugin.js'),
     options,
     ssr: true
   })
 
-  // Utils
   this.addTemplate({
     src: path.resolve(__dirname, 'components/Debug.vue'),
-    fileName: path.join(MODULE_NAME, 'Debug.vue'),
+    fileName: path.join(MODULE_NAME, 'components/Debug.vue'),
     options
   })
 }
