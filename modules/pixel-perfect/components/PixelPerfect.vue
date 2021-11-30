@@ -60,6 +60,8 @@
 // Module options
 const options = JSON.parse('<%= JSON.stringify(options, (key, value) => value instanceof RegExp ? value.toString() : value) %>')
 
+const LOCAL_STORAGE_KEY = 'pixel-perfect'
+
 export default {
   data () {
     return {
@@ -178,13 +180,13 @@ export default {
      *
      */
     persistToLocaleStorage () {
-      window.localStorage.setItem('pixel-perfect', JSON.stringify({
+      window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify({
         opacity: this.opacity,
         imageIndex: this.currentImageIndex
       }))
     },
     getLocaleStorage () {
-      const localStorageValue = window.localStorage.getItem('pixel-perfect')
+      const localStorageValue = window.localStorage.getItem(LOCAL_STORAGE_KEY)
 
       if (!localStorageValue) return {}
 
