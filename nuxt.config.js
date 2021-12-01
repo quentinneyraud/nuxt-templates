@@ -31,7 +31,7 @@ export default {
    * Prismic module
    */
   prismic: {
-    endpoint: 'https://zorbagroup.cdn.prismic.io/api/v2'
+    endpoint: 'https://nuxt-templates.cdn.prismic.io/api/v2'
   },
 
   /**
@@ -42,15 +42,15 @@ export default {
     locales: [{
       code: 'en',
       iso: 'en',
-      prismicCode: 'en-pa'
+      prismicCode: 'en-en'
     }, {
       code: 'fr',
       iso: 'fr',
-      prismicCode: 'fr-pa'
+      prismicCode: 'fr-fr'
     }],
-    defaultLocale: 'en',
+    defaultLocale: 'fr',
     vueI18n: {
-      fallbackLocale: 'en'
+      fallbackLocale: 'fr'
     }
   }
 }

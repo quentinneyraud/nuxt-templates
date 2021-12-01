@@ -3,14 +3,13 @@ import '../middlewares/index'
 import Vue from 'vue'
 import { getTranslations } from '../utils/api'
 
-const options = JSON.parse('<%= JSON.stringify(options).replace(/\'/g, "a") %>')
+const options = JSON.parse('<%= JSON.stringify(options) %>')
 
 const prismicTranslations = new Vue({
   data () {
     return {
       translations: [],
-      locale: options.defaultLocale,
-      defaultLocale: options.defaultLocale
+      locale: null
     }
   },
   computed: {
@@ -63,9 +62,11 @@ export default (ctx, inject) => {
   inject('prismicTranslations', prismicTranslations)
   inject('pt', prismicTranslations.getTranslation)
 
-  prismicTranslations.setLocale(ctx.app.i18n.localeProperties.prismicCode)
-
-  ctx.app.i18n.onLanguageSwitched = _ => {
+  if (ctx.app.i18n) {
     prismicTranslations.setLocale(ctx.app.i18n.localeProperties.prismicCode)
+
+    ctx.app.i18n.onLanguageSwitched = _ => {
+      prismicTranslations.setLocale(ctx.app.i18n.localeProperties.prismicCode)
+    }
   }
 }

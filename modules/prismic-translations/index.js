@@ -14,7 +14,7 @@ const isModuleInstalled = moduleName => {
   let path
 
   try {
-    path = require.resolve(moduleName)
+    path = !!require.resolve(moduleName)
   } catch (_) {
     return false
   }
@@ -35,7 +35,7 @@ export default async function (moduleOptions) {
     ...this.options[MODULE_NAME],
     ...this.options.prismicTranslations,
     ...moduleOptions,
-    warnMissingKey: this.options.dev && process.env.NODE_ENV === 'development',
+    warnMissingKey: this.options.dev,
     MODULE_NAME
   }
 
