@@ -94,7 +94,7 @@ const getRaf = _ => ({
   onTick () {
     const currentTime = new Date().getTime()
 
-    Events.$emit('raf', {
+    Events.$emit('tick', {
       options: this.options,
       time: currentTime - this.startTime,
       deltaTime: currentTime - this.lastTime
@@ -111,7 +111,7 @@ const getRaf = _ => ({
  * GSAP ticker
  *
  */
-const getGsapRaf = _ => ({
+const getGsapTicker = _ => ({
   gsap: null,
   options: {},
   init (options = {}) {
@@ -126,7 +126,7 @@ const getGsapRaf = _ => ({
     this.gsap.ticker.add(this.onTick)
   },
   onTick (time, deltaTime, frame, elapsed) {
-    Events.$emit('raf', {
+    Events.$emit('tick', {
       options: this.options,
       time,
       deltaTime,
@@ -231,14 +231,13 @@ options.events.forEach(event => {
 
     break
 
-  case 'raf':
+  case 'ticker':
 
-    (options.isGsapInstalled ? getGsapRaf() : getRaf())
+    (options.isGsapInstalled ? getGsapTicker() : getRaf())
       .init(formattedEvent.options)
       .start()
 
-    Events.raf.active = true
-    console.log('ok')
+    Events.ticker.active = true
 
     break
 

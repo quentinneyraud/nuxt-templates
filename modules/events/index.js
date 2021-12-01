@@ -10,7 +10,7 @@ const isModuleInstalled = moduleName => {
   let path
 
   try {
-    path = require.resolve(moduleName)
+    path = !!require.resolve(moduleName)
   } catch (_) {
     return false
   }
