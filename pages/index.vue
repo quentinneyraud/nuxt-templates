@@ -1,5 +1,12 @@
 <template>
-  <div />
+  <div>
+    <p v-if="$breakpoints.gtSmall">
+      gtTablet
+    </p>
+    <p v-else>
+      else
+    </p>
+  </div>
 </template>
 
 <script>
