@@ -19,7 +19,7 @@
 export default {
   async asyncData ({ app }) {
     try {
-      const doc = await app.$api.testPage()
+      const doc = await app.$api.getTestPage()
 
       return { doc }
     } catch (err) {

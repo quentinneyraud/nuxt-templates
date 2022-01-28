@@ -6,7 +6,7 @@ export default app => async _ => {
 
     const formatted = {}
 
-    formatted.title = Formatter.formatRichText(document.data.title) + 'CCC'
+    formatted.title = Formatter.formatRichText(document.data.title)
     formatted.richtext = Formatter.formatRichText(document.data.richtext)
     formatted.image = Formatter.formatImage(document.data.image)
     formatted.content_relationship = document.data.content_relationship

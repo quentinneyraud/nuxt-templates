@@ -1215,14 +1215,14 @@
     eslint-loader "^4.0.2"
 
 "@nuxtjs/prismic@^1.3.1":
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/prismic/-/prismic-1.3.1.tgz#3d803f2e66d9f1e36899af1ee2d519edec105ff8"
-  integrity sha512-U8L7lCpzdOz38gtdvavlYZKLPBW42s3KjeG0ucSGZFHW+Zr19u8EHoY64x9c+E45e83AwhedYAR0T4JsBW9f4A==
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/prismic/-/prismic-1.4.0.tgz#c6288ac63ceb7d3dd1026095ca6a18a553a70c54"
+  integrity sha512-+jJoKTzcxM7Y/H5R9u9QJ7F9X9xvWrsoJbMPUBtbIlPNFs9Wg0QsFgbhzJE69eLCepiMzypDqcXsqolErx997w==
   dependencies:
-    "@prismicio/client" "^4.0.0"
-    "@prismicio/vue" "^2.0.11"
+    "@prismicio/client" "^4.0.0 || ^5.1.0"
+    "@prismicio/vue" "^2.1.0"
     consola "^2.15.3"
-    prismic-dom "^2.2.5"
+    prismic-dom "^2.2.6"
 
 "@nuxtjs/youch@^4.2.3":
   version "4.2.3"
@@ -1233,27 +1233,27 @@
     mustache "^2.3.0"
     stack-trace "0.0.10"
 
-"@prismicio/client@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@prismicio/client/-/client-4.0.0.tgz#45e5e8651b72b747ce4e21db04eae0b96139615a"
-  integrity sha512-3rGie+Banm61hOQcKF75+TI8oquVDT2PyX05ho2eRKdiMu0i4raHVJCuIAGBs/CDCuVXes2h/rnfRs+eKfq7XQ==
+"@prismicio/client@^4.0.0 || ^5.1.0":
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/@prismicio/client/-/client-5.1.1.tgz#5aa51c3efcd7fc57a08e729814f16d5cc2755d1c"
+  integrity sha512-0wtQrPZCATBmgLklQYgjSrmz3YtMP+5lHakv30MUVyUez2LVoukhVJWTj1uXwsOz2Yh2xLkAp+PHqTOiUvaM/Q==
   dependencies:
     cross-fetch "^3.0.6"
 
 "@prismicio/helpers@^1.0.4":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@prismicio/helpers/-/helpers-1.0.5.tgz#2be60a1b44e6c33d7918fa74fe67648dc8af0c15"
-  integrity sha512-TPpuAFHNxlCTrEihHnRKcq6zc0oZV0sfz5/iHoSpl5vorwPbwZWiF88JGeflNdefW4A69b5A3x3mfptKPdpoxg==
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@prismicio/helpers/-/helpers-1.1.1.tgz#aa95773a7c9ee2aea7cc81ebd591d5aef83ad6f7"
+  integrity sha512-ZwOUAZeV7P7bxfkyfZN6inzXOBbgojJUzOpqrF5/4bv8TgZ43x4p5NCqyOS7wieQf5BM9h2r4AFW0QTpeR581w==
 
 "@prismicio/richtext@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@prismicio/richtext/-/richtext-1.1.0.tgz#c8769c3d953ae42854a2aba951e3b2121682b8c7"
   integrity sha512-925JuFiZiIkwu9jmlR9O/U8xCSZk/Y6BQDXKpavoVsKo+n90ml1hGdtWkglIupX+ITQO1ZINyDgUgiY1oG9dsA==
 
-"@prismicio/vue@^2.0.11":
-  version "2.0.11"
-  resolved "https://registry.yarnpkg.com/@prismicio/vue/-/vue-2.0.11.tgz#03e10b2badbd897448bb48079cdf38b678dc0103"
-  integrity sha512-GVphn9svLs2Lu+FR9XACGPPxXOS3lNoOH15xOMJnKB9Yfj6BiMpzWNwsNUqB1EFOYw8kjqUSNfHqhMvloJW6oQ==
+"@prismicio/vue@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@prismicio/vue/-/vue-2.1.0.tgz#9e480f0f6714e6c9b60e7105e02c0506817391f7"
+  integrity sha512-9lc0x02ZsMD7KdyRikGLXVuEPnVSLGpEo24AcTnf9KiVBBYLPNx/lxESNr9gvLg0z77bs9ivu5BTBt67acEcGQ==
 
 "@qneyraud/eslint-config@^1.0.7":
   version "1.0.7"
@@ -2771,11 +2771,11 @@ create-require@^1.1.0, create-require@^1.1.1:
   integrity sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==
 
 cross-fetch@^3.0.6:
-  version "3.1.4"
-  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.1.4.tgz#9723f3a3a247bf8b89039f3a380a9244e8fa2f39"
-  integrity sha512-1eAtFWdIubi6T4XPy6ei9iUFoKpUkIF971QLN8lIvvvwueI65+Nw5haMNKUwfJxabqlIIDODJKGrQ66gxC0PbQ==
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.1.5.tgz#e1389f44d9e7ba767907f7af8454787952ab534f"
+  integrity sha512-lvb1SBsI0Z7GDwmuid+mU3kWVBwTVUbe7S0H52yaaAdQOXq2YktTCZdlAcNKFzE6QtRz0snpw9bNiPeOIkkQvw==
   dependencies:
-    node-fetch "2.6.1"
+    node-fetch "2.6.7"
 
 cross-spawn@^7.0.0, cross-spawn@^7.0.2:
   version "7.0.3"
@@ -5555,7 +5555,14 @@ no-case@^3.0.4:
     lower-case "^2.0.2"
     tslib "^2.0.3"
 
-node-fetch@2.6.1, node-fetch@^2.6.1:
+node-fetch@2.6.7:
+  version "2.6.7"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.7.tgz#24de9fba827e3b4ae44dc8b20256a379160052ad"
+  integrity sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==
+  dependencies:
+    whatwg-url "^5.0.0"
+
+node-fetch@^2.6.1:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
   integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
@@ -6815,10 +6822,10 @@ pretty-time@^1.1.0:
   resolved "https://registry.yarnpkg.com/pretty-time/-/pretty-time-1.1.0.tgz#ffb7429afabb8535c346a34e41873adf3d74dd0e"
   integrity sha512-28iF6xPQrP8Oa6uxE6a1biz+lWeTOAPKggvjB8HAs6nVMKZwf5bG++632Dx614hIWgUPkgivRfG+a8uAXGTIbA==
 
-prismic-dom@^2.2.5:
-  version "2.2.5"
-  resolved "https://registry.yarnpkg.com/prismic-dom/-/prismic-dom-2.2.5.tgz#0aaa41c436d95c0126af971a053d2ef803b7937b"
-  integrity sha512-GafsY6sGet5EAWNG2w/qXaxgitU74yhEu/0vZEnwOt6PJgCClLmMkDzJHBpdl+wuEWqUhvkFMDUFPHSPwSVmKQ==
+prismic-dom@^2.2.6:
+  version "2.2.7"
+  resolved "https://registry.yarnpkg.com/prismic-dom/-/prismic-dom-2.2.7.tgz#a4d36cc4fc92b84f8b46e5a515513c07b5f2f43e"
+  integrity sha512-4rJWzBqq/6h15giAzB6L8+eaWLQJrQcM4EAicmtw3mI8DhussbJOgheTeFtTCgvO7e5QEjZA0he5gEbQYfKGmg==
   dependencies:
     "@prismicio/helpers" "^1.0.4"
     "@prismicio/richtext" "^1.1.0"
@@ -8043,6 +8050,11 @@ toidentifier@1.0.0:
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.0.tgz#7e1be3470f1e77948bc43d94a3c8f4d7752ba553"
   integrity sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==
 
+tr46@~0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/tr46/-/tr46-0.0.3.tgz#8184fd347dac9cdc185992f3a6622e14b9d9ab6a"
+  integrity sha1-gYT9NH2snNwYWZLzpmIuFLnZq2o=
+
 tryer@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/tryer/-/tryer-1.0.1.tgz#f2c85406800b9b0f74c9f7465b81eaad241252f8"
@@ -8464,6 +8476,11 @@ watchpack@^1.7.4:
     chokidar "^3.4.1"
     watchpack-chokidar2 "^2.0.1"
 
+webidl-conversions@^3.0.0:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-3.0.1.tgz#24534275e2a7bc6be7bc86611cc16ae0a5654871"
+  integrity sha1-JFNCdeKnvGvnvIZhHMFq4KVlSHE=
+
 webpack-bundle-analyzer@^3.9.0:
   version "3.9.0"
   resolved "https://registry.yarnpkg.com/webpack-bundle-analyzer/-/webpack-bundle-analyzer-3.9.0.tgz#f6f94db108fb574e415ad313de41a2707d33ef3c"
@@ -8580,6 +8597,14 @@ webpackbar@^4.0.0:
     std-env "^2.2.1"
     text-table "^0.2.0"
     wrap-ansi "^6.0.0"
+
+whatwg-url@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/whatwg-url/-/whatwg-url-5.0.0.tgz#966454e8765462e37644d3626f6742ce8b70965d"
+  integrity sha1-lmRU6HZUYuN2RNNib2dCzotwll0=
+  dependencies:
+    tr46 "~0.0.3"
+    webidl-conversions "^3.0.0"
 
 which-typed-array@^1.1.2:
   version "1.1.2"

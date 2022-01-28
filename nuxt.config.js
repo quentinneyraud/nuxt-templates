@@ -16,13 +16,14 @@ export default {
     ]
   },
   css: [],
-  plugins: [],
+  plugins: [
+    '~/plugins/api'
+  ],
   components: true,
   buildModules: [
     '@nuxtjs/eslint-module'
   ],
   modules: [
-    '~/modules/prismic-api',
     '@nuxtjs/prismic'
   ],
   build: {},
