@@ -1,16 +1,20 @@
 <template>
   <div class="home">
-    <div class="side">
-      <h1 class="side-title">
-        Raw
-      </h1>
-      <pre>{{ doc.raw }}</pre>
-    </div>
-    <div class="side">
-      <h1 class="side-title">
-        Formatted
-      </h1>
-      <pre>{{ doc.formatted }}</pre>
+    <div
+      v-for="(element, elementIndex) in elements"
+      :key="elementIndex"
+      class="element"
+    >
+      <h2>{{ element.name }}</h2>
+
+      <div class="sides">
+        <div class="side">
+          <pre>{{ element.raw }}</pre>
+        </div>
+        <div class="side">
+          <pre>{{ element.formatted }}</pre>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -19,16 +23,16 @@
 export default {
   async asyncData ({ app }) {
     try {
-      const doc = await app.$api.getTestPage()
+      const { elements } = await app.$api.getTestPage()
 
-      return { doc }
+      return { elements }
     } catch (err) {
       console.log('err:', err)
     }
   },
   data () {
     return {
-      doc: null
+      elements: []
     }
   },
   mounted () {
@@ -43,14 +47,23 @@ html, body {
   padding: 0;
 }
 
-.home {
+.sides {
   display: flex;
-  flex-wrap: nowrap;
-  width: 100%;
 }
 
 .side {
   flex: 0 0 50%;
   overflow: auto;
+  background-color: rgb(36, 36, 36);
+}
+
+.side:nth-child(2) {
+  border-left: 1px solid white;
+}
+
+.side pre {
+  padding: 25px;
+  white-space: pre-wrap;
+  color: white;
 }
 </style>

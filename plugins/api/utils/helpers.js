@@ -52,3 +52,13 @@ export const minMaxArray = (arr = [], min = 0, max = min, ignoreMax = false) => 
     .flat()
     .slice(0, ignoreMax ? undefined : max)
 }
+
+export const isEmptyObject = obj => obj && Object.keys(obj).length === 0
+
+export const filterObjectKeys = (object, keys) =>
+  keys.reduce((acc, key) => {
+    acc[key] = object[key]
+    return acc
+  }, {})
+
+export const toArrayIfNeeded = maybeArray => (maybeArray && !Array.isArray(maybeArray)) ? [maybeArray] : maybeArray
