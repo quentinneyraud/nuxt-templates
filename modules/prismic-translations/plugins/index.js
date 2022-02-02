@@ -3,7 +3,8 @@ import '../middlewares/index'
 import Vue from 'vue'
 import { getTranslations } from '../utils/api'
 
-const options = JSON.parse('<%= JSON.stringify(options) %>')
+// eslint-disable-next-line quotes
+const options = JSON.parse(`<%= JSON.stringify(options) %>`)
 
 const prismicTranslations = new Vue({
   data () {
