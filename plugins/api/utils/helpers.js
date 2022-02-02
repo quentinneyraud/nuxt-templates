@@ -55,10 +55,18 @@ export const minMaxArray = (arr = [], min = 0, max = min, ignoreMax = false) => 
 
 export const isEmptyObject = obj => obj && Object.keys(obj).length === 0
 
-export const filterObjectKeys = (object, keys) =>
-  keys.reduce((acc, key) => {
+// Return a new object with only keys parameter from object parameter
+export const filterObjectKeys = (object, keys) => {
+  if (!keys) return object
+
+  return keys.reduce((acc, key) => {
     acc[key] = object[key]
     return acc
   }, {})
+}
 
+// Transform value to array if maybeArray exists and is not an array
 export const toArrayIfNeeded = maybeArray => (maybeArray && !Array.isArray(maybeArray)) ? [maybeArray] : maybeArray
+
+// Strip HTML tags
+export const stripTags = string => string?.replace(/(<([^>]+)>)/gi, '')

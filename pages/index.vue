@@ -2,10 +2,13 @@
   <div class="home">
     <div
       v-for="(element, elementIndex) in elements"
+      :id="element.hash"
       :key="elementIndex"
       class="element"
     >
-      <h2>{{ element.name }}</h2>
+      <NuxtLink :to="{ path: '/',hash: element.hash}">
+        <h2>{{ element.name }}</h2>
+      </NuxtLink>
 
       <div class="sides">
         <div class="side">

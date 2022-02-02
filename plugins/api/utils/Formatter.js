@@ -1,8 +1,18 @@
-import { hasKey, isEmptyObject, filterObjectKeys, toArrayIfNeeded } from './helpers'
+import { hasKey, isEmptyObject, filterObjectKeys, toArrayIfNeeded, stripTags } from './helpers'
 
 class Formatter {
   setPrismic (prismic) {
     this.$prismic = prismic
+  }
+
+  /**
+   *
+   * Fields
+   *
+   */
+
+  formatTitle (title) {
+    return this.formatRichText(title)
   }
 
   formatRichText (text, removeWrappingPTag = false) {
@@ -66,7 +76,6 @@ class Formatter {
     }
   }
 
-  // available fields : id, type, tags, slug, lang, first_publication_date, last_publication_date, link_type, isBroken
   formatRelationship (relationship, { validTypes, fields = ['id', 'type', 'slug', 'lang', 'link_type'] } = {}) {
     validTypes = toArrayIfNeeded(validTypes)
 
@@ -85,7 +94,6 @@ class Formatter {
     return link
   }
 
-  // available fields : link_type, name, kind, url, size, height, width
   formatLinkToMedia (mediaLink, { validKinds, validExtensions, fields = ['link_type', 'name', 'url'] } = {}) {
     validKinds = toArrayIfNeeded(validKinds)
     validExtensions = toArrayIfNeeded(validExtensions)
@@ -147,36 +155,43 @@ class Formatter {
     return valueMapping ? valueMapping[selectValue] : selectValue
   }
 
-  formatEmbed (embed, fields) {
-    if (!embed || Object.keys(embed).length === 0) return undefined
+  formatEmbed (embed, { fields = ['provider_name', 'title', 'video_id', 'thumbnail_url', 'embed_url'] } = {}) {
+    if (!embed || isEmptyObject(embed)) return undefined
 
     if (embed.provider_name === 'Vimeo') {
-      embed = {
-        type: embed.provider_name,
-        customControlsAvailable: true,
-        id: embed.video_id?.toString(),
-        title: embed.title,
-        width: embed.width,
-        height: embed.height,
-        duration: embed.duration,
-        description: embed.description,
-        thumbnail: {
-          url: embed.thumbnail_url,
-          width: embed.thumbnail_width,
-          height: embed.thumbnail_height
-        }
-      }
-    }
+      const customControlsAvailable = embed.account_type && embed.account_type !== 'basic'
 
-    // if (fields) {
-    //   embed = filterObj(fields, embed)
-    // }
+      return {
+        ...filterObjectKeys(embed, fields),
+        customControlsAvailable
+      }
+    } else if (embed.provider_name === 'YouTube') {
+      return filterObjectKeys(embed, fields)
+    } else if (embed.provider_name === 'website') {
+      return filterObjectKeys(embed, fields)
+    }
 
     return embed
   }
 
-  stripTags (string) {
-    return string.replace(/(<([^>]+)>)/gi, '')
+  formatGeopoint (geopoint) {
+    if (!geopoint || isEmptyObject(geopoint)) return undefined
+
+    return geopoint
+  }
+
+  /**
+   *
+   * Special Groups
+   *
+   */
+
+  formatSeo (seoGroup, { defaults } = {}) {
+    return {
+      title: this.formatKeyText(seoGroup?.seo_title) || defaults?.title,
+      description: this.formatKeyText(seoGroup?.seo_description) || stripTags(defaults?.description),
+      image: (this.formatImage(seoGroup?.seo_image) || defaults?.image)?.url
+    }
   }
 }
 
