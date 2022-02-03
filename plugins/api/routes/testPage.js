@@ -30,9 +30,7 @@ export default app => async _ => {
           image: Formatter.formatImage(image, {
             includeDimensions: true
           }),
-          image_responsive: Formatter.formatImage(image_responsive, {
-            includeDimensions: true
-          })
+          image_responsive: Formatter.formatImage(image_responsive, { views: ['Footer', 'defaultView'] })
         }))
     })
 

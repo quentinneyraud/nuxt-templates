@@ -15,7 +15,7 @@ class Formatter {
     return this.formatRichText(title)
   }
 
-  formatRichText (text, removeWrappingPTag = false) {
+  formatRichText (text, { removeWrappingPTag = false } = {}) {
     if (!text || text.length === 0) return undefined
 
     let html = this.$prismic.asHtml(text)
@@ -29,11 +29,10 @@ class Formatter {
     return html
   }
 
-  formatImage (image, { views: requiredViews, includeDimensions = true } = {}) {
+  formatImage (image, { views: requiredViews, includeDimensions = false } = {}) {
     if (!image || isEmptyObject(image) || Object.values(image).every(imageFormat => isEmptyObject(imageFormat))) return undefined
 
-    // Transform responsiveViewsIncluded to array if exists
-    if (requiredViews && !Array.isArray(requiredViews)) requiredViews = [requiredViews]
+    requiredViews = toArrayIfNeeded(requiredViews)
 
     // Extract responsive views and create defaultView
     const { dimensions, alt, copyright: _, url, ...responsiveViews } = image
@@ -71,8 +70,7 @@ class Formatter {
 
     return {
       ...defaultView,
-      ...(Object.keys(filteredResponsiveViews).length === 1 ? filteredResponsiveViews[Object.keys(filteredResponsiveViews)[0]] : {}),
-      ...(Object.keys(filteredResponsiveViews).length > 1 ? filteredResponsiveViews : {})
+      ...filteredResponsiveViews
     }
   }
 
