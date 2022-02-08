@@ -16,7 +16,7 @@
       }"
       class="square lerped"
     >
-      normal
+      lerped
     </div>
   </div>
 </template>
@@ -37,17 +37,17 @@ export default {}
   border: 3px solid #000;
   top: 150vh;
 
-  transform: translate3d(calc(var(--lerped-progress) * 100vw), 0px, 0px) rotate(calc(var(--lerped-progress) * 360deg));
+  transform: translate3d(calc(var(--lsbp) * 100vw), 0px, 0px) rotate(calc(var(--lsbp) * 360deg));
   will-change: transform;
 }
 
 .normal {
   left: 20vw;
-  transform: translate3d(calc(var(--current-progress) * 10vw), 0px, 0px) rotate(calc(var(--current-progress) * 360deg));
+  transform: translate3d(calc(var(--sbp) * 10vw), 0px, 0px) rotate(calc(var(--sbp) * 360deg));
 }
 
 .lerped {
   left: 70vw;
-  transform: translate3d(calc(var(--lerped-progress) * 10vw), 0px, 0px) rotate(calc(var(--lerped-progress) * 360deg));
+  transform: translate3d(calc(var(--lsbp) * 10vw), 0px, 0px) rotate(calc(var(--lsbp) * 360deg));
 }
 </style>
