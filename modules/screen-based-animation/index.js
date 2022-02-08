@@ -10,8 +10,10 @@ const DEFAULT_OPTIONS = {
     callback: null,
     timeline: null,
     cssVars: false,
-    datasetAttributes: false,
-    lerpRatio: 0.1
+    lerped: true,
+    lerpRatio: 0.1,
+    normalized: true,
+    observerMargins: 100
   }
 }
 

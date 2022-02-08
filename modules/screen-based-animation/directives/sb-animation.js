@@ -10,7 +10,7 @@ const lerp = (value, target, coeff) => {
 class ScreenBased {
   constructor (el, options, context) {
     this.el = el
-    this.ref = this.el.querySelector('[data-watch]') || this.el
+    this.ref = this.el.querySelector('[data-watch]') || options.el || this.el
 
     this.options = Object.assign({}, MODULE_OPTIONS.directiveOptions, options)
     this.context = context
@@ -46,7 +46,7 @@ class ScreenBased {
       this.handleIntersect,
       {
         threshold: 0,
-        rootMargin: '100px 0px 100px 0px'
+        rootMargin: `${this.options.observerMargins}px 0px ${this.options.observerMargins}px 0px`
       }
     )
   }
@@ -88,19 +88,18 @@ class ScreenBased {
 
   onTick () {
     this.progress.current = this.getProgress()
-    this.progress.lerped = lerp(this.progress.lerped, this.progress.current, this.options.lerpRatio)
+    if (this.options.lerped) this.progress.lerped = lerp(this.progress.lerped, this.progress.current, this.options.lerpRatio)
 
-    this.nProgress.current = this.progress.current * 2 - 1
-    this.nProgress.lerped = this.progress.lerped * 2 - 1
+    if (this.options.normalized) this.nProgress.current = this.progress.current * 2 - 1
+    if (this.options.normalized && this.options.lerped) this.nProgress.lerped = this.progress.lerped * 2 - 1
 
     if (this.options.cssVars) this.setCssVars()
-    if (this.options.datasetAttributes) this.setDatasetAttributes()
 
     this.options?.callback?.({
       current: this.progress.current,
-      lerped: this.progress.lerped,
-      nCurrent: this.nProgress.current,
-      nLerped: this.nProgress.lerped
+      lerped: this.options.lerped ? this.progress.lerped : undefined,
+      nCurrent: this.options.normalized ? this.nProgress.current : undefined,
+      nLerped: this.options.lerped && this.options.normalized ? this.nProgress.lerped : undefined
     })
 
     this.options?.timeline?.progress(this.progress.current)
@@ -108,23 +107,15 @@ class ScreenBased {
 
   getProgress () {
     const { top, height } = this.ref.getBoundingClientRect()
-    return (top + height) / (window.innerHeight + height)
+    return Math.min(Math.max((top + height) / (window.innerHeight + height), this.options.clamp ? 0 : undefined), this.options.clamp ? 1 : undefined)
   }
 
   setCssVars () {
     this.el.style.setProperty('--sbp', this.progress.current)
-    this.el.style.setProperty('--lsbp', this.progress.lerped)
+    if (this.options.lerped) this.el.style.setProperty('--lsbp', this.progress.lerped)
 
-    this.el.style.setProperty('--sbpn', this.nProgress.current)
-    this.el.style.setProperty('--lsbpn', this.nProgress.lerped)
-  }
-
-  setDatasetAttributes () {
-    this.el.dataset.sbp = this.progress.current
-    this.el.dataset.lsbp = this.progress.lerped
-
-    this.el.dataset.sbpn = this.nProgress.current
-    this.el.dataset.lsbpn = this.nProgress.lerped
+    if (this.options.normalized) this.el.style.setProperty('--sbpn', this.nProgress.current)
+    if (this.options.normalized && this.options.lerped) this.el.style.setProperty('--lsbpn', this.nProgress.lerped)
   }
 }
 
