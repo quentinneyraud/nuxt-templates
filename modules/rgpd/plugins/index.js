@@ -14,6 +14,8 @@ export default (ctx, inject) => {
     },
     methods: {
       init (services) {
+        if (options.deleteCookieOnInit) Cookies.remove(options.cookieName)
+
         this.getCookie()
         this.registerServices(services)
 
@@ -56,11 +58,20 @@ export default (ctx, inject) => {
             return service
           })
       },
+      openPopup () {
+        this.$rgpd.$emit('open-popup')
+      },
+      resetAll () {
+        this.services.forEach(this.reset)
+      },
       enableAll () {
         this.services.forEach(this.enable)
       },
       disableAll () {
         this.services.forEach(this.disable)
+      },
+      reset (service) {
+        service.enabled = service.default || false
       },
       enable (service) {
         service.enabled = true

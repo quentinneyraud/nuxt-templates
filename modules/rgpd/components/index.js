@@ -1,4 +1,6 @@
 import Vue from 'vue'
-import Rgpd from './Rgpd.vue'
+import RgpdBanner from './RgpdBanner.vue'
+import RgpdPopup from './RgpdPopup.vue'
 
-Vue.component('Rgpd', Rgpd)
+Vue.component('RgpdBanner', RgpdBanner)
+Vue.component('RgpdPopup', RgpdPopup)

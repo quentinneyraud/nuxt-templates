@@ -2,28 +2,15 @@ import path from 'path'
 
 const MODULE_NAME = 'rgpd'
 
-const DEFAULT_OPTIONS = {
-  debug: false,
-  cookieName: 'RGPD_COOKIES',
-  cookieExpiresAfterDays: 90,
-  lang: 'fr',
-  defaultLang: 'fr',
-  translations: [{
-    lang: 'fr',
-    detailsTitle: 'Les informations que nous collectons',
-    detailsDescription: 'Ici, vous pouvez voir et personnaliser les informations que nous collectons sur vous',
-    noticeText: 'En poursuivant votre navigation sur ce site, vous acceptez l’utilisation de cookies utilisés pour réaliser des statistiques de visites.',
-    accept: 'Accepter',
-    acceptAll: 'Tout accepter',
-    refuse: 'Refuser',
-    refuseAll: 'Tout refuser',
-    save: 'Sauvegarder',
-    openDetails: 'Personnaliser'
-  }],
-  services: []
-}
-
 export default function (moduleOptions) {
+  const DEFAULT_OPTIONS = {
+    debug: this.options.dev || process.env.NODE_ENV === 'development',
+    cookieVersion: '1',
+    cookieName: 'RGPD_COOKIES',
+    cookieExpiresAfterDays: 90,
+    deleteCookieOnInit: this.options.dev || process.env.NODE_ENV === 'development'
+  }
+
   const options = {
     ...DEFAULT_OPTIONS,
     ...this.options.rgpd,
@@ -31,16 +18,24 @@ export default function (moduleOptions) {
     MODULE_NAME
   }
 
-  // Component
+  // Components
   this.addPlugin({
     src: path.resolve(__dirname, 'components/index.js'),
     fileName: path.join(MODULE_NAME, 'components/index.js'),
     options,
     ssr: true
   })
+
   this.addTemplate({
-    src: path.resolve(__dirname, 'components/Rgpd.vue'),
-    fileName: path.join(MODULE_NAME, 'components/Rgpd.vue'),
+    src: path.resolve(__dirname, 'components/RgpdBanner.vue'),
+    fileName: path.join(MODULE_NAME, 'components/RgpdBanner.vue'),
+    options,
+    ssr: true
+  })
+
+  this.addTemplate({
+    src: path.resolve(__dirname, 'components/RgpdPopup.vue'),
+    fileName: path.join(MODULE_NAME, 'components/RgpdPopup.vue'),
     options,
     ssr: true
   })
