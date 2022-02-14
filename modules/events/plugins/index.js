@@ -29,13 +29,19 @@ const Events = new Vue({
       resize: {
         active: false
       },
-      raf: {
+      resizeDebounced: {
+        active: false
+      },
+      tick: {
         active: false
       },
       visibility: {
         active: false
       },
       orientation: {
+        active: false
+      },
+      mousemove: {
         active: false
       }
     }
@@ -48,12 +54,32 @@ const Events = new Vue({
  *
  */
 const getResize = _ => ({
-  options: {},
-  init (options = {}) {
+  init () {
     this.onResize = this.onResize.bind(this)
 
-    this.options = options
-    this.callback = (this.options.debounce) ? debounce(this.onResize, this.options.debounce || 300) : this.onResize
+    return this
+  },
+  start () {
+    window.addEventListener('resize', this.onResize)
+  },
+  onResize () {
+    this.emitEvent()
+  },
+  emitEvent () {
+    Events.$emit('resize')
+  }
+})
+
+/**
+ *
+ * Resize debounced
+ *
+ */
+const getResizeDebounced = _ => ({
+  init () {
+    this.onResize = this.onResize.bind(this)
+
+    this.callback = debounce(this.onResize, 300)
 
     return this
   },
@@ -64,11 +90,7 @@ const getResize = _ => ({
     this.emitEvent()
   },
   emitEvent () {
-    const eventName = this.options?.name || 'resize'
-
-    Events.$emit(eventName, {
-      options: this.options
-    })
+    Events.$emit('resize-debounced')
   }
 })
 
@@ -80,9 +102,7 @@ const getResize = _ => ({
 const getRaf = _ => ({
   startTime: null,
   lastTime: null,
-  options: {},
-  init (options = {}) {
-    this.options = options
+  init () {
     this.onTick = this.onTick.bind(this)
 
     return this
@@ -95,7 +115,6 @@ const getRaf = _ => ({
     const currentTime = new Date().getTime()
 
     Events.$emit('tick', {
-      options: this.options,
       time: currentTime - this.startTime,
       deltaTime: currentTime - this.lastTime
     })
@@ -113,10 +132,9 @@ const getRaf = _ => ({
  */
 const getGsapTicker = _ => ({
   gsap: null,
-  options: {},
-  init (options = {}) {
-    this.options = options
+  init () {
     this.onTick = this.onTick.bind(this)
+
     // eslint-disable-next-line no-undef
     this.gsap = require('gsap').default
 
@@ -127,7 +145,6 @@ const getGsapTicker = _ => ({
   },
   onTick (time, deltaTime, frame, elapsed) {
     Events.$emit('tick', {
-      options: this.options,
       time,
       deltaTime,
       frame,
@@ -142,10 +159,7 @@ const getGsapTicker = _ => ({
  *
  */
 const getVisibility = _ => ({
-  options: {},
-  init (options = {}) {
-    this.options = options
-
+  init () {
     this.onVisibilityChanged = this.onVisibilityChanged.bind(this)
 
     return this
@@ -157,20 +171,13 @@ const getVisibility = _ => ({
     const hasFocus = !document.hidden
 
     Events.$emit('visibility', {
-      options: this.options,
       hasFocus
     })
 
     if (hasFocus) {
-      Events.$emit('visibility:focus', {
-        options: this.options,
-        hasFocus
-      })
+      Events.$emit('visibility:focus')
     } else {
-      Events.$emit('visibility:blur', {
-        options: this.options,
-        hasFocus
-      })
+      Events.$emit('visibility:blur')
     }
   }
 })
@@ -181,10 +188,7 @@ const getVisibility = _ => ({
  *
  */
 const getOrientation = _ => ({
-  options: {},
-  init (options = {}) {
-    this.options = options
-
+  init () {
     this.onOrientation = this.onOrientationChanged.bind(this)
 
     return this
@@ -196,14 +200,29 @@ const getOrientation = _ => ({
     const orientation = (window.orientation === 90 || window.orientation === -90) ? 'landscape' : 'portrait'
 
     Events.$emit('orientation', {
-      options: this.options,
       orientation
     })
 
-    Events.$emit(`orientation:${orientation}`, {
-      options: this.options,
-      orientation
-    })
+    Events.$emit(`orientation:${orientation}`)
+  }
+})
+
+/**
+ *
+ * Mousemove
+ *
+ */
+const getMouseMove = _ => ({
+  init () {
+    this.onMouseMove = this.onMouseMove.bind(this)
+
+    return this
+  },
+  start () {
+    window.addEventListener('mousemove', this.onMouseMove)
+  },
+  onMouseMove (event) {
+    Events.$emit('mousemove', event)
   }
 })
 
@@ -215,52 +234,63 @@ const getOrientation = _ => ({
 const options = JSON.parse('<%= JSON.stringify(options) %>')
 
 options.events.forEach(event => {
-  const formattedEvent = {
-    type: event?.type || event,
-    options: event?.options || {}
-  }
+  switch (event) {
+    case 'resize':
+      getResize()
+        .init()
+        .start()
 
-  switch (formattedEvent.type) {
-  case 'resize':
+      Events.resize.active = true
 
-    getResize()
-      .init(formattedEvent.options)
-      .start()
+      break
 
-    Events.resize.active = true
+    case 'resize-debounced':
+      getResizeDebounced()
+        .init()
+        .start()
 
-    break
+      Events.resizeDebounced.active = true
 
-  case 'ticker':
+      break
 
-    (options.isGsapInstalled ? getGsapTicker() : getRaf())
-      .init(formattedEvent.options)
-      .start()
+    case 'tick':
+      (options.isGsapInstalled ? getGsapTicker() : getRaf())
+        .init()
+        .start()
 
-    Events.ticker.active = true
+      Events.tick.active = true
 
-    break
+      break
 
-  case 'visibility':
-    getVisibility()
-      .init(formattedEvent.options)
-      .start()
+    case 'visibility':
+      getVisibility()
+        .init()
+        .start()
 
-    Events.visibility.active = true
+      Events.visibility.active = true
 
-    break
+      break
 
-  case 'orientation':
-    getOrientation()
-      .init(formattedEvent.options)
-      .start()
+    case 'orientation':
+      getOrientation()
+        .init()
+        .start()
 
-    Events.orientation.active = true
+      Events.orientation.active = true
 
-    break
+      break
 
-  default:
-    break
+    case 'mousemove':
+      getMouseMove()
+        .init()
+        .start()
+
+      Events.mousemove.active = true
+
+      break
+
+    default:
+      break
   }
 })
 

@@ -30,17 +30,12 @@ export default {
    */
   events: {
     events: [
-      'raf',
+      'tick',
       'resize',
+      'resize-debounced',
       'visibility',
       'orientation',
-      {
-        type: 'resize',
-        options: {
-          name: 'resize:debounced',
-          debounce: 300
-        }
-      }
+      'mousemove'
     ]
   }
 }

@@ -1,5 +1,18 @@
 <template>
-  <div />
+  <div>
+    <button @click="$events.$on('tick', onTick)">
+      listen tick
+    </button>
+    <button @click="$events.$off('tick', onTick)">
+      stop listen tick
+    </button>
+    <button @click="$events.$on('mousemove', onMouseMove)">
+      listen mousemove
+    </button>
+    <button @click="$events.$off('mousemove', onMouseMove)">
+      stop listen mousemove
+    </button>
+  </div>
 </template>
 
 <script>
@@ -36,10 +49,14 @@ export default {
     this.$events.$on('orientation:landscape', options => {
       alert(JSON.stringify(options))
     })
-
-    this.$events.$on('raf', options => {
-      console.log('raf', options)
-    })
+  },
+  methods: {
+    onTick (options) {
+      console.log('tick', options)
+    },
+    onMouseMove (options) {
+      console.log('mousemove', options)
+    }
   }
 }
 </script>
