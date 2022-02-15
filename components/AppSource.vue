@@ -53,6 +53,7 @@ export default {
             ?.map(size => {
               const url = new URL(this.src)
               url.searchParams.set('w', size)
+              url.searchParams.delete('h', size)
 
               return `${url} ${size}w`
             })
