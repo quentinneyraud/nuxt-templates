@@ -24,5 +24,9 @@ export default {
   modules: [
     '~/modules/rgpd'
   ],
-  build: {}
+  build: {},
+  rgpd: {
+    deleteCookieOnInit: false,
+    version: '2'
+  }
 }

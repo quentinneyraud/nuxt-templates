@@ -55,43 +55,30 @@ export default {
 <style lang="css" scoped>
 .RgpdBanner-component {
   position: fixed;
-  top: 0;
-  left: 0;
+  bottom: 0;
+  right: 0;
   width: 100%;
-  transform: tY(-30px);
-  pointer-events: none;
-}
+  max-width: 550px;
+  background-color: #383b3f;
+  padding: 35px;
 
-.RgpdBanner-main {
-  padding: 16px 24px;
-  padding-bottom: 8px;
-  background-color: rgba(0, 0, 0, 0.8);
-  margin-top: 0;
-  pointer-events: auto;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
+  display: none;
 }
 
 .RgpdBanner-text {
   color: #ffffff;
-  line-height: auto;
-  text-align: center;
 }
 
 .RgpdBanner-actions {
-  margin: 4px;
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
 }
 
 .RgpdBanner-actions button {
   padding: 8px 10px;
-  font-weight: 700;
-}
-
-.RgpdBanner-acceptAllIcon {
-  fill: white;
-  width: 9px;
-  height: 6px;
-  margin-right: 8px;
+  flex-shrink: 0;
 }
 </style>

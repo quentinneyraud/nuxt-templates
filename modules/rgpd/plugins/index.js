@@ -4,7 +4,7 @@ import Cookies from 'js-cookie'
 
 const options = JSON.parse('<%= JSON.stringify(options) %>')
 
-export default (ctx, inject) => {
+export default (_, inject) => {
   const rgpd = new Vue({
     data () {
       return {
@@ -19,7 +19,7 @@ export default (ctx, inject) => {
         this.getCookie()
         this.registerServices(services)
 
-        const showComponent = !(this.cookie && this.services.every(service => service.id in this.cookie))
+        const showComponent = !(this.services.every(service => service.id in this.cookie?.services)) || (this.cookie?.version !== options.version)
 
         if (showComponent) {
           this.$emit('show')
@@ -32,13 +32,16 @@ export default (ctx, inject) => {
         if (cookieValue) this.cookie = JSON.parse(cookieValue)
       },
       persistInCookie () {
-        const servicesState = this.services.reduce((acc, service) => {
-          acc[service.id] = service.enabled
+        const cookieValue = {
+          version: options.version,
+          services: this.services.reduce((acc, service) => {
+            acc[service.id] = service.enabled
 
-          return acc
-        }, {})
+            return acc
+          }, {})
+        }
 
-        Cookies.set(options.cookieName, JSON.stringify(servicesState), {
+        Cookies.set(options.cookieName, JSON.stringify(cookieValue), {
           expires: options.cookieExpiresAfterDays
         })
       },
@@ -53,13 +56,13 @@ export default (ctx, inject) => {
             return true
           })
           .map(service => {
-            service.enabled = (this.cookie && service.id in this.cookie) ? this.cookie[service.id] : service.required || service.default || false
+            service.enabled = (this.cookie && this.cookie.services && service.id in this.cookie.services) ? this.cookie.services[service.id] : service.required || service.default || false
 
             return service
           })
       },
       openPopup () {
-        this.$rgpd.$emit('open-popup')
+        this.$emit('open-popup')
       },
       resetAll () {
         this.services.forEach(this.reset)

@@ -4,7 +4,7 @@
     <div class="RgpdPopup-background" />
 
     <!-- Popup -->
-    <div class="RgpdPopup-popup">
+    <div ref="popup" class="RgpdPopup-popup">
       <!-- Close -->
       <button class="RgpdPopup-close" @click="close" />
 
@@ -13,10 +13,11 @@
         {{ t('title') }}
       </p>
 
+      <!-- Text -->
+      <p v-if="textContents.text" class="RgpdPopup-text" v-html="t('text')" />
+
       <!-- Main content -->
       <div class="RgpdPopup-servicesWrapper">
-        <p v-if="textContents.intro" class="RgpdPopup-servicesIntro" v-html="t('intro')" />
-
         <!-- Services -->
         <ul class="RgpdPopup-services">
           <li
@@ -90,6 +91,10 @@ export default {
     this.$rgpd.$on('open-popup', this.open)
     this.$rgpd.$on('hide', this.hide)
   },
+  beforeDestroy () {
+    window.removeEventListener('keydown', this.onKeyDown)
+    document.removeEventListener('click', this.onClick)
+  },
   methods: {
     t (key) {
       return this.textContents?.[key] || key
@@ -101,19 +106,31 @@ export default {
       if (this.isOpen) this.close()
     },
     open () {
-      this.isOpen = true
+      this.$el.style.display = 'flex'
 
       window.addEventListener('keydown', this.onKeyDown, {
         passive: true
       })
+
+      window.setTimeout(_ => {
+        document.addEventListener('click', this.onClick, {
+          passive: true
+        })
+      }, 0)
     },
     close () {
-      this.isOpen = false
+      this.$el.style.display = 'none'
 
       window.removeEventListener('keydown', this.onKeyDown)
+      document.removeEventListener('click', this.onClick)
     },
     onKeyDown (event) {
       if (event.keyCode === 27) {
+        this.close()
+      }
+    },
+    onClick ({ target }) {
+      if (!this.$refs.popup.contains(target)) {
         this.close()
       }
     },
@@ -135,9 +152,12 @@ export default {
   width: 100%;
   height: 100%;
   z-index: 100000;
+
   display: flex;
   justify-content: center;
   align-items: center;
+
+  display: none;
 }
 
 .RgpdPopup-background {
@@ -146,26 +166,17 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgb(0, 0, 0);
-}
-
-.RgpdPopup-popupWrapper {
-  position: relative;
-  padding: $mobile-padding;
-  width: 100%;
-  max-width: 800px;
-  height: 100vh;
-  height: calc(var(--vh, 1vh) * 100);
-  background-color: #362f2f;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .RgpdPopup-popup {
   position: relative;
-  z-index: 10;
+  background-color: #383b3f;
+  padding: 35px 70px;
   width: 100%;
   height: 100%;
-  background-color: #362f2f;
-  padding: 24px 16px;
+  max-width: 800px;
+  max-height: 600px;
 
   display: flex;
   flex-direction: column;
@@ -181,9 +192,13 @@ export default {
 .RgpdPopup-title {
   color: white;
   font-weight: 700;
-  font-size: 1rem;
-  padding-right: 50px;
-  padding-left: 8px;
+  font-size: 24px;
+}
+
+.RgpdPopup-text {
+  margin-top: 25px;
+  color: white;
+  font-size: 14px;
 }
 
 .RgpdPopup-servicesWrapper {
@@ -193,11 +208,6 @@ export default {
   margin-top: 15px;
   overflow-y: auto;
   flex-shrink: 1;
-}
-
-.RgpdPopup-servicesIntro {
-  line-height: 16px;
-  font-weight: 300;
 }
 
 .RgpdPopup-services {
@@ -260,29 +270,9 @@ export default {
   margin-left: 14px;
 }
 
-.RgpdPopup-acceptIcon,
-.RgpdPopup-rejectIcon {
-  fill: rgba(255, 255, 255, 0.5);
-  margin-right: 10px;
-}
-
-.RgpdPopup-acceptIcon {
-  width: 9px;
-  height: 6px;
-}
-
-.RgpdPopup-rejectIcon {
-  width: 6px;
-  height: 6px;
-}
-
 .RgpdPopup-actions {
   display: flex;
-  flex-direction: column;
-  margin-top: 23px;
-}
-
-.RgpdPopup-action:nth-child(n + 2) {
-  margin-top: 16px;
+  gap: 20px;
+  margin-top: 25px;
 }
 </style>

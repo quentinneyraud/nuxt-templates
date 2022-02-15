@@ -5,7 +5,7 @@ const MODULE_NAME = 'rgpd'
 export default function (moduleOptions) {
   const DEFAULT_OPTIONS = {
     debug: this.options.dev || process.env.NODE_ENV === 'development',
-    cookieVersion: '1',
+    version: '1',
     cookieName: 'RGPD_COOKIES',
     cookieExpiresAfterDays: 90,
     deleteCookieOnInit: this.options.dev || process.env.NODE_ENV === 'development'
