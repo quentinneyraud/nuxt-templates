@@ -1,5 +1,9 @@
 <template>
-  <div />
+  <div>
+    <AppSvg name="akaru" type="inline" />
+
+    <AppSvg name="akaru" type="sprite" />
+  </div>
 </template>
 
 <script>

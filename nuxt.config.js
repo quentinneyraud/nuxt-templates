@@ -19,7 +19,8 @@ export default {
   plugins: [],
   components: true,
   buildModules: [
-    '@nuxtjs/eslint-module'
+    '@nuxtjs/eslint-module',
+    '@nuxtjs/svg'
   ],
   modules: [],
   build: {}
