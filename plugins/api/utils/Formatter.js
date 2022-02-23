@@ -114,14 +114,46 @@ class Formatter {
   }
 
   // https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString
-  formatDate (date, { locale, formatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' } } = {}) {
+  formatDate (date, { locale, options, format } = {}) {
     if (!date) return undefined
 
-    return new Date(date).toLocaleDateString(locale, formatOptions)
+    options = {
+      ...{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' },
+      ...options
+    }
+
+    format = format || (({ weekday, day, month, year }) => `${weekday} ${day} ${month} ${year}`)
+
+    const dateObj = new Date(date)
+
+    const weekday = new Intl.DateTimeFormat(locale, { weekday: options.weekday }).format(dateObj)
+    const day = new Intl.DateTimeFormat(locale, { day: options.day }).format(dateObj)
+    const month = new Intl.DateTimeFormat(locale, { month: options.month }).format(dateObj)
+    const year = new Intl.DateTimeFormat(locale, { year: options.year }).format(dateObj)
+
+    return format({ weekday, day, month, year })
   }
 
-  formatTimestamp (timestamp, { locale, formatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' } } = {}) {
-    return this.formatDate(timestamp, { locale, formatOptions })
+  formatTimestamp (timestamp, { locale, options, format } = {}) {
+    if (!timestamp) return undefined
+
+    options = {
+      ...{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' },
+      ...options
+    }
+
+    format = format || (({ minute, hour, weekday, day, month, year }) => `${hour}:${minute}, ${weekday} ${day} ${month} ${year}`)
+
+    const dateObj = new Date(timestamp)
+
+    const minute = dateObj.getMinutes().toString().padStart(2, '0')
+    const hour = dateObj.getHours().toString().padStart(2, '0')
+    const weekday = new Intl.DateTimeFormat(locale, { weekday: options.weekday }).format(dateObj)
+    const day = new Intl.DateTimeFormat(locale, { day: options.day }).format(dateObj)
+    const month = new Intl.DateTimeFormat(locale, { month: options.month }).format(dateObj)
+    const year = new Intl.DateTimeFormat(locale, { year: options.year }).format(dateObj)
+
+    return format({ minute, hour, weekday, day, month, year })
   }
 
   formatColor (color, { convertToRgb = false, alpha, fullDetails = false } = {}) {

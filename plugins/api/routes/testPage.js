@@ -64,7 +64,13 @@ export default app => async _ => {
       name: 'Date',
       hash: 'date',
       raw: document.data.date,
-      formatted: Formatter.formatDate(document.data.date)
+      formatted: [
+        Formatter.formatDate(document.data.date, { locale: 'fr' }),
+        Formatter.formatDate(document.data.date, {
+          locale: 'en',
+          format: ({ weekday, day, month }) => `${weekday}, ${month} ${day}${day > 3 ? 'th' : ['st', 'nd', 'rd'][day - 1]}`
+        })
+      ]
     })
 
     elements.push({
