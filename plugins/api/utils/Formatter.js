@@ -74,7 +74,7 @@ class Formatter {
     }
   }
 
-  formatRelationship (relationship, { validTypes, fields = ['id', 'type', 'slug', 'lang', 'link_type'] } = {}) {
+  formatRelationship (relationship, { validTypes, fields = ['id', 'type', 'ui', 'lang', 'link_type'] } = {}) {
     validTypes = toArrayIfNeeded(validTypes)
 
     if (!relationship || relationship.isBroken || (validTypes && !validTypes.includes(relationship.type))) return undefined
