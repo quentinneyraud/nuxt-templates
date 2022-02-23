@@ -18,7 +18,10 @@ export default app => async _ => {
       name: 'RichText',
       hash: 'richtext',
       raw: document.data.richtext,
-      formatted: Formatter.formatRichText(document.data.richtext)
+      formatted: [
+        Formatter.formatRichText(document.data.richtext),
+        Formatter.formatRichText(document.data.richtext, { ellispsis: { maxChars: 80 } })
+      ]
     })
 
     elements.push({
@@ -96,6 +99,12 @@ export default app => async _ => {
       raw: document.data.key_texts,
       formatted: document.data.key_texts
         .map(({ key_text }) => Formatter.formatKeyText(key_text))
+        .concat(Formatter.formatKeyText('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus at porta ligula.', {
+          ellispsis: {
+            maxChars: 15,
+            pretty: true
+          }
+        }))
     })
 
     elements.push({

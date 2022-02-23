@@ -1,4 +1,4 @@
-import { hasKey, isEmptyObject, filterObjectKeys, toArrayIfNeeded, stripTags } from './helpers'
+import { hasKey, isEmptyObject, filterObjectKeys, toArrayIfNeeded, stripTags, createEllispis } from './helpers'
 
 class Formatter {
   setPrismic (prismic) {
@@ -15,10 +15,18 @@ class Formatter {
     return this.formatRichText(title)
   }
 
-  formatRichText (text, { removeWrappingPTag = false } = {}) {
-    if (!text || text.length === 0) return undefined
+  formatRichText (richText, { removeWrappingPTag = false, ellispsis } = {}) {
+    if (!richText || richText.length === 0) return undefined
 
-    let html = this.$prismic.asHtml(text)
+    if (ellispsis) {
+      const text = this.$prismic.asText(richText)
+        .replace(/(?:\r\n|\r|\n|\t|\s\s+)/g, ' ')
+        .trim()
+
+      return createEllispis(text, ellispsis)
+    }
+
+    let html = this.$prismic.asHtml(richText)
 
     if (html.replace(/^<p[^>]*>|<\/p>$/g, '').length === 0) return undefined
 
@@ -141,8 +149,10 @@ class Formatter {
     return number
   }
 
-  formatKeyText (text) {
+  formatKeyText (text, { ellispsis } = {}) {
     if (!text) return undefined
+
+    if (ellispsis) return createEllispis(text, ellispsis)
 
     return text
   }

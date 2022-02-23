@@ -70,3 +70,47 @@ export const toArrayIfNeeded = maybeArray => (maybeArray && !Array.isArray(maybe
 
 // Strip HTML tags
 export const stripTags = string => string?.replace(/(<([^>]+)>)/gi, '')
+
+/**
+ * Create ellipsis
+ *
+ * @param {String} str
+ * @param {Object} options
+ * @param {Number} options.maxChars
+ * @param {Boolean} options.pretty
+ * @param {String} options.suffix
+ * @param {Boolean} options.maxCharsIncludesSuffix
+ *
+ * @returns {String} str parameter reduced to maxChars
+ */
+export const createEllispis = (str, { maxChars = 0, pretty = true, suffix = '...', maxCharsIncludesSuffix = true } = {}) => {
+  if (!str) return undefined
+
+  const realMaxChars = maxCharsIncludesSuffix ? maxChars - suffix?.length : maxChars
+
+  if (pretty) {
+    return (
+      str
+        .split(' ')
+        .reduce((acc, curr, _, arr) => {
+          if (acc.totalLength + curr.length >= realMaxChars) {
+            // eject early
+            arr.splice(1)
+            return acc
+          }
+
+          acc.words.push(curr)
+          acc.totalLength += curr.length
+
+          return acc
+        }, { words: [], totalLength: 0 })
+        .words
+        .join(' ')
+        .concat(suffix)
+    )
+  } else {
+    return str
+      .slice(0, realMaxChars)
+      .concat(suffix)
+  }
+}
