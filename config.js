@@ -4,7 +4,7 @@ module.exports = _ => ({
   ],
   debug: {
     /**
-     * Enable module in all environments (Default to only show in dev mode)
+     * Enable module in other environments than dev (Default: false)
      */
     // force: false
   }
