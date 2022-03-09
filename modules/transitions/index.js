@@ -2,9 +2,7 @@ import path from 'path'
 
 const MODULE_NAME = 'transitions'
 
-const DEFAULT_OPTIONS = {
-  debug: false
-}
+const DEFAULT_OPTIONS = {}
 
 export default function (moduleOptions) {
   let options = this.options[MODULE_NAME] || moduleOptions || {}
