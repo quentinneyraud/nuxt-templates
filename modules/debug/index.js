@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import path from 'path'
+import defu from 'defu'
 
 const MODULE_NAME = 'debug'
 
@@ -9,9 +10,7 @@ const DEFAULT_OPTIONS = {
 
 export default function (moduleOptions) {
   const options = {
-    ...DEFAULT_OPTIONS,
-    ...this.options.debug,
-    ...moduleOptions,
+    ...defu(moduleOptions, this.options[MODULE_NAME], DEFAULT_OPTIONS),
     MODULE_NAME
   }
 
