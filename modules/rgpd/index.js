@@ -1,20 +1,18 @@
 import path from 'path'
+import defu from 'defu'
 
 const MODULE_NAME = 'rgpd'
 
 export default function (moduleOptions) {
   const DEFAULT_OPTIONS = {
-    debug: this.options.dev || process.env.NODE_ENV === 'development',
     version: '1',
     cookieName: 'RGPD_COOKIES',
     cookieExpiresAfterDays: 90,
-    deleteCookieOnInit: this.options.dev || process.env.NODE_ENV === 'development'
+    deleteCookieOnInit: this.options.dev
   }
 
   const options = {
-    ...DEFAULT_OPTIONS,
-    ...this.options.rgpd,
-    ...moduleOptions,
+    ...defu(moduleOptions, this.options[MODULE_NAME], DEFAULT_OPTIONS),
     MODULE_NAME
   }
 

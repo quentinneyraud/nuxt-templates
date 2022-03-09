@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import Vue from 'vue'
 import Cookies from 'js-cookie'
 
@@ -19,7 +18,7 @@ export default (_, inject) => {
         this.getCookie()
         this.registerServices(services)
 
-        const showComponent = !(this.services.every(service => service.id in this.cookie?.services)) || (this.cookie?.version !== options.version)
+        const showComponent = !this.cookie?.services || !this.services.every(service => service.id in this.cookie?.services) || this.cookie?.version !== options.version
 
         if (showComponent) {
           this.$emit('show')
@@ -56,7 +55,9 @@ export default (_, inject) => {
             return true
           })
           .map(service => {
-            service.enabled = (this.cookie && this.cookie.services && service.id in this.cookie.services) ? this.cookie.services[service.id] : service.required || service.default || false
+            service.enabled = this.cookie?.services && service.id in this.cookie.services
+              ? this.cookie.services[service.id]
+              : service.required || service.defaultValue || false
 
             return service
           })
@@ -74,7 +75,7 @@ export default (_, inject) => {
         this.services.forEach(this.disable)
       },
       reset (service) {
-        service.enabled = service.default || false
+        service.enabled = service.defaultValue || false
       },
       enable (service) {
         service.enabled = true

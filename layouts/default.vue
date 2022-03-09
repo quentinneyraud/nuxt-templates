@@ -32,7 +32,7 @@ export default {
       name: 'Cookies de tracking',
       description: "Permet d'analyser les statistiques de consultation de notre site. Plus de détails",
       required: false,
-      default: true
+      defaultValue: true
     }])
   }
 }
