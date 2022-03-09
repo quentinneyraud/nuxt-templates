@@ -1,4 +1,5 @@
 import path from 'path'
+import defu from 'defu'
 
 const MODULE_NAME = 'events'
 
@@ -20,9 +21,7 @@ const isModuleInstalled = moduleName => {
 
 export default function (moduleOptions) {
   const options = {
-    ...DEFAULT_OPTIONS,
-    ...this.options.events,
-    ...moduleOptions,
+    ...defu(moduleOptions, this.options[MODULE_NAME], DEFAULT_OPTIONS),
     MODULE_NAME,
     isGsapInstalled: isModuleInstalled('gsap')
   }
