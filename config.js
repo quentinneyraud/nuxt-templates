@@ -9,7 +9,8 @@ module.exports = _ => ({
     // defaultWindowWidth: 1440,
 
     /**
-     * List of breakpoints
+     * List of breakpoints where key is the name of the breakpoint and value is the window width
+     * Key is used to create plugins keys ('tablet' will create 'gtTablet', 'gteTablet', 'ltTablet', 'lteTablet')
      */
     // breakpoints: {
     //   small: 576,
