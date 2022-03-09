@@ -3,6 +3,9 @@ module.exports = _ => ({
     '~/modules/debug'
   ],
   debug: {
-    force: false
+    /**
+     * Enable module in all environments (Default to only show in dev mode)
+     */
+    // force: false
   }
 })
