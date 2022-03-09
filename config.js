@@ -4,18 +4,18 @@ module.exports = _ => ({
   ],
   prismicTranslations: {
     /**
-     * console.warn if key is missing (default to true in dev)
+      console.warn if key is missing (Default: true in dev mode)
      */
-    // warnMissingKey: null,
+    warnMissingKey: undefined,
 
     /**
-     * Prismic endpoint (default to endpoint value in @nuxtjs/prismic module)
+      Prismic endpoint (Default: endpoint value in @nuxtjs/prismic module config)
      */
-    // prismicEndpoint: null,
+    prismicEndpoint: undefined,
 
     /**
-     * Prismic custom type ID to get translations from (default to 'translations')
+      Prismic custom type ID to get translations from (Default: 'translations')
      */
-    // customTypeId: 'translations'
+    customTypeId: 'translations'
   }
 })
