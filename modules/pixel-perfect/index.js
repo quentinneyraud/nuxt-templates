@@ -1,5 +1,5 @@
-/* eslint-disable no-console */
 import path from 'path'
+import defu from 'defu'
 
 const MODULE_NAME = 'pixel-perfect'
 
@@ -12,9 +12,7 @@ const DEFAULT_OPTIONS = {
 
 export default function (moduleOptions) {
   const options = {
-    ...DEFAULT_OPTIONS,
-    ...this.options.pixelPerfect,
-    ...moduleOptions,
+    ...defu(moduleOptions, this.options[MODULE_NAME], this.options.pixelPerfect, DEFAULT_OPTIONS),
     MODULE_NAME
   }
 

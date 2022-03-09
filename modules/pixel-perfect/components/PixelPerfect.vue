@@ -196,7 +196,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style>
 .PixelPerfect-component {
   position: absolute;
   top: 0;
@@ -204,34 +204,34 @@ export default {
   width: 100%;
   pointer-events: none;
   z-index: 10000;
+}
 
-  * {
-    box-sizing: border-box;
-  }
+.PixelPerfect-component * {
+  box-sizing: border-box;
+}
 
-  &.--is-edit-mode {
-    pointer-events: auto;
+.PixelPerfect-component.--is-edit-mode {
+  pointer-events: auto;
+}
 
-    .PixelPerfect-interface {
-      opacity: 1;
-    }
+.PixelPerfect-component.--is-edit-mode .PixelPerfect-interface {
+  opacity: 1;
+}
 
-    .PixelPerfect-interfaceBackground {
-      opacity: 1;
-      transition: opacity 0.5s;
-    }
+.PixelPerfect-component.--is-edit-mode .PixelPerfect-interfaceBackground {
+  opacity: 1;
+  transition: opacity 0.5s;
+}
 
-    .PixelPerfect-opacity {
-      opacity: 1;
-      transition: opacity 0.5s;
-    }
+.PixelPerfect-component.--is-edit-mode .PixelPerfect-opacity {
+  opacity: 1;
+  transition: opacity 0.5s;
+}
 
-    .PixelPerfect-item {
-      transform: translateY(0%);
-      transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-      transition-delay: calc(var(--index) * 0.08s);
-    }
-  }
+.PixelPerfect-component.--is-edit-mode .PixelPerfect-item {
+  transform: translateY(0%);
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  transition-delay: calc(var(--index) * 0.08s);
 }
 
 .PixelPerfect-currentImage {
@@ -251,7 +251,6 @@ export default {
   height: 75vh;
   display: flex;
   flex-direction: column;
-
   opacity: 0;
 }
 
@@ -262,18 +261,15 @@ export default {
   width: 100%;
   height: 100%;
   background: linear-gradient(to top, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0));
-
   opacity: 0;
   transition: opacity 0.2s;
 }
 
 .PixelPerfect-opacity {
   position: relative;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   opacity: 0;
   transition: opacity 0.2s;
 }
@@ -289,7 +285,6 @@ export default {
   overflow: visible;
   stroke-dasharray: calc(var(--opacity) * 3.14 * 50 * 2)
     calc((1 - var(--opacity)) * 3.14 * 50 * 2);
-
   transition: transform 0.2s, stroke-dasharray 0.2s;
 }
 
@@ -312,15 +307,15 @@ export default {
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
+}
 
-  &::-webkit-scrollbar-thumb:horizontal {
-    background: #fff;
-  }
+.PixelPerfect-items::-webkit-scrollbar-thumb:horizontal {
+  background: #fff;
+}
 
-  &::-webkit-scrollbar {
-    height: 10px;
-    background: rgba(255, 255, 255, 0.2);
-  }
+.PixelPerfect-items::-webkit-scrollbar {
+  height: 10px;
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .PixelPerfect-item {
@@ -332,16 +327,17 @@ export default {
   height: 100%;
   vertical-align: top;
   transform: translateY(100%);
-
   transition: transform 0.2s cubic-bezier(0.5, 0, 0.75, 0);
+}
 
-  &.selected .PixelPerfect-image {
-    box-shadow: 0 0 30px 5px rgba(200, 200, 200, 1);
-  }
+.PixelPerfect-item.selected .PixelPerfect-image {
+  box-shadow: 0 0 30px 5px rgba(200, 200, 200, 1);
+}
 
-  &:not(.selected) .PixelPerfect-itemButton:hover .PixelPerfect-image {
-    box-shadow: 0 0 15px 2px rgba(200, 200, 200, 1);
-  }
+.PixelPerfect-item:not(.selected)
+  .PixelPerfect-itemButton:hover
+  .PixelPerfect-image {
+  box-shadow: 0 0 15px 2px rgba(200, 200, 200, 1);
 }
 
 .PixelPerfect-itemButton {
@@ -349,10 +345,10 @@ export default {
   border: none;
   cursor: pointer;
   padding: 0;
+}
 
-  &:focus {
-    outline: none;
-  }
+.PixelPerfect-itemButton:focus {
+  outline: none;
 }
 
 .PixelPerfect-image {
@@ -361,7 +357,6 @@ export default {
   max-height: 50vh;
   object-fit: contain;
   user-select: none;
-
   transition: box-shadow 0.4s;
 }
 
