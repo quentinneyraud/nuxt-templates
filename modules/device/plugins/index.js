@@ -43,7 +43,7 @@ export default (ctx, inject) => {
       }
     },
     created () {
-      this.setAllBreakpointValues(options.defaultwindowWidth)
+      this.setAllBreakpointValues(options.defaultWindowWidth)
       if (process.browser) {
         // eslint-disable-next-line nuxt/no-globals-in-created
         window.addEventListener('resize', _ => this.setAllBreakpointValues())
