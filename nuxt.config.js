@@ -22,7 +22,7 @@ export default {
     '@nuxtjs/eslint-module'
   ],
   modules: [
-    '~/modules/breakpoints'
+    '~/modules/device'
   ],
   build: {}
 }

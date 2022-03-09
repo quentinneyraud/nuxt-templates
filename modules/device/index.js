@@ -1,7 +1,7 @@
 import path from 'path'
 import defu from 'defu'
 
-const MODULE_NAME = 'breakpoints'
+const MODULE_NAME = 'device'
 
 const DEFAULT_OPTIONS = {
   defaultwindowWidth: 1440,
@@ -17,7 +17,7 @@ const DEFAULT_OPTIONS = {
 
 export default function (moduleOptions) {
   const options = {
-    ...defu(moduleOptions, this.options[MODULE_NAME], this.options.breakpoints, DEFAULT_OPTIONS),
+    ...defu(moduleOptions, this.options[MODULE_NAME], DEFAULT_OPTIONS),
     MODULE_NAME
   }
 

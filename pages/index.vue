@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p v-if="$breakpoints.gtSmall">
+    <p v-if="$device.gtSmall">
       gtTablet
     </p>
     <p v-else>

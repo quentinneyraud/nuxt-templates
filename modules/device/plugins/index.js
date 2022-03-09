@@ -28,7 +28,7 @@ const isMobileOrTablet = ctx => {
 const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1)
 
 export default (ctx, inject) => {
-  const breakpoints = new Vue({
+  const device = new Vue({
     data () {
       return {
         ...Object.keys(options.breakpoints).reduce((acc, curr) => {
@@ -74,9 +74,9 @@ export default (ctx, inject) => {
 
   if (process.client) {
     window.onNuxtReady(() => {
-      breakpoints.setAllBreakpointValues()
+      device.setAllBreakpointValues()
     })
   }
 
-  inject('breakpoints', breakpoints)
+  inject('device', device)
 }
