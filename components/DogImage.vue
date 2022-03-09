@@ -8,7 +8,7 @@
 export default {
   methods: {
     preload () {
-      return new Promise((resolve, reject) => {
+      return _ => new Promise((resolve, reject) => {
         if (this.$refs.image.complete) resolve()
 
         this.$refs.image.addEventListener('load', resolve)
@@ -17,11 +17,13 @@ export default {
         .catch(_ => {})
     },
     transitionHide () {
-      this.$refs.image.classList.add('--is-hidden')
+      return _ => {
+        this.$refs.image.classList.add('--is-hidden')
 
-      return new Promise(resolve => {
-        window.setTimeout(resolve, 500)
-      })
+        return new Promise(resolve => {
+          window.setTimeout(resolve, 500)
+        })
+      }
     }
   }
 }

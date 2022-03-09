@@ -1,9 +1,6 @@
 <template>
   <div
     class="Loader-component"
-    :class="{
-      '--is-hidden': isHidden
-    }"
     :style="{
       '--progress': progress
     }"
@@ -22,7 +19,6 @@
 export default {
   data () {
     return {
-      isHidden: false,
       fulfilledPromises: 0,
       progress: 0,
       preloadPromises: []
@@ -37,27 +33,23 @@ export default {
   methods: {
     async hide ({ el, to, from, promises = [], done } = {}) {
       this.preloadPromises = promises
-      this.prepareProgress()
 
-      await Promise.all(this.preloadPromises)
+      await Promise.allSettled([
+        ...this.preloadPromises.map(p => p()?.finally(this.preloadPromisesCallback))
+      ])
+
       this.$transitionsBus.$emit('loader:hide:page-loaded', { el, to, from })
 
-      this.isHidden = true
+      this.$el.style.transform = 'translateY(-100%)'
 
       window.setTimeout(_ => {
         done()
         this.$transitionsBus.$emit('loader:hide:done', { el, to, from })
       }, 500)
     },
-    prepareProgress () {
-      this.preloadPromises = this.preloadPromises
-        .map(promise => {
-          return promise
-            .finally(_ => {
-              this.fulfilledPromises++
-              this.progress = this.fulfilledPromises / this.preloadPromises.length
-            })
-        })
+    preloadPromisesCallback () {
+      this.fulfilledPromises++
+      this.progress = this.fulfilledPromises / this.preloadPromises.length
     }
   }
 }
@@ -77,12 +69,8 @@ export default {
   align-items: center;
   transform: translateY(0%);
   pointer-events: auto;
-}
 
-.Loader-component.--is-hidden {
-  transform: translateY(-100%);
-  pointer-events: none;
-  transition: all 0.5s ease-in-out;
+  transition: transform 0.5s ease-out;
 }
 
 .Loader-component:after {

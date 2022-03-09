@@ -15,6 +15,19 @@ const recursiveFlattenComponentChildren = component => {
     }, [])
 }
 
+const isFunction = v => typeof v === 'function'
+
+const getAllFunctionsRecursively = (page, functionName, params) => {
+  return recursiveFlattenComponentChildren(page)
+    .filter(component => component[functionName] && isFunction(component[functionName]))
+    .map(component => {
+      const promiseFunction = component[functionName](params)
+      if (isFunction(promiseFunction)) return promiseFunction
+      return null
+    })
+    .filter(v => !!v)
+}
+
 export default {
   transition (to, from) {
     let transition = {
@@ -27,9 +40,7 @@ export default {
       transition = {
         ...transition,
         enter (el, done) {
-          const promises = recursiveFlattenComponentChildren(this.$root)
-            .filter(component => component.preload && typeof component.preload === 'function')
-            .map(component => component.preload({ to, from }))
+          const promises = getAllFunctionsRecursively(this.$root, 'preload', { to, from })
 
           TransitionBus.$emit('loader:hide', {
             el,
@@ -44,9 +55,7 @@ export default {
       transition = {
         ...transition,
         enter (el, done) {
-          const promises = recursiveFlattenComponentChildren(this)
-            .filter(component => component.preload && typeof component.preload === 'function')
-            .map(component => component.preload({ to, from }))
+          const promises = getAllFunctionsRecursively(this.$root, 'preload', { to, from })
 
           TransitionBus.$emit('transition:hide', {
             el,
@@ -57,9 +66,7 @@ export default {
           })
         },
         leave (el, done) {
-          const promises = recursiveFlattenComponentChildren(this)
-            .filter(component => component.transitionHide && typeof component.transitionHide === 'function')
-            .map(component => component.transitionHide({ to, from }))
+          const promises = getAllFunctionsRecursively(this.$root, 'transitionHide', { to, from })
 
           TransitionBus.$emit('transition:show', {
             el,

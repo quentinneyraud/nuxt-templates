@@ -24,7 +24,7 @@ export default {
   mixins: [HasTransition],
   methods: {
     preload () {
-      return new Promise(resolve => {
+      return _ => new Promise(resolve => {
         console.log('Loading home...')
         window.setTimeout(_ => {
           console.log('Home loaded !')

@@ -1,9 +1,6 @@
 <template>
   <div
     class="PageTransition-component"
-    :class="{
-      '--is-hidden': isHidden
-    }"
     :style="{
       '--progress': progress
     }"
@@ -20,7 +17,6 @@
 export default {
   data () {
     return {
-      isHidden: true,
       fulfilledPromises: 0,
       progress: 0,
       preloadPromises: []
@@ -36,44 +32,41 @@ export default {
   },
   methods: {
     async hide ({ el, to, from, promises = [], done } = {}) {
+      this.resetProgress()
       this.preloadPromises = promises
-      this.prepareProgress()
+      await Promise.allSettled([
+        ...this.preloadPromises.map(p =>
+          p().finally(this.preloadPromisesCallback)
+        )
+      ])
 
-      await Promise.all(this.preloadPromises)
       this.$transitionsBus.$emit('transition:hide:next-page-loaded', { el, to, from })
 
-      this.isHidden = true
+      this.$el.style.transform = 'translateY(-100%)'
+
       window.setTimeout(_ => {
         done()
         this.$transitionsBus.$emit('transition:hide:done', { el, to, from })
 
-        this.fulfilledPromises = 0
-        this.progress = 0
-        this.preloadPromises = []
+        this.resetProgress()
       }, 500)
     },
     async show ({ el, to, from, promises = [], done } = {}) {
-      await Promise.all(promises)
+      await Promise.allSettled(promises)
+
       this.$transitionsBus.$emit('transition:show:previous-page-hidden', { el, to, from })
 
-      this.isHidden = false
+      this.$el.style.transform = 'translateY(0%)'
 
       window.setTimeout(_ => {
         done()
         this.$transitionsBus.$emit('transition:show:done', { el, to, from })
       }, 500)
     },
-    prepareProgress () {
+    resetProgress () {
       this.fulfilledPromises = 0
       this.progress = 0
-      this.preloadPromises = this.preloadPromises
-        .map(promise => {
-          return promise
-            .finally(_ => {
-              this.fulfilledPromises++
-              this.progress = this.fulfilledPromises / this.preloadPromises.length
-            })
-        })
+      this.preloadPromises = []
     }
   }
 }
@@ -94,11 +87,8 @@ export default {
   transform: translateY(0%);
   pointer-events: auto;
   transition: all 0.5s ease-in-out;
-}
 
-.PageTransition-component.--is-hidden {
   transform: translateY(-100%);
-  pointer-events: none;
 }
 
 .PageTransition-component:after {
