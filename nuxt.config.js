@@ -32,18 +32,18 @@ export default {
    *
    */
   pixelPerfect: {
-    images: [
+    mockups: [
       {
         src: 'page_about.png',
-        route: 'about'
+        routeName: 'about'
       },
       {
         src: 'page_contact.png',
-        route: /^foo(bar)?$/i
+        routeName: /^foo(bar)?$/i
       },
       {
         src: 'page_cgv.png',
-        route: 'index'
+        routeName: 'index'
       },
       'page_faq.png',
       'page_legals.png',

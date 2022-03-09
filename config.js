@@ -3,15 +3,34 @@ module.exports = _ => ({
     '~/modules/pixel-perfect'
   ],
   pixelPerfect: {
-    images: [
-      // {
-      //   src: 'page_about.png',
-      //   route: 'about'
-      // },
-      // 'page_press.png'
-    ],
+    /**
+      Enable module in other environments than dev (Default: false)
+     */
     force: false,
+
+    /**
+      Array of mockups paths relative to directory option (Default: [])
+      Each item can be a string or an object which associate a route name
+
+      Example :
+
+      [{
+        routeName: 'about'
+        src: 'page_about.png',
+       },
+        'page_press.png'
+      ]
+     */
+    mockups: [],
+
+    /**
+      Mockups directory name (Default: 'pixel-perfect')
+     */
     directory: 'pixel-perfect',
-    changeOnNavigation: false
+
+    /**
+      Use routeName key in mockups option to determine which mockup is displayed (Default: true)
+     */
+    changeOnNavigation: true
   }
 })

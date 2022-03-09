@@ -8,12 +8,12 @@
       '--opacity': opacity
     }"
   >
-    <!-- Image -->
+    <!-- Mockup -->
     <img
-      v-if="currentImageIndex !== null"
-      class="PixelPerfect-currentImage"
+      v-if="currentMockupIndex !== null"
+      class="PixelPerfect-currentMockup"
       :style="{ opacity }"
-      :src="require(`@/pixel-perfect/${currentImage.src}`)"
+      :src="require(`@/${options.directory}/${currentMockup.src}`)"
     >
 
     <!-- Interface -->
@@ -31,23 +31,23 @@
       <!-- Items -->
       <div ref="items" class="PixelPerfect-items">
         <div
-          v-for="(image, imageIndex) in images"
-          :key="imageIndex"
+          v-for="(mockup, mockupIndex) in mockups"
+          :key="mockupIndex"
           class="PixelPerfect-item"
           :class="{
-            selected: imageIndex === currentImageIndex
+            selected: mockupIndex === currentMockupIndex
           }"
           :style="{
-            '--index': imageIndex
+            '--index': mockupIndex
           }"
         >
           <button
             class="PixelPerfect-itemButton"
-            @click="currentImageIndex = imageIndex"
+            @click="currentMockupIndex = mockupIndex"
           >
             <img
-              class="PixelPerfect-image"
-              :src="require(`@/pixel-perfect/${image.src}`)"
+              class="PixelPerfect-mockup"
+              :src="require(`@/${options.directory}/${mockup.src}`)"
             >
           </button>
         </div>
@@ -66,38 +66,38 @@ export default {
   data () {
     return {
       options,
-      images: options.images,
-      currentImageIndex: null,
+      mockups: options.mockups,
+      currentMockupIndex: null,
       opacity: 0.5,
       isEditMode: false,
       editModeTimeoutId: null
     }
   },
   computed: {
-    currentImage () {
-      return this.images[this.currentImageIndex]
+    currentMockup () {
+      return this.mockups[this.currentMockupIndex]
     }
   },
   watch: {
     $route () {
       if (!this?.$route?.name || !options.changeOnNavigation) return
 
-      const imageIndex = this.images.findIndex(image => {
-        if (image.route === this.$route.name) return true
+      const mockupIndex = this.mockups.findIndex(mockup => {
+        if (mockup.routeName === this.$route.name) return true
       })
 
-      if (imageIndex >= 0) this.currentImageIndex = imageIndex
+      if (mockupIndex >= 0) this.currentMockupIndex = mockupIndex
     },
-    currentImageIndex () {
+    currentMockupIndex (a) {
       this.persistToLocaleStorage()
     }
   },
   mounted () {
     this.addEvents()
 
-    const { imageIndex = this.currentImageIndex, opacity = this.opacity } = this.getLocaleStorage()
+    const { mockupIndex = this.currentMockupIndex, opacity = this.opacity } = this.getLocaleStorage()
     this.opacity = opacity
-    this.currentImageIndex = imageIndex
+    this.currentMockupIndex = mockupIndex
   },
   beforeDestroy () {
     this.removeEvents()
@@ -182,7 +182,7 @@ export default {
     persistToLocaleStorage () {
       window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify({
         opacity: this.opacity,
-        imageIndex: this.currentImageIndex
+        mockupIndex: this.currentMockupIndex
       }))
     },
     getLocaleStorage () {
@@ -234,7 +234,7 @@ export default {
   transition-delay: calc(var(--index) * 0.08s);
 }
 
-.PixelPerfect-currentImage {
+.PixelPerfect-currentMockup {
   position: absolute;
   top: 0;
   left: 0;
@@ -330,13 +330,13 @@ export default {
   transition: transform 0.2s cubic-bezier(0.5, 0, 0.75, 0);
 }
 
-.PixelPerfect-item.selected .PixelPerfect-image {
+.PixelPerfect-item.selected .PixelPerfect-mockup {
   box-shadow: 0 0 30px 5px rgba(200, 200, 200, 1);
 }
 
 .PixelPerfect-item:not(.selected)
   .PixelPerfect-itemButton:hover
-  .PixelPerfect-image {
+  .PixelPerfect-mockup {
   box-shadow: 0 0 15px 2px rgba(200, 200, 200, 1);
 }
 
@@ -351,7 +351,7 @@ export default {
   outline: none;
 }
 
-.PixelPerfect-image {
+.PixelPerfect-mockup {
   display: inline-block;
   max-width: 300px;
   max-height: 50vh;
@@ -360,7 +360,7 @@ export default {
   transition: box-shadow 0.4s;
 }
 
-.PixelPerfect-imageName {
+.PixelPerfect-mockupName {
   font-size: 12px;
   font-weight: bold;
   color: #fff;

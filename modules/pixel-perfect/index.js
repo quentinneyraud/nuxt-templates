@@ -3,14 +3,14 @@ import defu from 'defu'
 
 const MODULE_NAME = 'pixel-perfect'
 
-const DEFAULT_OPTIONS = {
-  force: false,
-  images: [],
-  directory: 'pixel-perfect',
-  changeOnNavigation: false
-}
-
 export default function (moduleOptions) {
+  const DEFAULT_OPTIONS = {
+    force: false,
+    mockups: [],
+    directory: 'pixel-perfect',
+    changeOnNavigation: true
+  }
+
   const options = {
     ...defu(moduleOptions, this.options[MODULE_NAME], this.options.pixelPerfect, DEFAULT_OPTIONS),
     MODULE_NAME
@@ -21,8 +21,7 @@ export default function (moduleOptions) {
     return
   }
 
-  options.changeOnNavigation = options.images.some(image => Object.prototype.hasOwnProperty.call(image, 'route'))
-  options.images = options.images.map(image => typeof image === 'string' ? { src: image } : image)
+  options.mockups = options.mockups.map(mockup => typeof mockup === 'string' ? { src: mockup } : mockup)
 
   // Component
   this.addPlugin({
