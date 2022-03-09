@@ -1,14 +1,8 @@
-/* eslint-disable no-console */
 import path from 'path'
+import defu from 'defu'
 import { getTranslations } from './utils/api'
 
 const MODULE_NAME = 'prismic-translations'
-
-const DEFAULT_OPTIONS = {
-  warnMissingKey: false,
-  endpoint: null,
-  customTypeId: 'translations'
-}
 
 const isModuleInstalled = moduleName => {
   let path
@@ -30,19 +24,21 @@ export default async function (moduleOptions) {
     return
   }
 
-  const options = {
-    ...DEFAULT_OPTIONS,
-    ...this.options[MODULE_NAME],
-    ...this.options.prismicTranslations,
-    ...moduleOptions,
+  const DEFAULT_OPTIONS = {
     warnMissingKey: this.options.dev,
+    prismicEndpoint: null,
+    customTypeId: 'translations'
+  }
+
+  const options = {
+    ...defu(moduleOptions, this.options[MODULE_NAME], this.options.prismicEndpoint, DEFAULT_OPTIONS),
     MODULE_NAME
   }
 
   // No endpoint, try to get it from @nuxtjs/prismic module options
-  if (!options.endpoint) options.endpoint = this.options.prismic && this.options.prismic.endpoint
+  if (!options.prismicEndpoint) options.prismicEndpoint = this.options.prismic && this.options.prismic.endpoint
 
-  if (!options.endpoint) {
+  if (!options.prismicEndpoint) {
     console.error(`❌ [${MODULE_NAME}]: Cannot find Prismic endpoint`)
 
     return
@@ -53,7 +49,7 @@ export default async function (moduleOptions) {
 
   if (extract) {
     translations = await getTranslations({
-      endpoint: options.endpoint,
+      endpoint: options.prismicEndpoint,
       customTypeId: options.customTypeId
     })
     options.translations = translations
