@@ -14,8 +14,6 @@ Vue.directive('ss-fixed', {
   unbind (el, __, vnode) {
     const smoothScrollPlugin = vnode.context.$smoothScroll
 
-    if (!smoothScrollPlugin) warn('$smoothScroll plugin not installed')
-
     smoothScrollPlugin.$off('scroll', el.__smooth_scroll_on_scroll_callback__)
   }
 })

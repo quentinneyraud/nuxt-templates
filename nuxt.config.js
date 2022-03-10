@@ -22,7 +22,11 @@ export default {
     '@nuxtjs/eslint-module'
   ],
   modules: [
-    '~/modules/virtual-scroll'
+    '~/modules/virtual-scroll',
+    '~/modules/events'
   ],
-  build: {}
+  build: {},
+  events: {
+    events: ['tick']
+  }
 }

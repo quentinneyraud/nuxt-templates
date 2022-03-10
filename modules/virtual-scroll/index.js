@@ -1,14 +1,12 @@
 import path from 'path'
+import defu from 'defu'
 
 const MODULE_NAME = 'virtual-scroll'
 const DEFAULT_OPTIONS = {}
 
 export default function (moduleOptions) {
   const options = {
-    ...DEFAULT_OPTIONS,
-    ...this.options[MODULE_NAME],
-    ...this.options.virtualScroll,
-    ...moduleOptions,
+    ...defu(moduleOptions, this.options[MODULE_NAME], this.options.virtualScroll, DEFAULT_OPTIONS),
     MODULE_NAME
   }
 
