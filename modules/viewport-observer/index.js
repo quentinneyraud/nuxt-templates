@@ -3,17 +3,17 @@ import defu from 'defu'
 
 const MODULE_NAME = 'viewport-observer'
 
-export const DEFAULT_OPTIONS = {
-  helper: process.env.NODE_ENV === 'development',
-  directiveOptions: {
-    activeClass: 'in-view',
-    threshold: 0,
-    offset: 0,
-    once: true
-  }
-}
-
 export default function (moduleOptions) {
+  const DEFAULT_OPTIONS = {
+    helper: this.options.dev,
+    directiveOptions: {
+      activeClass: 'in-view',
+      threshold: 0,
+      offset: 0,
+      once: true
+    }
+  }
+
   const options = {
     ...defu(moduleOptions, this.options[MODULE_NAME], this.options.viewportObserver, DEFAULT_OPTIONS),
     MODULE_NAME
