@@ -23,6 +23,11 @@ export default {
   ],
   modules: [
     '~/modules/screen-based-animation/index.js'
+    // Uncomment to test binding to $events tick event
+    // '~/modules/events'
   ],
   build: {}
+  // events: {
+  //   events: ['tick']
+  // }
 }

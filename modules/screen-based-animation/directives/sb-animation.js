@@ -8,12 +8,12 @@ const lerp = (value, target, coeff) => {
 }
 
 class ScreenBased {
-  constructor (el, options, context) {
+  constructor (el, options, eventsPlugin) {
     this.el = el
     this.ref = this.el.querySelector('[data-watch]') || options.el || this.el
 
     this.options = Object.assign({}, MODULE_OPTIONS.directiveOptions, options)
-    this.context = context
+    this.eventsPlugin = eventsPlugin
     this.rafId = null
 
     this.progress = {
@@ -36,8 +36,7 @@ class ScreenBased {
   }
 
   stop () {
-    window.cancelAnimationFrame(this.rafId)
-    this.context?.eventsPlugin?.$off('ticker', this.onTick)
+    this.eventsPlugin?.$off('tick', this.onTick) || window.cancelAnimationFrame(this.rafId)
     this.observer.unobserve(this.ref)
   }
 
@@ -70,8 +69,8 @@ class ScreenBased {
       this.progress.current = progress
       this.progress.lerped = progress
 
-      if (this.context.eventsPlugin) {
-        this.context.eventsPlugin.$on('ticker', this.onTick)
+      if (this.eventsPlugin) {
+        this.eventsPlugin.$on('tick', this.onTick)
       } else {
         const onTick = _ => {
           this.onTick()
@@ -81,8 +80,7 @@ class ScreenBased {
         onTick()
       }
     } else {
-      window.cancelAnimationFrame(this.rafId)
-      this.context?.eventsPlugin?.$off('ticker', this.onTick)
+      this.eventsPlugin?.$off('tick', this.onTick) || window.cancelAnimationFrame(this.rafId)
     }
   }
 
@@ -120,7 +118,9 @@ class ScreenBased {
 }
 
 function bind (el, { value }, { context }) {
-  const state = new ScreenBased(el, value, context)
+  const eventsPlugin = context?.$events?.tick?.active ? context?.$events : null
+
+  const state = new ScreenBased(el, value, eventsPlugin)
 
   if (state.options.active) state.start()
 

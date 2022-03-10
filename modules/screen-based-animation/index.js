@@ -7,8 +7,6 @@ const DEFAULT_OPTIONS = {
   directiveOptions: {
     active: true,
     clamp: true,
-    callback: null,
-    timeline: null,
     cssVars: false,
     lerped: true,
     lerpRatio: 0.1,
