@@ -78,7 +78,7 @@ export const sign = _ => {
    * Title
    *
    */
-  console.log(`%c${options.name}`, jsToCss({
+  options.name && console.log(`%c${options.name}`, jsToCss({
     fontSize: '22px',
     width: '200px',
     padding: '35px 55px',
@@ -91,29 +91,23 @@ export const sign = _ => {
    * Socials
    *
    */
-  if (options.website) {
-    logInfo({
-      icon: 'website',
-      name: 'Website',
-      value: options.website
-    })
-  }
+  options.website && logInfo({
+    icon: 'website',
+    name: 'Website',
+    value: options.website
+  })
 
-  if (options.twitter) {
-    logInfo({
-      icon: 'twitter',
-      name: 'Twitter',
-      value: options.twitter
-    })
-  }
+  options.twitter && logInfo({
+    icon: 'twitter',
+    name: 'Twitter',
+    value: options.twitter
+  })
 
-  if (options.facebook) {
-    logInfo({
-      icon: 'facebook',
-      name: 'Facebook',
-      value: options.facebook
-    })
-  }
+  options.facebook && logInfo({
+    icon: 'facebook',
+    name: 'Facebook',
+    value: options.facebook
+  })
 
   /**
    *

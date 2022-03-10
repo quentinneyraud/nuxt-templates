@@ -1,9 +1,10 @@
 import path from 'path'
+import defu from 'defu'
 
 const MODULE_NAME = 'signature'
 
 const DEFAULT_OPTIONS = {
-  name: '',
+  name: null,
   website: null,
   twitter: null,
   facebook: null,
@@ -16,9 +17,7 @@ const DEFAULT_OPTIONS = {
 
 export default function (moduleOptions) {
   const options = {
-    ...DEFAULT_OPTIONS,
-    ...this.options.signature,
-    ...moduleOptions,
+    ...defu(moduleOptions, this.options[MODULE_NAME], DEFAULT_OPTIONS),
     MODULE_NAME
   }
 
