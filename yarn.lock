@@ -1467,10 +1467,10 @@
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-1.0.0-next.21.tgz#5de5a2385a35309427f6011992b544514d559aa1"
   integrity sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==
 
-"@qneyraud/eslint-config@1.0.17":
-  version "1.0.17"
-  resolved "https://registry.yarnpkg.com/@qneyraud/eslint-config/-/eslint-config-1.0.17.tgz#4c08be563abe46fbcdca04b40bd9ed775ba7a68d"
-  integrity sha512-K1Alo7IKUvAPlmw3WPhDAI9wN+t876REZKDs0XGC270MPx7RxOS49Dos3JSzf3gB22pHyTJ4HYbvstVLlSNMgA==
+"@qneyraud/eslint-config@1.0.18":
+  version "1.0.18"
+  resolved "https://registry.yarnpkg.com/@qneyraud/eslint-config/-/eslint-config-1.0.18.tgz#c84c7927503c130bb119dd63ed5b5f64f0d85cfa"
+  integrity sha512-oCv3P9gJe1UZDZD9Yo7iH4M98rHRCDdA4LICs9gdyBZMuJkfLCk3cTSmiCLHuTKYEP9UColK9OKlKKaDGGkkKw==
 
 "@types/anymatch@*":
   version "1.3.1"
@@ -5404,10 +5404,10 @@ jiti@^1.9.2:
   resolved "https://registry.yarnpkg.com/jiti/-/jiti-1.13.0.tgz#3cdfc4e651ca0cca4c62ed5e47747b5841d41a8e"
   integrity sha512-/n9mNxZj/HDSrincJ6RP+L+yXbpnB8FybySBa+IjIaoH9FIxBbrbRT5XUbe8R7zuVM2AQqNMNDDqz0bzx3znOQ==
 
-js-cookie@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-2.2.1.tgz#69e106dc5d5806894562902aa5baec3744e9b2b8"
-  integrity sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==
+js-cookie@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-3.0.1.tgz#9e39b4c6c2f56563708d7d31f6f5f21873a92414"
+  integrity sha512-+0rgsUXZu4ncpPxRL+lNEptWMOWl9etvPHc/koSRp6MPwpRYAhmk0dUG00J4bxVV3r9uUzfo24wW0knS07SKSw==
 
 js-tokens@^4.0.0:
   version "4.0.0"

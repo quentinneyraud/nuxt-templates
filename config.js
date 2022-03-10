@@ -4,6 +4,11 @@ module.exports = _ => ({
   ],
   rgpd: {
     /**
+      Log errors and warnings (Default: true in dev mode)
+     */
+    debug: undefined,
+
+    /**
       Upgrade version to force re-render of RgpdBanner
      */
     version: '1',

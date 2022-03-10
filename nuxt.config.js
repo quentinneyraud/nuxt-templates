@@ -26,7 +26,6 @@ export default {
   ],
   build: {},
   rgpd: {
-    deleteCookieOnInit: false,
-    version: '2'
+    version: '1'
   }
 }

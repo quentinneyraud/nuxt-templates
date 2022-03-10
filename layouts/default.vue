@@ -6,7 +6,10 @@
     <RgpdPopup
       :text-contents="{
         title: 'Les informations que nous collectons',
-        text: 'Notre site utilise des cookies. Les cookies sont de petits fichiers texte placés sur votre appareil pour stocker des données destinées à être utilisées ultérieurement par les serveurs Web. Ubac utilise des cookies pour mémoriser vos préférences et vos paramètres, vous aider à vous connecter, afficher des publicités personnalisées et analyser les performances de nos sites Web.'
+        text: 'Notre site utilise des cookies. Les cookies sont de petits fichiers texte placés sur votre appareil pour stocker des données destinées à être utilisées ultérieurement par les serveurs Web. Ubac utilise des cookies pour mémoriser vos préférences et vos paramètres, vous aider à vous connecter, afficher des publicités personnalisées et analyser les performances de nos sites Web.',
+        accept: 'Accepter',
+        refuse: 'Refuser',
+        save: 'Sauvegarder'
       }"
     />
     <RgpdBanner

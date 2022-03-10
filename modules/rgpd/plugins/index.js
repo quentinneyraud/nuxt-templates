@@ -47,10 +47,7 @@ export default (_, inject) => {
       registerServices (services) {
         this.services = services
           .filter(service => {
-            if (!service.id || !service.name) {
-              options.debug && console.warn('Service need a name and an id')
-              return false
-            }
+            if (!service.id || !service.name) return false
 
             return true
           })

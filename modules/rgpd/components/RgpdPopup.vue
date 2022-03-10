@@ -1,5 +1,10 @@
 <template>
-  <div class="RgpdPopup-component">
+  <div
+    class="RgpdPopup-component"
+    :class="{
+      '--is-displayed': isDisplayed
+    }"
+  >
     <!-- Background -->
     <div class="RgpdPopup-background" />
 
@@ -41,11 +46,17 @@
 
             <!-- Service actions -->
             <div v-if="!service.required" class="RgpdPopup-serviceActions">
-              <button class="RgpdPopup-serviceAction RgpdPopup-serviceAccept" @click="$rgpd.enable(service)">
+              <button
+                class="RgpdPopup-serviceAction RgpdPopup-serviceAccept"
+                @click="$rgpd.enable(service)"
+              >
                 {{ t('accept') }}
               </button>
-              <button class="RgpdPopup-serviceAction RgpdPopup-rejectAccept" @click="$rgpd.disable(service)">
-                {{ t('decline') }}
+              <button
+                class="RgpdPopup-serviceAction RgpdPopup-serviceRefuse"
+                @click="$rgpd.disable(service)"
+              >
+                {{ t('refuse') }}
               </button>
             </div>
           </li>
@@ -55,12 +66,12 @@
       <!-- Global actions -->
       <div class="RgpdPopup-actions">
         <!-- Reset all -->
-        <button
+        <!-- <button
           class="RgpdPopup-action RgpdPopup-resetAll"
           @click="onResetButtonClick"
         >
           {{ t('resetAll') }}
-        </button>
+        </button> -->
 
         <!-- Save all -->
         <button
@@ -79,17 +90,36 @@ export default {
   props: {
     textContents: {
       type: Object,
-      required: true
+      required: false,
+      // Object with keys title, text, accept, refuse, save
+      default: _ => ({}),
+      validator (textContents) {
+        if (JSON.parse('<%= JSON.stringify(options.debug) %>')) {
+          ;['title', 'text', 'accept', 'refuse', 'save'].forEach(
+            textContentKey => {
+              if (!(textContentKey in textContents)) {
+                // eslint-disable-next-line no-console
+                console.warn(
+                  `[RgpdPopup component] Missing key '${textContentKey}' in textContents`
+                )
+                return false
+              }
+            }
+          )
+        }
+
+        return true
+      }
     }
   },
   data () {
     return {
-      isOpen: false
+      isDisplayed: false
     }
   },
   mounted () {
     this.$rgpd.$on('open-popup', this.open)
-    this.$rgpd.$on('hide', this.hide)
+    this.$rgpd.$on('hide', this.close)
   },
   beforeDestroy () {
     window.removeEventListener('keydown', this.onKeyDown)
@@ -102,11 +132,8 @@ export default {
     /**
      * Events
      */
-    hide () {
-      if (this.isOpen) this.close()
-    },
     open () {
-      this.$el.style.display = 'flex'
+      this.isDisplayed = true
 
       window.addEventListener('keydown', this.onKeyDown, {
         passive: true
@@ -119,7 +146,7 @@ export default {
       }, 0)
     },
     close () {
-      this.$el.style.display = 'none'
+      this.isDisplayed = false
 
       window.removeEventListener('keydown', this.onKeyDown)
       document.removeEventListener('click', this.onClick)
@@ -144,7 +171,7 @@ export default {
 }
 </script>
 
-<style lang="css" scoped>
+<style scoped>
 .RgpdPopup-component {
   position: fixed;
   top: 0;
@@ -157,7 +184,20 @@ export default {
   justify-content: center;
   align-items: center;
 
-  display: none;
+  pointer-events: none;
+  opacity: 0;
+
+  transition: all 0.5s;
+}
+
+.RgpdPopup-component.--is-displayed {
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.RgpdPopup-component.--is-displayed .RgpdPopup-popup {
+  transform: translateY(0px);
+  opacity: 1;
 }
 
 .RgpdPopup-background {
@@ -171,108 +211,94 @@ export default {
 
 .RgpdPopup-popup {
   position: relative;
-  background-color: #383b3f;
-  padding: 35px 70px;
-  width: 100%;
-  height: 100%;
-  max-width: 800px;
-  max-height: 600px;
+  background-color: black;
+  padding: 30px 40px;
+  width: 760px;
+  height: auto;
+  max-width: 100%;
+  max-height: max(700px, 100%);
 
   display: flex;
   flex-direction: column;
-  align-items: center;
+
+  transform: translateY(50px);
+  opacity: 0;
+
+  transition: all 0.5s;
 }
 
 .RgpdPopup-close {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 15px;
+  right: 15px;
+  width: 20px;
+  height: 20px;
 }
 
 .RgpdPopup-title {
-  color: white;
-  font-weight: 700;
-  font-size: 24px;
+  color: grey;
+  font-weight: 400;
+  font-size: 30px;
 }
 
 .RgpdPopup-text {
-  margin-top: 25px;
-  color: white;
-  font-size: 14px;
+  margin-top: 15px;
+  color: grey;
+  font-weight: 400;
+  font-size: 16px;
 }
 
 .RgpdPopup-servicesWrapper {
-  background-color: rgba(0, 0, 0, 0.1);
-  border: solid 1px rgba(255, 255, 255, 0.1);
-  padding: 25px;
-  margin-top: 15px;
-  overflow-y: auto;
-  flex-shrink: 1;
 }
 
 .RgpdPopup-services {
-  margin-top: 24px;
-  padding-left: 17px;
-}
-
-.RgpdPopup-service {
-  list-style-type: square;
-}
-
-.RgpdPopup-service:nth-child(n + 2) {
-  margin-top: 24px;
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 }
 
 .RgpdPopup-service.--is-enabled .RgpdPopup-serviceAccept {
-  border-color: white;
-  color: white;
+  background-color: green;
 }
 
-.RgpdPopup-service.--is-enabled .RgpdPopup-serviceAccept .RgpdPopup-acceptIcon {
-  fill: white;
-}
-
-.RgpdPopup-service:not(.--is-enabled) .RgpdPopup-rejectAccept {
-  border-color: white;
-  color: white;
-}
-
-.RgpdPopup-service:not(.--is-enabled)
-  .RgpdPopup-rejectAccept
-  .RgpdPopup-rejectIcon {
-  fill: white;
+.RgpdPopup-service:not(.--is-enabled) .RgpdPopup-serviceRefuse {
+  background-color: green;
 }
 
 .RgpdPopup-serviceName {
-  color: white;
+  color: grey;
+  font-weight: 500;
+  font-size: 20px;
+  text-transform: uppercase;
 }
 
 .RgpdPopup-serviceDescription {
-  color: rgba(255, 255, 255, 0.5);
-  margin-top: 8px;
+  color: grey;
+  font-weight: 400;
+  font-size: 16px;
+  margin-top: 15px;
 }
 
 .RgpdPopup-serviceActions {
-  margin-top: 16px;
+  margin-top: 15px;
   display: flex;
+  gap: 15px;
 }
 
 .RgpdPopup-serviceAction {
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  color: rgba(255, 255, 255, 0.5);
+  border: 1px solid white;
+  color: black;
   font-weight: 700;
-  padding: 6px 16px;
+  padding: 0.6rem 1.5rem;
   display: flex;
   align-items: center;
 }
 
-.RgpdPopup-serviceAction:nth-child(n + 2) {
-  margin-left: 14px;
-}
-
 .RgpdPopup-actions {
   display: flex;
-  gap: 20px;
-  margin-top: 25px;
+  margin-top: 3.5rem;
+  padding-top: 3rem;
+  border-top: 1px solid rgba(grey, 0.1);
 }
 </style>

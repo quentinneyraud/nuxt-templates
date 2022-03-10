@@ -1,13 +1,24 @@
 <template>
-  <div class="RgpdBanner-component">
+  <div
+    class="RgpdBanner-component"
+    :class="{
+      '--is-displayed': isDisplayed
+    }"
+  >
     <div class="RgpdBanner-text" v-html="t('text')" />
 
     <div class="RgpdBanner-actions">
-      <button class="RgpdBanner-acceptAll" @click="onAcceptAllButtonClick">
+      <button
+        class="RgpdBanner-acceptAll"
+        @click="onAcceptAllButtonClick"
+      >
         {{ t('acceptAll') }}
       </button>
 
-      <button class="RgpdBanner-manage" @click="onManageButtonClick">
+      <button
+        class="RgpdBanner-manage"
+        @click="onManageButtonClick"
+      >
         {{ t('manage') }}
       </button>
     </div>
@@ -19,12 +30,29 @@ export default {
   props: {
     textContents: {
       type: Object,
-      required: true
+      required: false,
+      // Object with keys text, acceptAll, manage
+      default: _ => ({}),
+      validator (textContents) {
+        if (JSON.parse('<%= JSON.stringify(options.debug) %>')) {
+          ;['text', 'acceptAll', 'manage'].forEach(textContentKey => {
+            if (!(textContentKey in textContents)) {
+              // eslint-disable-next-line no-console
+              console.warn(
+                `[RgpdBanner component] Missing key '${textContentKey}' in textContents`
+              )
+              return false
+            }
+          })
+        }
+
+        return true
+      }
     }
   },
   data () {
     return {
-      isShown: false
+      isDisplayed: false
     }
   },
   mounted () {
@@ -43,42 +71,56 @@ export default {
       this.$rgpd.openPopup()
     },
     show () {
-      this.$el.style.display = 'block'
+      this.isDisplayed = true
     },
     hide () {
-      this.$el.style.display = 'none'
+      this.isDisplayed = false
     }
   }
 }
 </script>
 
-<style lang="css" scoped>
+<style scoped>
 .RgpdBanner-component {
   position: fixed;
+  z-index: 1000;
   bottom: 0;
   right: 0;
   width: 100%;
-  max-width: 550px;
-  background-color: #383b3f;
-  padding: 35px;
+  max-width: 960px;
+  background-color: black;
+  padding: 40px 25px;
+  display: flex;
+  align-items: center;
+  gap: 30px;
 
-  display: none;
+  transform: translateY(100%);
+  opacity: 0;
+  transition: all 0.5s;
+}
+
+.RgpdBanner-component.--is-displayed {
+  transform: translateY(0%);
+  opacity: 1;
 }
 
 .RgpdBanner-text {
-  color: #ffffff;
+  flex-shrink: 1;
+  color: grey;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: uppercase;
 }
 
 .RgpdBanner-actions {
-  margin-top: 30px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
+  gap: 10px;
 }
 
 .RgpdBanner-actions button {
-  padding: 8px 10px;
   flex-shrink: 0;
 }
 </style>
