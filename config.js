@@ -2,6 +2,7 @@ module.exports = ({ title = 'My app' } = {}) => ({
   modules: [
     '~/modules/audio'
   ],
+  // https://github.com/pimlie/nuxt-rfg-icon#setup
   'rfg-icon': {
     rfg: {
       design: {
