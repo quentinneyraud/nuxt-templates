@@ -238,9 +238,8 @@ export default {
       this.loading = false
       this.error = false
       this.$emit('loaded')
-      // this.$nextTick(_ => {
-      //   this.$virtualScroll.setBoundings()
-      // })
+
+      // Update virtual scroll bounding here
     },
     onError () {
       this.loaded = false
@@ -285,10 +284,16 @@ export default {
   transition: opacity 0.3s;
 }
 
+.AppImage-component.loaded .AppImage-placeholder {
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
 .AppImage-placeholder {
   position: absolute;
   width: 100%;
   height: 100%;
+  opacity: 1;
 }
 
 .AppImage-image {
