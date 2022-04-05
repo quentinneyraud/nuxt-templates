@@ -53,7 +53,10 @@ export default {
             ?.map(size => {
               const url = new URL(this.src)
               url.searchParams.set('w', size)
-              url.searchParams.delete('h', size)
+              url.searchParams.delete('h')
+
+              // Default quality with auto=compress is 45, set it to 80
+              url.searchParams.set('q', 80)
 
               return `${url} ${size}w`
             })
