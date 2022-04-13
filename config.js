@@ -1,4 +1,4 @@
-module.exports = ({ ENVIRONMENT, IS_DEV, IS_PROD, BASE_URL }) => ({
+module.exports = ({ ENVIRONMENT, IS_DEV, IS_PREPROD, IS_PROD, MODE, BASE_URL }) => ({
   // Modern build
   modern: IS_PROD ? 'client' : false,
 
@@ -17,7 +17,9 @@ module.exports = ({ ENVIRONMENT, IS_DEV, IS_PROD, BASE_URL }) => ({
   publicRuntimeConfig: {
     ENVIRONMENT,
     IS_DEV,
+    IS_PREPROD,
     IS_PROD,
+    MODE,
     BASE_URL
   }
 })
