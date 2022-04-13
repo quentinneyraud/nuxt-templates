@@ -143,7 +143,7 @@ const createVirtualScroll = ctx => new Vue({
         })
       }
 
-      if (ctx?.$events?.tick?.active) {
+      if (ctx?.$events?.eventsState?.tick) {
         ctx.$events.$on('tick', _ => {
           this.onTick()
         })
