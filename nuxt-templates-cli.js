@@ -1,7 +1,8 @@
 module.exports = {
   metas: {
     title: 'SVG',
-    description: 'Add SVG component'
+    description: 'Add SVG component',
+    category: 'Components'
   },
   dependencies: [],
   devDependencies: [
