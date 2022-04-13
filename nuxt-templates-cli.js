@@ -1,7 +1,8 @@
 module.exports = {
   metas: {
     title: 'Transitions',
-    description: 'Add page loader and pages transitions'
+    description: 'Add page loader and pages transitions',
+    category: 'Animations'
   },
   dependencies: [],
   devDependencies: [],
