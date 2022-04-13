@@ -26,23 +26,13 @@ const debounce = (callback, wait) => {
 const Events = new Vue({
   data () {
     return {
-      resize: {
-        active: false
-      },
-      resizeDebounced: {
-        active: false
-      },
-      tick: {
-        active: false
-      },
-      visibility: {
-        active: false
-      },
-      orientation: {
-        active: false
-      },
-      mousemove: {
-        active: false
+      eventsState: {
+        resize: false,
+        resizeDebounced: false,
+        tick: false,
+        visibility: false,
+        orientation: false,
+        mousemove: false
       }
     }
   }
@@ -240,7 +230,7 @@ options.events.forEach(event => {
         .init()
         .start()
 
-      Events.resize.active = true
+      Events.eventsState.resize = true
 
       break
 
@@ -249,7 +239,7 @@ options.events.forEach(event => {
         .init()
         .start()
 
-      Events.resizeDebounced.active = true
+      Events.eventsState.resizeDebounced = true
 
       break
 
@@ -258,7 +248,7 @@ options.events.forEach(event => {
         .init()
         .start()
 
-      Events.tick.active = true
+      Events.eventsState.tick = true
 
       break
 
@@ -267,7 +257,7 @@ options.events.forEach(event => {
         .init()
         .start()
 
-      Events.visibility.active = true
+      Events.eventsState.visibility = true
 
       break
 
@@ -276,7 +266,7 @@ options.events.forEach(event => {
         .init()
         .start()
 
-      Events.orientation.active = true
+      Events.eventsState.orientation = true
 
       break
 
@@ -285,7 +275,7 @@ options.events.forEach(event => {
         .init()
         .start()
 
-      Events.mousemove.active = true
+      Events.eventsState.mousemove = true
 
       break
 
