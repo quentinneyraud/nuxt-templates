@@ -305,8 +305,8 @@ export default {
     this.onEnter()
   },
   beforeDestroy () {
-    this.$events.$off('resize', this.setLayout)
-    this.$events.$off('ticker', this.onTick)
+    this.$events?.$off('resize', this.setLayout)
+    this.$events?.$off('tick', this.onTick)
   },
   methods: {
     initialize () {
@@ -447,7 +447,7 @@ export default {
 
       this.$emit('play')
 
-      // if (this.customControls) this.$events.$on('ticker', this.onTick)
+      // if (this.customControls) this.$events.$on('tick', this.onTick)
     },
     onPause () {
       this.state.isPlaying = false
@@ -463,7 +463,7 @@ export default {
 
       this.$emit('pause')
 
-      this.$events.$off('ticker', this.onTick)
+      this.$events.$off('tick', this.onTick)
     },
     onLoaded () {
       this.state.isLoading = false
