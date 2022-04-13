@@ -36,7 +36,7 @@ export default {
       css: false
     }
 
-    if (!from) {
+    if (!from || (window.$nuxt.$config.MODE === 'spa' && (!from || (to.name === from.name && to.path === from.path)))) {
       transition = {
         ...transition,
         enter (el, done) {
