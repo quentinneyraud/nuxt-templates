@@ -1,7 +1,8 @@
 module.exports = {
   metas: {
     title: 'Virtual scroll',
-    description: 'Add virtual scroll'
+    description: 'Add virtual scroll',
+    category: 'Animations'
   },
   dependencies: [
     'virtual-scroll'
