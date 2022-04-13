@@ -8,9 +8,9 @@ const DEFAULT_OPTIONS = {
     active: true,
     clamp: true,
     cssVars: false,
-    lerped: true,
+    lerped: false,
     lerpRatio: 0.1,
-    normalized: true,
+    normalized: false,
     observerMargins: 100
   }
 }

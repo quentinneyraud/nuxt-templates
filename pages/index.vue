@@ -2,7 +2,8 @@
   <div class="page">
     <div
       v-sb-animation="{
-        cssVars: true
+        cssVars: true,
+        lerped: true
       }"
       class="square normal"
     >
@@ -12,6 +13,7 @@
     <div
       v-sb-animation="{
         cssVars: true,
+        lerped: true,
         lerpRatio: 0.05
       }"
       class="square lerped"

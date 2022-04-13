@@ -10,10 +10,10 @@ const lerp = (value, target, coeff) => {
 class ScreenBased {
   constructor (el, options, eventsPlugin) {
     this.el = el
-    this.ref = this.el.querySelector('[data-watch]') || options.el || this.el
-
     this.options = Object.assign({}, MODULE_OPTIONS.directiveOptions, options)
     this.eventsPlugin = eventsPlugin
+
+    this.ref = this.el.querySelector('[data-watch]') || this.options.el || this.el
     this.rafId = null
 
     this.progress = {
@@ -105,7 +105,11 @@ class ScreenBased {
 
   getProgress () {
     const { top, height } = this.ref.getBoundingClientRect()
-    return Math.min(Math.max((top + height) / (window.innerHeight + height), this.options.clamp ? 0 : undefined), this.options.clamp ? 1 : undefined)
+    const progress = (top + height) / (window.innerHeight + height)
+
+    return this.options.clamp
+      ? Math.min(Math.max(progress, 0), 1)
+      : progress
   }
 
   setCssVars () {
@@ -118,7 +122,7 @@ class ScreenBased {
 }
 
 function bind (el, { value }, { context }) {
-  const eventsPlugin = context?.$events?.tick?.active ? context?.$events : null
+  const eventsPlugin = context?.$events?.eventsState?.tick ? context?.$events : null
 
   const state = new ScreenBased(el, value, eventsPlugin)
 
