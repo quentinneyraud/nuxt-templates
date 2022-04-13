@@ -1,7 +1,8 @@
 module.exports = {
   metas: {
     title: 'Prismic image',
-    description: 'Add AppImage component'
+    description: 'Add AppImage component',
+    category: 'Components'
   },
   dependencies: [],
   devDependencies: [],
