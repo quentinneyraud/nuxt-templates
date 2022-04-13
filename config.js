@@ -1,4 +1,7 @@
 module.exports = ({ BASE_URL } = {}) => ({
+  buildModules: [
+    '~/modules/sitemap'
+  ],
   modules: [
     '@nuxtjs/sitemap'
   ],

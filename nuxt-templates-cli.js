@@ -7,5 +7,7 @@ module.exports = {
     '@nuxtjs/sitemap'
   ],
   devDependencies: [],
-  files: []
+  files: [
+    './modules/sitemap'
+  ]
 }
