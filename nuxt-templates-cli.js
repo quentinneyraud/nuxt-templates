@@ -1,7 +1,8 @@
 module.exports = {
   metas: {
     title: 'GSAP',
-    description: 'Add gsap library'
+    description: 'Add gsap library',
+    category: 'Animations'
   },
   dependencies: [
     'gsap'
