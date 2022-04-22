@@ -32,6 +32,7 @@ export default {
   },
   methods: {
     async hide ({ el, to, from, promises = [], done } = {}) {
+      document.body.classList.add('cursor-loading')
       this.preloadPromises = promises
 
       await Promise.allSettled([
@@ -45,6 +46,7 @@ export default {
       window.setTimeout(_ => {
         done()
         this.$transitionsBus.$emit('loader:hide:done', { el, to, from })
+        document.body.classList.remove('cursor-loading')
       }, 500)
     },
     preloadPromisesCallback () {

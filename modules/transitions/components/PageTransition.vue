@@ -47,11 +47,13 @@ export default {
       window.setTimeout(_ => {
         done()
         this.$transitionsBus.$emit('transition:hide:done', { el, to, from })
-
+        document.body.classList.remove('cursor-loading')
         this.resetProgress()
       }, 500)
     },
     async show ({ el, to, from, promises = [], done } = {}) {
+      document.body.classList.add('cursor-loading')
+
       await Promise.allSettled(promises)
 
       this.$transitionsBus.$emit('transition:show:previous-page-hidden', { el, to, from })

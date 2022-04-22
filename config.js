@@ -1,6 +1,7 @@
 module.exports = ({ MODE }) => ({
-  // Remove default loading bar
   loading: false,
+
+  css: ['~/modules/transitions/assets/index.css'],
 
   modules: [
     '~/modules/transitions'
