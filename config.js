@@ -1,9 +1,6 @@
 module.exports = ({ IS_PROD } = {}) => ({
-  plugins: [
-    {
-      src: '~/plugins/gsap.js',
-      ssr: false
-    }
+  modules: [
+    '~/modules/gsap'
   ],
   publicRuntimeConfig: {
     IS_PROD
