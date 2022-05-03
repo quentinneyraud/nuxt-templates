@@ -8,5 +8,8 @@ module.exports = {
   devDependencies: [
     '@nuxtjs/prismic'
   ],
-  files: []
+  files: [
+    'app',
+    'modules/prismic'
+  ]
 }
