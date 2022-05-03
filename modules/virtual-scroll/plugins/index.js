@@ -141,6 +141,9 @@ const createVirtualScroll = ctx => new Vue({
           capture: false,
           passive: true
         })
+      } else {
+        this.onScroll()
+        window.addEventListener('scroll', this.onScroll)
       }
 
       if (ctx?.$events?.eventsState?.tick) {
@@ -262,6 +265,10 @@ const createVirtualScroll = ctx => new Vue({
         current: this.current,
         target: this.target
       })
+    },
+
+    onScroll () {
+      this.current = window.scrollY
     },
 
     onResize () {
