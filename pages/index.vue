@@ -6,7 +6,7 @@
       :key="elementIndex"
       class="element"
     >
-      <NuxtLink :to="{ path: '/',hash: element.hash}">
+      <NuxtLink :to="{ path: '/', hash: element.hash}">
         <h2>{{ element.name }}</h2>
       </NuxtLink>
 
@@ -19,27 +19,35 @@
         </div>
       </div>
     </div>
+
+    <NuxtLink :to="{ path: '/', hash: 'slices'}">
+      <h2>Slices</h2>
+    </NuxtLink>
+
+    <pre id="slices">{{ slices }}</pre>
   </div>
 </template>
 
 <script>
 export default {
-  async asyncData ({ app }) {
+  async asyncData ({ $config, $api, error }) {
     try {
-      const { elements } = await app.$api.getTestPage()
+      const { elements, slices } = await $api.getTestPage()
 
-      return { elements }
+      return { elements, slices }
     } catch (err) {
-      console.log('err:', err)
+      !$config.IS_PROD && console.error(err)
+      // error({
+      //   statusCode: 404,
+      //   message: 'Page not found'
+      // })
     }
   },
   data () {
     return {
-      elements: []
+      elements: [],
+      slices: []
     }
-  },
-  mounted () {
-    // console.log(this.$prismic)
   }
 }
 </script>
@@ -57,16 +65,16 @@ html, body {
 .side {
   flex: 0 0 50%;
   overflow: auto;
-  background-color: rgb(36, 36, 36);
 }
 
 .side:nth-child(2) {
   border-left: 1px solid white;
 }
 
-.side pre {
+pre {
   padding: 25px;
   white-space: pre-wrap;
   color: white;
+  background-color: rgb(36, 36, 36);
 }
 </style>
