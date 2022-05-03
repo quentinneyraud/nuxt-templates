@@ -1,13 +1,15 @@
 // Recursive get all documents (bypass 100 results limit)
-export const getAll = async (prismic, documentType, queryOptions) => {
+export const getAll = async (prismic, documentType, predicates = [], queryOptions) => {
   const fetch = async (acc, page = 1) => {
-    const document = await prismic.api.query(
+    const document = await prismic.api.query([
       prismic.predicates.at('document.type', documentType),
-      {
-        ...queryOptions,
-        pageSize: 100,
-        page
-      }
+      ...(Array.isArray(predicates) ? predicates : [])
+    ],
+    {
+      ...queryOptions,
+      pageSize: 100,
+      page
+    }
     )
 
     acc.push(...document.results)

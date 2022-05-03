@@ -85,6 +85,7 @@ export const stripTags = string => string?.replace(/(<([^>]+)>)/gi, '')
  */
 export const createEllispis = (str, { maxChars = 0, pretty = true, suffix = '...', maxCharsIncludesSuffix = true } = {}) => {
   if (!str) return undefined
+  if (str.length < maxChars) return str
 
   const realMaxChars = maxCharsIncludesSuffix ? maxChars - suffix?.length : maxChars
 

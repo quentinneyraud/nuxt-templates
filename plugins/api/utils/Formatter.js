@@ -18,6 +18,8 @@ class Formatter {
   formatRichText (richText, { removeWrappingPTag = false, ellispsis } = {}) {
     if (!richText || richText.length === 0) return undefined
 
+    if (typeof richText === 'string') return richText
+
     if (ellispsis) {
       const text = this.$prismic.asText(richText)
         .replace(/(?:\r\n|\r|\n|\t|\s\s+)/g, ' ')
@@ -46,7 +48,7 @@ class Formatter {
     const { dimensions, alt, copyright: _, url, ...responsiveViews } = image
     let allViews = {
       ...responsiveViews,
-      defaultView: {
+      main: {
         url,
         alt,
         dimensions
@@ -63,10 +65,12 @@ class Formatter {
         acc[responsiveViewName] = {
           url,
           alt,
-          ...(includeDimensions ? {
-            width: dimensions.width,
-            height: dimensions.height
-          } : {})
+          ...(includeDimensions
+            ? {
+              width: dimensions.width,
+              height: dimensions.height
+            }
+            : {})
         }
 
         return acc
@@ -74,10 +78,10 @@ class Formatter {
 
     if (Object.keys(allViews).length === 0) return undefined
 
-    const { defaultView, ...filteredResponsiveViews } = allViews
+    const { main, ...filteredResponsiveViews } = allViews
 
     return {
-      ...defaultView,
+      ...main,
       ...filteredResponsiveViews
     }
   }
