@@ -1,0 +1,20 @@
+$wrapper-padding: 30px;
+
+$wrapper-regular: 1240px;
+$wrapper-large: 1670px;
+
+@mixin flex-size ($size) {
+  flex: 0 0 $size;
+  width: $size;
+}
+
+@mixin columns ($numberOfColumns: 1, $totalColumns: 12) {
+  @include flex-size(math.percentage(math.div($numberOfColumns, $totalColumns)));
+}
+
+@mixin push ($numberOfColumns: 1, $totalColumns: 12) {
+  margin-left: math.percentage(math.div($numberOfColumns, $totalColumns));
+}
+
+$calc-layout-width: calc(min(100vw, $wrapper-regular +  $wrapper-padding * 2) - $wrapper-padding * 2);
+$calc-layout-margin: calc((100vw - $calc-layout-width) / 2);

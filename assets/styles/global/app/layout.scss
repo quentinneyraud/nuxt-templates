@@ -1,0 +1,12 @@
+.AppWrapper {
+  position: relative;
+  width: 100%;
+  max-width: $wrapper-regular + $wrapper-padding * 2;
+  margin: 0 auto;
+  padding: 0 $wrapper-padding;
+}
+
+.AppWrapper--large {
+  @extend .AppWrapper;
+  max-width: $wrapper-large + $wrapper-padding * 2;
+}

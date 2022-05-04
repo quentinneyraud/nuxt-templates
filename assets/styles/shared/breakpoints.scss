@@ -1,0 +1,148 @@
+$width-breakpoints: (
+  "mobile": 576,
+  "tablet": 768,
+  "desktop": 992,
+  "large": 1200,
+  "xlarge": 1440,
+  "xxlarge": 1600,
+);
+
+$height-breakpoints: (
+  "small": 500,
+  "medium": 720,
+  "large": 970,
+);
+
+@mixin bp-up($size) {
+  @if (type-of($size) == "number") {
+    @media screen and (min-width: #{$size}) {
+      @content;
+    }
+  } @else {
+    $min: map-get($width-breakpoints, $size);
+
+    @media screen and (min-width: #{$min}px) {
+      @content;
+    }
+  }
+}
+
+@mixin bp-down($size) {
+  @if (type-of($size) == "number") {
+    @media screen and (max-width: #{$size - 1}) {
+      @content;
+    }
+  } @else {
+    $max: map-get($width-breakpoints, $size) - 1;
+
+    @media screen and (max-width: #{$max}px) {
+      @content;
+    }
+  }
+}
+
+@mixin height-bp-up($size) {
+  @if (type-of($size) == "number") {
+    @media screen and (min-height: #{$size}) {
+      @content;
+    }
+  } @else {
+    $min: map-get($height-breakpoints, $size);
+
+    @media screen and (min-height: #{$min}px) {
+      @content;
+    }
+  }
+}
+
+@mixin height-bp-down($size) {
+  @if (type-of($size) == "number") {
+    @media screen and (max-height: #{$size - 1}) {
+      @content;
+    }
+  } @else {
+    $min: map-get($height-breakpoints, $size) - 1;
+
+    @media screen and (max-height: #{$min}px) {
+      @content;
+    }
+  }
+}
+
+/**
+
+Custom
+
+**/
+
+@mixin mobile {
+  @include bp-up(mobile) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @include bp-up(tablet) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @include bp-up(desktop) {
+    @content;
+  }
+}
+
+@mixin large {
+  @include bp-up(large) {
+    @content;
+  }
+}
+
+@mixin xlarge {
+  @include bp-up(xlarge) {
+    @content;
+  }
+}
+
+@mixin xxlarge {
+  @include bp-up(xxlarge) {
+    @content;
+  }
+}
+
+@mixin mobile-down {
+  @include bp-down(mobile) {
+    @content;
+  }
+}
+
+@mixin tablet-down {
+  @include bp-down(tablet) {
+    @content;
+  }
+}
+
+@mixin desktop-down {
+  @include bp-down(desktop) {
+    @content;
+  }
+}
+
+@mixin large-down {
+  @include bp-down(large) {
+    @content;
+  }
+}
+
+@mixin xlarge {
+  @include bp-down(xlarge) {
+    @content;
+  }
+}
+
+@mixin xxlarge {
+  @include bp-down(xxlarge) {
+    @content;
+  }
+}

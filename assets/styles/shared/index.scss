@@ -1,0 +1,22 @@
+@function strip-unit($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
+    @return $number / ($number * 0 + 1);
+  }
+
+  @return $number;
+}
+
+@function round($number) {
+  @return math.div(math.round($number * 1000), 1000);
+}
+
+@import '~@/assets/styles/shared/accessibility.scss';
+@import '~@/assets/styles/shared/animations.scss';
+@import '~@/assets/styles/shared/breakpoints.scss';
+@import '~@/assets/styles/shared/debug.scss';
+@import '~@/assets/styles/shared/easings.scss';
+@import '~@/assets/styles/shared/fonts.scss';
+@import '~@/assets/styles/shared/interactions.scss';
+@import '~@/assets/styles/shared/positions.scss';
+@import '~@/assets/styles/shared/responsive.scss';
+@import '~@/assets/styles/shared/app/index.scss';

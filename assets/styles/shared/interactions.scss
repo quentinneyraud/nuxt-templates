@@ -1,0 +1,35 @@
+@mixin no-drag {
+  -webkit-user-drag: none;
+}
+
+@mixin drag {
+  -webkit-user-drag: auto;
+}
+
+@mixin no-select {
+  user-select: none;
+}
+
+@mixin select {
+  user-select: auto;
+}
+
+@mixin no-pointer {
+  pointer-events: none;
+}
+
+@mixin pointer {
+  pointer-events: auto;
+}
+
+@mixin no-interaction {
+  @include no-drag();
+  @include no-select();
+  @include no-pointer();
+}
+
+@mixin interaction {
+  @include drag();
+  @include select();
+  @include pointer();
+}

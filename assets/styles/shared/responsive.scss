@@ -1,0 +1,29 @@
+// Used for interpolation
+$mobileMockupWidth: 375;
+$desktopMockupWidth: 1440;
+
+@function fs($mobileSize, $desktopSize, $mobileSizeReference: $mobileMockupWidth, $desktopSizeReference: $desktopMockupWidth) {
+  $m: math.div($desktopSize - $mobileSize, $desktopSizeReference - $mobileSizeReference);
+  $b: $mobileSize - $m * $mobileSizeReference;
+
+  $clampMin: null;
+  $clampMax: null;
+
+  @if ($desktopSize > $mobileSize) {
+    $clampMin: $mobileSize * 0.1rem;
+    $clampMax: $desktopSize * 0.1rem;
+  } @else {
+    $clampMin: $desktopSize * 0.1rem;
+    $clampMax: $mobileSize * 0.1rem;
+  }
+
+  // Fix parce que l'unité en rem est enlevé au build par le post processeur css :/
+  @if ($clampMin == 0rem) {
+    $clampMin: 0.01rem;
+  }
+  @if ($clampMax == 0rem) {
+    $clampMax: 0.01rem;
+  }
+
+  @return clamp($clampMin, unquote("calc(#{round($m) * 100}vw + #{round($b) * 0.1}rem)"), $clampMax);
+}

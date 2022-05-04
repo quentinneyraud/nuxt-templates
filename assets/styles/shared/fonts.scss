@@ -1,0 +1,90 @@
+// Font weights
+$fw-thin: 100;
+$fw-hairline: 100;
+$fw-extra-light: 200;
+$fw-ultra-light: 200;
+$fw-light: 300;
+$fw-regular: 400;
+$fw-normal: 400;
+$fw-medium: 500;
+$fw-semi-bold: 600;
+$fw-demi-bold: 600;
+$fw-bold: 700;
+$fw-extra-bold: 800;
+$fw-ultra-bold: 800;
+$fw-black: 900;
+$fw-heavy: 900;
+
+// Import font
+@mixin import-font(
+  $font-family-name,
+  $files,
+  $weight: 400,
+  $style: "normal",
+  $use-swap: true
+) {
+  $src-values: "";
+
+  @each $file-format, $file-url in $files {
+    $src-values: $src-values +
+      'url("' +
+      $file-url +
+      '") format("' +
+      $file-format +
+      '")';
+
+    @if (index($files, $file-format $file-url) != length($files)) {
+      $src-values: $src-values + ", ";
+    }
+  }
+
+  @font-face {
+    font-family: $font-family-name;
+    src: unquote($src-values);
+    font-weight: $weight;
+    font-style: $style;
+
+    @if ($use-swap) {
+      font-display: swap;
+    }
+  }
+}
+
+// Font size
+@mixin fsz($font-size) {
+  @if (type-of($font-size) == "number") {
+    font-size: #{strip-unit($font-size)}px;
+    font-size: #{strip-unit($font-size * 0.1)}rem;
+  } @else {
+    font-size: $font-size;
+  }
+}
+
+// Line height
+@mixin lh($line-height) {
+  @if (type-of($line-height) == "number") {
+    line-height: #{strip-unit($line-height)}px;
+    line-height: #{strip-unit($line-height * 0.1)}rem;
+  } @else {
+    line-height: $line-height;
+  }
+}
+
+// Font
+@mixin font(
+  $font-family-name,
+  $font-size: 16px,
+  $line-height: auto,
+  $font-weight: $fw-regular,
+  $color: null,
+  $letter-spacing: 0,
+  $font-style: normal
+) {
+  font-family: $font-family-name;
+  @include fsz($font-size);
+  font-weight: $font-weight;
+  @include lh($line-height);
+  letter-spacing: $letter-spacing;
+  color: $color;
+  font-style: $font-style;
+}

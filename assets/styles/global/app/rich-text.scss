@@ -1,0 +1,38 @@
+.AppRichText {
+  & > *:first-child {
+    margin-top: 0;
+  }
+
+  & > *:last-child {
+    margin-bottom: 0;
+  }
+
+  & > * {
+    margin-top: 25px;
+    margin-bottom: 15px;
+  }
+
+  & * {
+    @extend .AppText-2;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  strong {
+    font-weight: bold;
+
+    * {
+      font-weight: inherit;
+    }
+  }
+
+  em {
+    font-style: italic;
+
+    * {
+      font-style: inherit;
+    }
+  }
+}
