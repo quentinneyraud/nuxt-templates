@@ -27,6 +27,11 @@ export default function (moduleOptions) {
     },
     title: options.title,
     meta: [
+      { charset: 'utf-8' },
+
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'format-detection', content: 'telephone=no' },
+
       { hid: 'og:title', name: 'og:title', property: 'og:title', content: options.title },
 
       { hid: 'og:type', name: 'og:type', property: 'og:type', content: 'Website' },
@@ -39,6 +44,9 @@ export default function (moduleOptions) {
       ...(options.BASE_URL && options.image ? [{ hid: 'og:image', name: 'og:image', property: 'og:image', content: options.BASE_URL + options.image }] : []),
 
       ...(options.noIndex ? [{ name: 'robots', content: 'noindex' }] : [])
+    ],
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   }
 }
