@@ -1,169 +1,35 @@
-# Signature
+# Nuxt templates
 
-> Script to log informations about the authors, libraries, fonts and icons used in the project.
-  
-</br>
+> Nuxt features for various use cases
 
-![Result gif](./doc/console.gif)
-
-</br>
+Each feature is in its own branch. Documentation, when available, is in the branches `README.md` file.
 
 ## Installation
 
-- Copy `modules/signature` in your `modules` directory
-- Add `~/modules/signature/index.js` to the `modules` section of `nuxt.config.js`
+#### By hand
 
-```js
-// nuxt.config.js
+Copy all files that differs from a fresh Nuxt installation in your Nuxt project.
 
-{
-  modules: [
-    ['~/modules/signature/index.js', {
-      // module options
-    }]
-  ]
-}
+#### With `nuxt-templates-cli` (easier)
 
-// or
+Install `nuxt-templates-cli` command and run `nuxt-templates install`. Choose one or more features, it will download all required files and install dependencies automatically.
 
-{
-  modules: [
-    '~/modules/signature/index.js'
-  ],
+More informations on how to install and use it in the [Nuxt templates CLI repository](https://github.com/quentinneyraud/nuxt-templates-cli).
 
-  signature: {
-    // module options
-  }
-}
-```
+## Add your own feature
 
+- Create a new branch
+- Test your code locally by running `npm run dev`
 
-## Usage
+#### Nuxt templates CLI compatibility
 
-This script is called on `window.onNuxtReady` event.
+To make your feature available for installation by `nuxt-templates install` command, you need to :
 
-> :warning:  This module is disabled in development, set `force` option to `true` to always log the signature.
-  
-## Options
-
-### Name
-
-type: `String`  
-default: `null`  
-
-Agency/Website name
-
-</br>
-
-### website
-
-type: `String`  
-default: `null`  
-
-Agency website URL
-
-</br>
-
-### twitter
-
-type: `String`  
-default: `null`  
-
-Agency twitter profile URL
-
-</br>
-
-### facebook
-
-type: `String`  
-default: `null`  
-
-Agency facebook page URL
-
-</br>
-
-### team
-
-type: `Array`  
-default: `[]`  
-
-Array of object with these properties: `name`, `status`, `github`, `twitter`, `website`
-
-</br>
-
-### libraries
-
-type: `Array`  
-default: `[]`  
-
-Array of object with these properties: `name`, `author`, `github`, `website`
-
-</br>
-
-### fonts
-
-type: `Array`  
-default: `[]`  
-
-Array of object with these properties: `name`, `author`, `website`
-
-</br>
-
-### icons
-
-type: `Array`  
-default: `[]`  
-
-Array of object with these properties: `name`, `author`, `website`
-
-</br>
-
-### force
-
-type: `Boolean`  
-default: `false`  
-
-Whether to log signature in development
-
-</br>
-
-
-## Example
-
-```js
-// nuxt.config.js
-
-export default {
-  signature: {
-    name: 'Akaru Studio',
-    website: 'https://twitter.com/Akaru_studio',
-    facebook: 'https://twitter.com/Akaru_studio',
-    twitter: 'https://twitter.com/Akaru_studio',
-    team: [{
-      name: 'Quentin Neyraud',
-      status: 'Developer',
-      github: 'https://www.github.com/quentinneyraud',
-      twitter: 'https://www.twitter.com/quentin_neyraud'
-    }],
-    libraries: [{
-      name: 'GSAP',
-      author: 'Greensock',
-      website: 'https://greensock.com/gsap'
-    }, {
-      name: 'Nuxt.js',
-      author: 'Nuxt',
-      website: 'https://nuxtjs.org'
-    }],
-    fonts: [{
-      name: 'Comic Sans',
-      author: 'Vincent Connare',
-      url: 'http://www.connare.com/'
-    }],
-    icons: [{
-      name: 'Menu',
-      author: 'Tara Nadhifa Salsabila',
-      url: 'https://thenounproject.com/taraicon/'
-    }]
-  }
-}
-```
+- Create a branch that starts with `features/`
+- Create a `./nuxt-templates-cli.js` file which exports an object :
+	- `metas.title`: Title of the feature
+	- `metas.description`: Description of the feature
+	- `dependencies`: Dependencies that will be installed
+	- `devDependencies`: devDependencies that will be installed
+	- `files`: An array of files or directories paths (relative to the root directory) that will be downloaded to the same path in your working directory
+- Create a `./config.js` file which exports a function that get context arguments (`IS_DEV`, `IS_PROD`, etc...) and need to return an object that will be merged in Nuxt config.
