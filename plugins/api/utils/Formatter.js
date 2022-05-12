@@ -231,10 +231,19 @@ class Formatter {
    */
 
   formatSeo (seoGroup, { defaults } = {}) {
+    let imageUrl = (this.formatImage(seoGroup?.image) || defaults?.image)?.url
+
+    if (imageUrl) {
+      imageUrl = new URL(imageUrl)
+      imageUrl.searchParams.set('auto', 'compress')
+      imageUrl.searchParams.set('fm', 'jpg')
+      imageUrl = imageUrl.href
+    }
+
     return {
       title: this.formatKeyText(seoGroup?.seo_title) || defaults?.title,
       description: this.formatKeyText(seoGroup?.seo_description) || stripTags(defaults?.description),
-      image: (this.formatImage(seoGroup?.seo_image) || defaults?.image)?.url
+      image: imageUrl
     }
   }
 }
