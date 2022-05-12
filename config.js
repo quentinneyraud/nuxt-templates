@@ -1,4 +1,4 @@
-module.exports = ({ title = 'My company', description = 'My company is doing something', lang = 'en', shareImage, BASE_URL, IS_PREPROD }) => ({
+module.exports = ({ lang, title, description, shareImage, BASE_URL, IS_PREPROD }) => ({
   modules: [
     '~/modules/metas'
   ],
@@ -13,7 +13,8 @@ module.exports = ({ title = 'My company', description = 'My company is doing som
     title,
     description,
     image: shareImage,
-    siteName: title,
+    siteName: null, // Default to title
+    twitterUser: null,
     noIndex: IS_PREPROD
   }
 })

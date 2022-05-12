@@ -1,16 +1,18 @@
 import path from 'path'
 import defu from 'defu'
+import constructMetas from './constructMetas'
 
 const MODULE_NAME = 'metas'
 
 export default function (moduleOptions) {
   const DEFAULT_OPTIONS = {
     BASE_URL: null,
-    lang: 'My website',
-    title: 'My website',
-    description: 'My website description',
+    lang: 'en',
+    title: null,
+    description: null,
     image: null,
-    siteName: 'My website',
+    siteName: null,
+    twitterUser: null,
     noIndex: false
   }
 
@@ -21,32 +23,38 @@ export default function (moduleOptions) {
 
   this.options.alias.hasMetas = path.resolve(__dirname, 'mixins/hasMetas.js')
 
-  this.options.head = {
+  this.options.head = constructMetas({
+    title: options.title,
+    description: options.description,
+    url: options.BASE_URL,
+    image: (options.BASE_URL && options.image) ? options.BASE_URL + options.image : null
+  })
+
+  this.options.head = defu(this.options.head, {
     htmlAttrs: {
       lang: options.lang
     },
-    title: options.title,
     meta: [
+      // Common
       { charset: 'utf-8' },
-
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { name: 'format-detection', content: 'telephone=no' },
 
-      { hid: 'og:title', name: 'og:title', property: 'og:title', content: options.title },
+      // Type
+      { name: 'og:type', property: 'og:type', content: 'Website' },
 
-      { hid: 'og:type', name: 'og:type', property: 'og:type', content: 'Website' },
+      // Site name
+      { property: 'og:site_name', content: options.siteName || options.title },
 
-      { hid: 'og:site_name', name: 'og:site_name', property: 'og:site_name', content: options.title },
+      // Twitter specific
+      { name: 'twitter:card', content: 'summary_large_image' },
+      ...(options.twitterUser ? [{ name: 'twitter:site', content: options.twitterUser }] : []),
 
-      { hid: 'description', name: 'description', content: options.description },
-      { hid: 'og:description', name: 'og:description', property: 'og:description', content: options.description },
-
-      ...(options.BASE_URL && options.image ? [{ hid: 'og:image', name: 'og:image', property: 'og:image', content: options.BASE_URL + options.image }] : []),
-
+      // No index
       ...(options.noIndex ? [{ name: 'robots', content: 'noindex' }] : [])
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
-  }
+  })
 }
