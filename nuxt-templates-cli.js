@@ -9,6 +9,6 @@ module.exports = {
   ],
   devDependencies: [],
   files: [
-    './modules/sitemap'
+    'modules/sitemap'
   ]
 }
