@@ -9,6 +9,6 @@ module.exports = {
   ],
   devDependencies: [],
   files: [
-    'plugins/gsap.js'
+    'modules/gsap.js'
   ]
 }
