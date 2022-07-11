@@ -1,6 +1,6 @@
 module.exports = ({ ENVIRONMENT, IS_DEV, IS_PREPROD, IS_PROD, MODE, BASE_URL }) => ({
   // Modern build
-  modern: IS_PROD ? 'client' : false,
+  modern: IS_DEV ? false : 'client',
 
   // Access on local network
   server: {
