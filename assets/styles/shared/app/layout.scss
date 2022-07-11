@@ -1,11 +1,11 @@
-$wrapper-padding: 30px;
+$wrapper-padding: 3rem;
 
-$wrapper-regular: 1240px;
-$wrapper-large: 1670px;
-
-@mixin flex-size ($size) {
-  flex: 0 0 $size;
-  width: $size;
+@mixin wrapper ($size) {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  max-width: $size + $wrapper-padding * 2;
+  padding: 0 $wrapper-padding;
 }
 
 @mixin columns ($numberOfColumns: 1, $totalColumns: 12) {
@@ -16,5 +16,24 @@ $wrapper-large: 1670px;
   margin-left: math.percentage(math.div($numberOfColumns, $totalColumns));
 }
 
-$calc-layout-width: calc(min(100vw, $wrapper-regular +  $wrapper-padding * 2) - $wrapper-padding * 2);
-$calc-layout-margin: calc((100vw - $calc-layout-width) / 2);
+@mixin flex-size ($size) {
+  flex: 0 0 $size;
+  width: $size;
+}
+
+@mixin flex-list () {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--items-gap, 0rem);
+}
+
+@mixin flex-list-item () {
+  @include flex-size(
+    calc(
+      (
+        (100% - (var(--items-by-line, 1) - 1) * var(--items-gap, 0rem)) /
+          var(--items-by-line, 1)
+      )
+    )
+  );
+}

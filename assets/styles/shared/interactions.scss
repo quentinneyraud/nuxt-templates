@@ -33,3 +33,31 @@
   @include select();
   @include pointer();
 }
+
+@mixin scrollable-x {
+  &::-webkit-scrollbar {
+    height: 1px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $secondary;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $primary;
+  }
+}
+
+@mixin scrollable-y {
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $secondary;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $primary;
+  }
+}

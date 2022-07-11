@@ -41,6 +41,28 @@ $height-breakpoints: (
   }
 }
 
+@mixin bp-between($size1, $size2) {
+  $min: 0;
+  $max: 0;
+
+  @if (type-of($size1) == "number") {
+    $min: $size1;
+  } @else {
+    $min: map-get($width-breakpoints, $size1);
+  }
+
+  @if (type-of($size2) == "number") {
+    $max: $size2;
+  } @else {
+    $max: map-get($width-breakpoints, $size2) - 1;
+  }
+
+  @media screen and (min-width: #{$min}px) and (max-width: #{$max}px) {
+    @content;
+  }
+}
+
+
 @mixin height-bp-up($size) {
   @if (type-of($size) == "number") {
     @media screen and (min-height: #{$size}) {
@@ -135,13 +157,13 @@ Custom
   }
 }
 
-@mixin xlarge {
+@mixin xlarge-down {
   @include bp-down(xlarge) {
     @content;
   }
 }
 
-@mixin xxlarge {
+@mixin xxlarge-down {
   @include bp-down(xxlarge) {
     @content;
   }

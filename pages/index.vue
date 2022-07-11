@@ -4,9 +4,9 @@
       Hello
     </h1>
 
-    <div class="AppWrapper">
+    <div class="AppWrapper--1280">
 
-      <div class="AppRichText side">
+      <div class="AppText-1 --rich side">
         <p>Lorem ipsum, dolor sit amet consectetur <em>adipisicing <a href="">link</a> elit</em>. Quisquam autem voluptates impedit eveniet fuga facilis, soluta vero laudantium numquam ratione!</p>
         <p>Lorem ipsum, dolor sit amet consectetur <strong>adipisicing <a href="">link</a> elit</strong>. Quisquam autem voluptates impedit eveniet fuga facilis, soluta vero laudantium numquam ratione!</p>
       </div>
@@ -25,7 +25,7 @@ export default {}
 </script>
 
 <style lang="scss" scoped>
-.AppWrapper {
+.AppWrapper--1280 {
   display: flex;
   flex-wrap: wrap;
 }
@@ -34,10 +34,6 @@ export default {}
   @include tablet {
     @include columns(6);
   }
-}
-
-.AppRichText {
-  color: red;
 }
 
 .ok {
