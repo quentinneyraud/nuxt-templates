@@ -230,8 +230,8 @@ class Formatter {
    *
    */
 
-  formatSeo (seoGroup, { defaults } = {}) {
-    let imageUrl = (this.formatImage(seoGroup?.image) || defaults?.image)?.url
+  formatMetas (metasGroup, { defaults } = {}) {
+    let imageUrl = (this.formatImage(metasGroup?.meta_image) || defaults?.image)?.url
 
     if (imageUrl) {
       imageUrl = new URL(imageUrl)
@@ -241,8 +241,8 @@ class Formatter {
     }
 
     return {
-      title: this.formatKeyText(seoGroup?.seo_title) || defaults?.title,
-      description: this.formatKeyText(seoGroup?.seo_description) || stripTags(defaults?.description),
+      title: this.formatKeyText(metasGroup?.meta_title) || defaults?.title,
+      description: this.formatKeyText(metasGroup?.meta_description) || stripTags(defaults?.description),
       image: imageUrl
     }
   }

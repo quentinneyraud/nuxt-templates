@@ -161,10 +161,10 @@ export default app => async _ => {
   })
 
   elements.push({
-    name: 'SEO',
-    hash: 'seo',
-    raw: document.data.seo[0],
-    formatted: Formatter.formatSeo(document.data.seo[0], {
+    name: 'Metas',
+    hash: 'metas',
+    raw: document.data.metas[0],
+    formatted: Formatter.formatMetas(document.data.metas[0], {
       defaults: {
         title: 'Default title',
         description: '<p>Default description',
