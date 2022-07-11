@@ -11,6 +11,7 @@ module.exports = {
   ],
   files: [
     'components/AppSvg.vue',
-    'svgo.config.js'
+    'svgo.config.js',
+    'modules/svg'
   ]
 }
