@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "core-js": "^3.21.1",
+    "gsap": "npm:@gsap/shockingly",
     "nuxt": "^2.15.8"
   },
   "devDependencies": {

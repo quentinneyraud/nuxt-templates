@@ -38,7 +38,9 @@ export default async _ => {
       '@nuxtjs/eslint-module'
     ],
     modules: [],
-    build: {}
+    build: {
+      transpile: ['gsap']
+    }
   }
 
   const config = defu(baseConfig, await featureConfig({
