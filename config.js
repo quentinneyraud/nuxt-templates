@@ -1,5 +1,5 @@
 module.exports = ({ IS_PROD }) => ({
-  publicRuntimeCOnfig: {
+  publicRuntimeConfig: {
     IS_PROD
   },
 
