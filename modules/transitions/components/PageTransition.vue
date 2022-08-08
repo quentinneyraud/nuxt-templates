@@ -33,6 +33,7 @@ export default {
   methods: {
     async hide ({ el, to, from, promises = [], done } = {}) {
       this.resetProgress()
+
       this.preloadPromises = promises
       await Promise.allSettled([
         ...this.preloadPromises.map(p =>
@@ -69,6 +70,10 @@ export default {
       this.fulfilledPromises = 0
       this.progress = 0
       this.preloadPromises = []
+    },
+    preloadPromisesCallback () {
+      this.fulfilledPromises++
+      this.progress = this.fulfilledPromises / this.preloadPromises.length
     }
   }
 }
