@@ -68,8 +68,14 @@ export default {
       attributes.media = this.media
 
       // sizes
-      if (this.sizes && typeof this.sizes === 'object') {
-        attributes.sizes = Object.entries(this.sizes)
+      const sizes = this.sizes
+      if (sizes && typeof sizes === 'object') {
+        if (!('default' in sizes)) {
+          sizes.default = 100
+        }
+
+        attributes.sizes = Object.entries(sizes)
+          .sort((a, b) => b[0] - a[0])
           ?.map(([windowWidth, imageSize]) => windowWidth === 'default' ? `${imageSize}vw` : `(min-width: ${windowWidth}px) ${imageSize}vw`)
           ?.join(', ') || null
       }

@@ -12,6 +12,7 @@
       />
       <AppSource
         :src="image.url"
+        :sizes="{ 768: 50 }"
       />
     </AppImage>
   </div>
