@@ -3,18 +3,22 @@ export const pick = (obj, keys) => {
 
   return keys
     .reduce((acc, curr) => {
-      acc[curr] = obj[curr]
+      if (obj[curr]) acc[curr] = obj[curr]
 
       return acc
     }, {})
 }
 
+const options = JSON.parse('<%= JSON.stringify(options) %>')
+
 export default (_, inject) => {
   inject('pickProps', (obj, component) => {
-    const props = require(`@/components/${component}.vue`)?.default?.props
+    for (const directory of options.componentsDirectorySubfolders) {
+      try {
+        const props = require(`@/components/${directory}/${component}.vue`)?.default?.props
 
-    if (!props) return null
-
-    return pick(obj, Object.keys(props))
+        return pick(obj, Object.keys(props))
+      } catch (_) {}
+    }
   })
 }
