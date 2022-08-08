@@ -15,6 +15,6 @@ module.exports = ({ lang, title, description, shareImage, BASE_URL, IS_PREPROD }
     image: shareImage,
     siteName: null, // Default to title
     twitterUser: null,
-    noIndex: IS_PREPROD
+    noIndex: !IS_PROD
   }
 })
