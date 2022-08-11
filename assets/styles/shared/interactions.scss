@@ -35,6 +35,8 @@
 }
 
 @mixin scrollable-x {
+  overflow-x: auto;
+
   &::-webkit-scrollbar {
     height: 1px;
   }
@@ -49,6 +51,8 @@
 }
 
 @mixin scrollable-y {
+  overflow-y: auto;
+
   &::-webkit-scrollbar {
     width: 4px;
   }
