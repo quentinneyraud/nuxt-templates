@@ -1,6 +1,6 @@
 <template>
   <div
-    class="AppImage-component"
+    class="AppImage"
     :class="[{
                loading,
                loaded,
@@ -142,7 +142,7 @@ export default {
           backgroundPosition: 'center center'
         }
       } else if (this.placeholder === 'color') {
-        const color = await this.getImagePalette()
+        const color = (await this.getImagePalette({ colors: 1 }))?.[0]?.hex
 
         if (color) {
           this.placeholderStyle = {
@@ -157,16 +157,16 @@ export default {
         }
       }
     },
-    async getImagePalette () {
+    async getImagePalette ({ colors = 1 } = {}) {
       try {
         const paletteUrl = new URL(this.src)
         paletteUrl.searchParams.set('palette', 'json')
-        paletteUrl.searchParams.set('colors', '1')
+        paletteUrl.searchParams.set('colors', colors)
 
         const paletteResponse = await fetch(paletteUrl)
         const palette = await paletteResponse.json()
 
-        return palette?.dominant_colors?.muted?.hex || null
+        return palette.colors
       } catch (_) {
         return null
       }
@@ -251,20 +251,20 @@ export default {
 </script>
 
 <style scoped>
-.AppImage-component {
+.AppImage {
   position: relative;
   overflow: hidden;
   font-size: 0px;
   user-select: none;
 }
 
-.AppImage-component.fit-cover .AppImage-image, .AppImage-component.fit-contain .AppImage-image {
+.AppImage.fit-cover .AppImage-image, .AppImage.fit-contain .AppImage-image {
   position: absolute;
   height: 100%;
   width: 100%;
 }
 
-.AppImage-component.has-ratio::before {
+.AppImage.has-ratio::before {
   content: "";
   width: 1px;
   margin-left: -1px;
@@ -273,18 +273,18 @@ export default {
   padding-top: var(--ratio);
 }
 
-.AppImage-component.has-ratio::after {
+.AppImage.has-ratio::after {
   content: "";
   display: table;
   clear: both;
 }
 
-.AppImage-component.loaded .AppImage-image {
+.AppImage.loaded .AppImage-image {
   opacity: 1;
   transition: opacity 0.3s;
 }
 
-.AppImage-component.loaded .AppImage-placeholder {
+.AppImage.loaded .AppImage-placeholder {
   opacity: 0;
   transition: opacity 0.15s;
 }
