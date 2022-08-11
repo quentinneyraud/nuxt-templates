@@ -32,3 +32,27 @@
     @content;
   }
 }
+
+@mixin hover {
+  @include mouse {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+@mixin focus {
+  @include mouse {
+    &:focus {
+      @content;
+    }
+  }
+}
+
+@mixin hover-focus {
+  @include mouse {
+    &:hover, &:focus {
+      @content;
+    }
+  }
+}

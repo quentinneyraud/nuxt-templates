@@ -1,4 +1,15 @@
 html {
+  --sbw: 0px;
   font-size: math.percentage(math.div(10, 16));
   line-height: normal;
+
+  @include xlarge {
+    $fakeDesktopWidth: 1700px;
+    font-size: #{math.div(1000, strip-unit($fakeDesktopWidth))}vw;
+    font-size: calc(#{math.div(1000, strip-unit($fakeDesktopWidth))}vw - var(--sbw)/ #{math.div(strip-unit($fakeDesktopWidth), 10)});
+  }
+}
+
+a.nuxt-link-exact-active {
+  pointer-events: none;
 }
