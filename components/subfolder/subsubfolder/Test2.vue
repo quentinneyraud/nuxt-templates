@@ -8,7 +8,7 @@ import { notRequiredString } from 'PropsTypes'
 
 export default {
   props: {
-    title: notRequiredString
+    subtitle: notRequiredString
   }
 }
 </script>

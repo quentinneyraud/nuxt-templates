@@ -6,12 +6,13 @@
 export default {
   data () {
     return {
-      invalid: 'Hello',
-      title: 'World'
+      title: 'title',
+      subtitle: 'subtitle'
     }
   },
   mounted () {
     console.log(this.$pickProps(this, 'Test'))
+    console.log(this.$pickProps(this, 'Test2'))
   }
 }
 </script>
