@@ -31,11 +31,9 @@
 }
 
 .scrollable-x {
-  overflow-x: auto;
   @include scrollable-x;
 }
 
 .scrollable-y {
-  overflow-y: auto;
   @include scrollable-y;
 }
