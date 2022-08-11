@@ -1,4 +1,4 @@
-module.exports = ({ lang, title, description, shareImage, BASE_URL, IS_PREPROD }) => ({
+module.exports = ({ lang, title, description, shareImage, BASE_URL, IS_PROD }) => ({
   modules: [
     '~/modules/metas'
   ],
