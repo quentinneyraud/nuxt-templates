@@ -1,10 +1,10 @@
 import Formatter from '../utils/Formatter'
 import { hasKey } from '../utils/helpers'
 
-const id = 'first_slice'
+const sliceId = 'first_slice'
 
 const query = `
-  ...on ${id} {
+  ...on ${sliceId} {
     non-repeat {
       ...non-repeatFields
     }
@@ -15,28 +15,19 @@ const query = `
 `
 
 const format = slice => {
-  try {
-    return {
-      id,
-      title: Formatter.formatKeyText(slice.primary.title),
-      items: slice.items
-        .map(item => ({
-          text: Formatter.formatRichText(item.text)
-        }))
-        .filter(hasKey('text'))
-    }
-  } catch (error) {
-    if (process.env.NODE_ENV === 'development') {
-      console.error(`Error while formatting ${id} with: \n`, JSON.stringify(slice, null, 2))
-      console.error(error)
-    }
-
-    return null
+  return {
+    sliceId,
+    title: Formatter.formatKeyText(slice.primary.title),
+    items: slice.items
+      .map(item => ({
+        text: Formatter.formatRichText(item.text)
+      }))
+      .filter(hasKey('text'))
   }
 }
 
 export default {
-  id,
+  sliceId,
   query,
   format
 }

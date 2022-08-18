@@ -1,9 +1,9 @@
 import Formatter from '../utils/Formatter'
 
-const id = 'second_slice'
+const sliceId = 'second_slice'
 
 const query = `
-  ...on ${id} {
+  ...on ${sliceId} {
     non-repeat {
       ...non-repeatFields
       link_to_document {
@@ -19,23 +19,14 @@ const query = `
 `
 
 const format = slice => {
-  try {
-    return {
-      id,
-      documentTitle: Formatter.formatTitle(slice.primary.link_to_document?.data?.title)
-    }
-  } catch (error) {
-    if (process.env.NODE_ENV === 'development') {
-      console.error(`Error while formatting ${id} with: \n`, JSON.stringify(slice, null, 2))
-      console.error(error)
-    }
-
-    return null
+  return {
+    sliceId,
+    documentTitle: Formatter.formatTitle(slice.primary.link_to_document?.data?.title)
   }
 }
 
 export default {
-  id,
+  sliceId,
   query,
   format
 }
