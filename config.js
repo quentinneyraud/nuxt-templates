@@ -1,4 +1,7 @@
 module.exports = ({ ENVIRONMENT, IS_DEV, IS_PREPROD, IS_PROD, MODE, BASE_URL }) => ({
+  // Target
+  target: 'static',
+
   // Modern build
   modern: !IS_DEV ? 'client' : false,
 
@@ -21,5 +24,10 @@ module.exports = ({ ENVIRONMENT, IS_DEV, IS_PREPROD, IS_PROD, MODE, BASE_URL }) 
     IS_PROD,
     MODE,
     BASE_URL
+  },
+
+  // Extract CSS into files
+  build: {
+    extractCSS: !IS_DEV
   }
 })
