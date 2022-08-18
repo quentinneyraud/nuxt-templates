@@ -14,11 +14,22 @@ export const pick = (obj, keys) => {
 const options = JSON.parse('<%= JSON.stringify(options) %>')
 
 export default (_, inject) => {
-  inject('pickProps', (obj, component) => {
+  inject('pickProps', (obj, componentName) => {
     for (const directory of options.componentsDirectories) {
       try {
-        const filePath = path.join(directory, `${component}.vue`)
-        const props = require(`@/components/${filePath}`)?.default?.props
+        const filePath = path.join(directory, `${componentName}.vue`)
+        const component = require(`@/components/${filePath}`)?.default
+
+        // Merge component props and all mixins props
+        const props = {
+          ...(component.props || {}),
+          ...(component?.mixins
+            ?.reduce((acc, curr) => {
+              Object.assign(acc, (curr.props || {}))
+
+              return acc
+            }, {}) || {})
+        }
 
         return pick(obj, Object.keys(props))
       } catch (_) {}
