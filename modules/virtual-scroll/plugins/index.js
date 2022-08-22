@@ -8,7 +8,7 @@ import VirtualScroll from 'virtual-scroll'
  */
 
 const lerp = (value, target, coeff, precision) => {
-  if (Math.abs(this.target - this.current) < precision) return target
+  if (Math.abs(target - value) < precision) return target
 
   return value * (1 - coeff) + target * coeff
 }

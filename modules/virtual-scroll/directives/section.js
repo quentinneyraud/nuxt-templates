@@ -47,9 +47,9 @@ Vue.directive('vs-section', {
     // Listen to scroll event and update element transform on each call
     el.__scroll_callback__ = ({ current }) => {
       if (current > offset.yStart && current < offset.yStop) {
-        el.style.transform = `matrix3d(1,0,0.00,0,0.00,1,0.00,0,0,0,1,0,0,${(current * -1).toFixed(0)},0,1)`
-        el.style.webkitTransform = `matrix3d(1,0,0.00,0,0.00,1,0.00,0,0,0,1,0,0,${(current * -1).toFixed(0)},0,1)`
-        el.style.msTransform = `matrix3d(1,0,0.00,0,0.00,1,0.00,0,0,0,1,0,0,${(current * -1).toFixed(0)},0,1)`
+        el.style.transform = `matrix3d(1,0,0.00,0,0.00,1,0.00,0,0,0,1,0,0,${(current * -1)},0,1)`
+        el.style.webkitTransform = `matrix3d(1,0,0.00,0,0.00,1,0.00,0,0,0,1,0,0,${(current * -1)},0,1)`
+        el.style.msTransform = `matrix3d(1,0,0.00,0,0.00,1,0.00,0,0,0,1,0,0,${(current * -1)},0,1)`
 
         if (!isVisible) {
           isVisible = true
