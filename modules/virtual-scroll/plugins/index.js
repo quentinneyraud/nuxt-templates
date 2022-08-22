@@ -7,7 +7,9 @@ import VirtualScroll from 'virtual-scroll'
  *
  */
 
-const lerp = (value, target, coeff) => {
+const lerp = (value, target, coeff, precision) => {
+  if (Math.abs(this.target - this.current) < precision) return target
+
   return value * (1 - coeff) + target * coeff
 }
 
@@ -109,42 +111,37 @@ const createVirtualScroll = ctx => new Vue({
     },
 
     start () {
-      if (this.active) {
-        this.setBoundings()
-        this.setRatio(0.1)
+      this.setBoundings()
+      this.setRatio(0.1)
 
-        this.virtualScroll = new VirtualScroll({
-          mouseMultiplier: navigator.platform.includes('Win') ? 1 : 0.4,
-          touchMultiplier: 2,
-          firefoxMultiplier: 50,
-          useKeyboard: false,
-          passive: true
-        })
+      this.virtualScroll = new VirtualScroll({
+        mouseMultiplier: navigator.platform.includes('Win') ? 1 : 0.4,
+        touchMultiplier: 2,
+        firefoxMultiplier: 50,
+        useKeyboard: false,
+        passive: true
+      })
 
-        this.virtualScroll.on(this.virtualScrollCallback)
+      this.virtualScroll.on(this.virtualScrollCallback)
 
-        Object.assign(document.body.style, {
-          position: 'fixed',
-          top: '0px',
-          left: '0px',
-          width: '100%',
-          height: '100%',
-          overflow: 'hidden'
-        })
+      Object.assign(document.body.style, {
+        position: 'fixed',
+        top: '0px',
+        left: '0px',
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden'
+      })
 
-        window.addEventListener('resize', this.onResize, {
-          capture: false,
-          passive: true
-        })
+      window.addEventListener('resize', this.onResize, {
+        capture: false,
+        passive: true
+      })
 
-        window.addEventListener('keydown', this.onKeyDown, {
-          capture: false,
-          passive: true
-        })
-      } else {
-        this.onScroll()
-        window.addEventListener('scroll', this.onScroll)
-      }
+      window.addEventListener('keydown', this.onKeyDown, {
+        capture: false,
+        passive: true
+      })
 
       if (ctx?.$events?.eventsState?.tick) {
         ctx.$events.$on('tick', _ => {
@@ -257,18 +254,19 @@ const createVirtualScroll = ctx => new Vue({
     },
 
     onTick () {
-      if (Math.abs(this.target - this.current) < 0.2) this.current = this.target
+      if (!this.active) {
+        this.$emit('scroll', {
+          current: window.scrollY,
+          target: window.scrollY
+        })
+      } else {
+        this.current = lerp(this.current, this.target, this.ratio, 0.01)
 
-      this.current = lerp(this.current, this.target, this.ratio)
-
-      this.$emit('scroll', {
-        current: this.current,
-        target: this.target
-      })
-    },
-
-    onScroll () {
-      this.current = window.scrollY
+        this.$emit('scroll', {
+          current: this.current,
+          target: this.target
+        })
+      }
     },
 
     onResize () {
