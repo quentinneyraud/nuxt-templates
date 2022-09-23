@@ -111,45 +111,47 @@ const createVirtualScroll = ctx => new Vue({
     },
 
     start () {
-      this.setBoundings()
-      this.setRatio(0.1)
+      if (this.active) {
+        this.setBoundings()
+        this.setRatio(0.1)
 
-      this.virtualScroll = new VirtualScroll({
-        mouseMultiplier: navigator.platform.includes('Win') ? 1 : 0.4,
-        touchMultiplier: 2,
-        firefoxMultiplier: 50,
-        useKeyboard: false,
-        passive: true
-      })
+        this.virtualScroll = new VirtualScroll({
+          mouseMultiplier: navigator.platform.includes('Win') ? 1 : 0.4,
+          touchMultiplier: 2,
+          firefoxMultiplier: 50,
+          useKeyboard: false,
+          passive: true
+        })
 
-      this.virtualScroll.on(this.virtualScrollCallback)
+        this.virtualScroll.on(this.virtualScrollCallback)
 
-      Object.assign(document.body.style, {
-        position: 'fixed',
-        top: '0px',
-        left: '0px',
-        width: '100%',
-        height: '100%',
-        overflow: 'hidden'
-      })
+        Object.assign(document.body.style, {
+          position: 'fixed',
+          top: '0px',
+          left: '0px',
+          width: '100%',
+          height: '100%',
+          overflow: 'hidden'
+        })
 
-      window.addEventListener('resize', this.onResize, {
-        capture: false,
-        passive: true
-      })
+        window.addEventListener('resize', this.onResize, {
+          capture: false,
+          passive: true
+        })
 
-      window.addEventListener('keydown', this.onKeyDown, {
-        capture: false,
-        passive: true
-      })
+        window.addEventListener('keydown', this.onKeyDown, {
+          capture: false,
+          passive: true
+        })
+      }
+
+      const tickMethodName = this.active ? 'onTick' : 'onTickInactive'
 
       if (ctx?.$events?.eventsState?.tick) {
-        ctx.$events.$on('tick', _ => {
-          this.onTick()
-        })
+        ctx.$events.$on('tick', this[tickMethodName])
       } else {
         const onTick = _ => {
-          this.onTick()
+          this[tickMethodName]()
           requestAnimationFrame(onTick)
         }
 
@@ -254,19 +256,19 @@ const createVirtualScroll = ctx => new Vue({
     },
 
     onTick () {
-      if (!this.active) {
-        this.$emit('scroll', {
-          current: window.scrollY,
-          target: window.scrollY
-        })
-      } else {
-        this.current = lerp(this.current, this.target, this.ratio, 0.01)
+      this.current = lerp(this.current, this.target, this.ratio, 0.01)
 
-        this.$emit('scroll', {
-          current: this.current,
-          target: this.target
-        })
-      }
+      this.$emit('scroll', {
+        current: this.current,
+        target: this.target
+      })
+    },
+
+    onTickInactive () {
+      this.$emit('scroll', {
+        current: window.scrollY,
+        target: window.scrollY
+      })
     },
 
     onResize () {

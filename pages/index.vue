@@ -44,6 +44,13 @@
 </template>
 
 <script>
+export default {
+  mounted () {
+    this.$virtualScroll.$on('scroll', opts => {
+      // console.log('opts:', opts)
+    })
+  }
+}
 </script>
 
 <style>
