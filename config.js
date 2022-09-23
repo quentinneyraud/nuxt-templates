@@ -1,4 +1,4 @@
-module.exports = ({ title = 'My app' } = {}) => ({
+module.exports = ({ title = 'My app', themeColor = '#FFFFFF' } = {}) => ({
   modules: ['nuxt-rfg-icon'],
 
   // https://github.com/pimlie/nuxt-rfg-icon#setup
@@ -20,7 +20,7 @@ module.exports = ({ title = 'My app' } = {}) => ({
         },
         windows: {
           pictureAspect: 'noChange',
-          backgroundColor: '#FFFFFF',
+          backgroundColor: themeColor,
           onConflict: 'override',
           assets: {
             windows80Ie10Tile: false,
@@ -35,7 +35,7 @@ module.exports = ({ title = 'My app' } = {}) => ({
         },
         androidChrome: {
           pictureAspect: 'noChange',
-          themeColor: '#FFFFFF',
+          themeColor,
           manifest: {
             name: title,
             display: 'standalone',
@@ -51,7 +51,7 @@ module.exports = ({ title = 'My app' } = {}) => ({
         safariPinnedTab: {
           pictureAspect: 'blackAndWhite',
           threshold: 63.125,
-          themeColor: '#FFFFFF'
+          themeColor
         }
       },
       settings: {
