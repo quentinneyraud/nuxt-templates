@@ -6,7 +6,7 @@ module.exports = ({ IS_PROD }) => ({
     return IS_PROD
       ? {
         UserAgent: '*',
-        Disallow: undefined
+        Disallow: ''
       }
       : {
         UserAgent: '*',
