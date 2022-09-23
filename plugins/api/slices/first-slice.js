@@ -2,6 +2,7 @@ import Formatter from '../utils/Formatter'
 import { hasKey } from '../utils/helpers'
 
 const sliceId = 'first_slice'
+const componentName = 'FirstSlice'
 
 const query = `
   ...on ${sliceId} {
@@ -17,6 +18,7 @@ const query = `
 const format = slice => {
   return {
     sliceId,
+    componentName,
     title: Formatter.formatKeyText(slice.primary.title),
     items: slice.items
       .map(item => ({

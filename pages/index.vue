@@ -25,11 +25,22 @@
     </NuxtLink>
 
     <pre id="slices">{{ slices }}</pre>
+
+    <NuxtLink :to="{ path: '/', hash: 'slices-component'}">
+      <h2>Slices component</h2>
+    </NuxtLink>
+
+    <Slices :slices="slices" />
   </div>
 </template>
 
 <script>
+import Slices from '@/components/Slices.vue'
+
 export default {
+  components: {
+    Slices
+  },
   async asyncData ({ $config, $api, error }) {
     try {
       const { elements, slices } = await $api.getTestPage()
