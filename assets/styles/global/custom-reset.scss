@@ -7,40 +7,51 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-webkit-touch-callout: none;
 }
+
 html,
 body {
 	overscroll-behavior: none;
+  font-kerning: none;
 }
+
 *,
 *:after,
 *:before {
 	box-sizing: border-box;
 }
+
 template {
 	display: none;
 }
+
 main {
 	display: block;
 }
+
 a {
 	text-decoration: none;
 	color: inherit;
 	&:hover {
 		text-decoration: none;
 		color: inherit;
+    outline: none;
 	}
 }
+
 sub,
 sup {
 	position: relative;
 	vertical-align: baseline;
 }
+
 sup {
 	top: -0.5em;
 }
+
 sub {
 	bottom: -0.25em;
 }
+
 input,
 button,
 select,
@@ -49,6 +60,7 @@ textarea {
 	margin: 0;
 	font: inherit;
 }
+
 input,
 button {
 	overflow: visible;
@@ -63,56 +75,67 @@ button {
 	outline: none;
 	border-radius: 0;
 }
+
 input:focus,
 button:focus,
 input:hover,
 button:hover {
 	outline: none;
 }
+
 input {
 	&::placeholder {
 		opacity: 1;
 	}
 }
+
 button,
 select {
 	text-transform: none;
 }
+
 select {
 	word-wrap: normal;
 }
+
 button,
 [type="button"],
 [type="reset"],
 [type="submit"] {
 	-webkit-appearance: button;
 }
+
 button:not(:disabled),
 [type="button"]:not(:disabled),
 [type="reset"]:not(:disabled),
 [type="submit"]:not(:disabled) {
 	cursor: pointer;
 }
+
 ::-moz-focus-inner {
 	padding: 0;
 	border-style: none;
 }
+
 input[type="date"],
 input[type="time"],
 input[type="datetime-local"],
 input[type="month"] {
 	-webkit-appearance: textfield;
 }
+
 textarea {
 	overflow: auto;
 	resize: vertical;
 }
+
 fieldset {
 	min-width: 0;
 	padding: 0;
 	margin: 0;
 	border: 0;
 }
+
 legend {
 	float: left;
 	width: 100%;
@@ -123,20 +146,25 @@ legend {
 	color: inherit;
 	white-space: normal;
 }
+
 progress {
 	vertical-align: baseline;
 }
+
 ::-webkit-datetime-edit {
 	overflow: visible;
 	line-height: 0;
 }
+
 [type="search"] {
 	outline-offset: -2px;
 	-webkit-appearance: textfield;
 }
+
 ::-webkit-search-decoration {
 	-webkit-appearance: none;
 }
+
 ::-webkit-color-swatch-wrapper {
 	padding: 0;
 }

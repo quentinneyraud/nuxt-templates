@@ -1,5 +1,8 @@
-html {
+:root {
   --sbw: 0px;
+}
+
+html {
   font-size: math.percentage(math.div(10, 16));
   line-height: normal;
 
