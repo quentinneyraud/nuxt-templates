@@ -48,7 +48,7 @@ class Formatter {
     const { dimensions, alt, copyright: _, url, ...responsiveViews } = image
     let allViews = {
       ...responsiveViews,
-      main: {
+      Main: {
         url,
         alt,
         dimensions
@@ -77,13 +77,9 @@ class Formatter {
       }, {})
 
     if (Object.keys(allViews).length === 0) return undefined
+    if (Object.keys(allViews).length === 1) return allViews[Object.keys(allViews)[0]]
 
-    const { main, ...filteredResponsiveViews } = allViews
-
-    return {
-      ...main,
-      ...filteredResponsiveViews
-    }
+    return allViews
   }
 
   formatRelationship (relationship, { validTypes, fields = ['id', 'type', 'uid', 'lang', 'link_type'] } = {}) {
@@ -194,7 +190,7 @@ class Formatter {
   formatSelect (selectValue, { valueMapping } = {}) {
     if (!selectValue) return undefined
 
-    return valueMapping ? valueMapping[selectValue] : selectValue
+    return valueMapping ? (valueMapping[selectValue] || selectValue) : selectValue
   }
 
   formatEmbed (embed, { fields = ['provider_name', 'title', 'video_id', 'thumbnail_url', 'embed_url'] } = {}) {
