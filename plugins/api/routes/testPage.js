@@ -182,6 +182,12 @@ export default app => async _ => {
 
   const slices = await formatSlices(document.data.body, app)
 
+  slices.push({
+    sliceId: 'unknown_sice',
+    componentName: 'UnknownSlice',
+    title: 'An unknoxn slice'
+  })
+
   return {
     elements,
     slices

@@ -1,5 +1,6 @@
-module.exports = ({ IS_PROD }) => ({
+module.exports = ({ IS_DEV, IS_PROD }) => ({
   publicRuntimeConfig: {
+    IS_DEV,
     IS_PROD
   },
 

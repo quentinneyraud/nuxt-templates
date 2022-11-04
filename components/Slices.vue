@@ -12,6 +12,9 @@
 </template>
 
 <script>
+// Default Slice
+import DefaultSlice from '~/components/DefaultSlice.vue'
+
 // Slices
 import FirstSlice from '@/components/slices/FirstSlice.vue'
 import SecondSlice from '@/components/slices/SecondSlice.vue'
@@ -24,19 +27,36 @@ export default {
       default: null
     }
   },
-  methods: {
-    getSliceComponent ({ componentName }) {
-      return {
+  data () {
+    return {
+      slicesComponents: {
         FirstSlice,
         SecondSlice
-      }[componentName]
+      }
+    }
+  },
+  methods: {
+    sliceComponentExists (componentName) {
+      return Object.keys(this.slicesComponents).includes(componentName)
+    },
+    getSliceComponent ({ componentName }) {
+      if (this.sliceComponentExists(componentName)) {
+        return this.slicesComponents[componentName]
+      } else if (this.$config.IS_DEV) {
+        return DefaultSlice
+      }
+
+      return null
     },
     getSliceProps (slice) {
       // Use next line if https://github.com/quentinneyraud/nuxt-templates/tree/features/props-helper is installed
       // return this.$pickProps(slice, slice.componentName)
 
-      const { sliceId: _, componentName: __, ...props } = slice
-      return props
+      const { sliceId: _, componentName, ...props } = slice
+
+      return this.sliceComponentExists(componentName)
+        ? props
+        : { props, componentName }
     },
     getSliceClasses (sliceIndex) {
       const classes = []
