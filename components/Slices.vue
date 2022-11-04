@@ -43,15 +43,15 @@ export default {
       if (this.sliceComponentExists(componentName)) {
         return this.slicesComponents[componentName]
       } else if (this.$config.IS_DEV) {
+        // eslint-disable-next-line no-console
+        console.warn(`[Slices.vue] Cannot find ${componentName} component`)
+
         return DefaultSlice
       }
 
       return null
     },
     getSliceProps (slice) {
-      // Use next line if https://github.com/quentinneyraud/nuxt-templates/tree/features/props-helper is installed
-      // return this.$pickProps(slice, slice.componentName)
-
       const { sliceId: _, componentName, ...props } = slice
 
       return this.sliceComponentExists(componentName)
