@@ -1,4 +1,4 @@
-import { hasKey, isObject, isEmptyObject, filterObjectKeys, toArrayIfNeeded, stripTags, createEllispis } from './helpers'
+import { hasKey, isObject, isEmptyObject, filterObjectKeys, toArrayIfNeeded, stripTags, createEllispis, isValidRelationShip } from './helpers'
 
 class Formatter {
   setPrismic (prismic) {
@@ -87,9 +87,7 @@ class Formatter {
   }
 
   formatRelationship (relationship, { validTypes, fields = ['id', 'type', 'uid', 'lang', 'link_type'] } = {}) {
-    validTypes = toArrayIfNeeded(validTypes)
-
-    if (!relationship || relationship.isBroken || (validTypes && !validTypes.includes(relationship.type))) return undefined
+    if (!isValidRelationShip(relationship, validTypes)) return undefined
 
     return filterObjectKeys(relationship, fields)
   }

@@ -70,6 +70,14 @@ export const filterObjectKeys = (object, keys) => {
 // Transform value to array if maybeArray exists and is not an array
 export const toArrayIfNeeded = maybeArray => (maybeArray && !Array.isArray(maybeArray)) ? [maybeArray] : maybeArray
 
+export const isValidRelationShip = (relationShip, validTypes) => {
+  validTypes = toArrayIfNeeded(validTypes)
+
+  if (!relationShip || !!relationShip.isBroken || !relationShip.id || (validTypes?.length > 0 && !validTypes.includes(relationShip.type))) return false
+
+  return true
+}
+
 // Strip HTML tags
 export const stripTags = string => string?.replace(/(<([^>]+)>)/gi, '')
 
