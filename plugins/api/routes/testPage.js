@@ -161,6 +161,13 @@ export default app => async _ => {
   })
 
   elements.push({
+    name: 'Button',
+    hash: 'button',
+    raw: document.data.cta[0],
+    formatted: Formatter.formatButton(document.data.cta[0])
+  })
+
+  elements.push({
     name: 'Metas',
     hash: 'metas',
     raw: document.data.metas[0],

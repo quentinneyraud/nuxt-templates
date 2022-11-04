@@ -53,7 +53,9 @@ export const minMaxArray = (arr = [], min = 0, max = min, ignoreMax = false) => 
     .slice(0, ignoreMax ? undefined : max)
 }
 
-export const isEmptyObject = obj => obj && Object.keys(obj).length === 0
+export const isObject = obj => obj && typeof obj === 'object' && !Array.isArray(obj)
+
+export const isEmptyObject = obj => isObject(obj) && Object.keys(obj).length === 0
 
 // Return a new object with only keys parameter from object parameter
 export const filterObjectKeys = (object, keys) => {

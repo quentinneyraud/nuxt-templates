@@ -1,4 +1,4 @@
-import { hasKey, isEmptyObject, filterObjectKeys, toArrayIfNeeded, stripTags, createEllispis } from './helpers'
+import { hasKey, isObject, isEmptyObject, filterObjectKeys, toArrayIfNeeded, stripTags, createEllispis } from './helpers'
 
 class Formatter {
   setPrismic (prismic) {
@@ -244,6 +244,19 @@ class Formatter {
       title: this.formatKeyText(metasGroup?.meta_title) || defaults?.title,
       description: this.formatKeyText(metasGroup?.meta_description) || stripTags(defaults?.description),
       image: imageUrl
+    }
+  }
+
+  formatButton (ctaGroup, { linkFormatterOptions, requiredLink = true } = {}) {
+    if (!ctaGroup || !isObject(ctaGroup)) return undefined
+
+    const link = this.formatLink(ctaGroup?.link, linkFormatterOptions)
+    if (requiredLink && isEmptyObject(link)) return undefined
+
+    return {
+      label: this.formatKeyText(ctaGroup.label),
+      ...link,
+      title: this.formatKeyText(ctaGroup.title) || this.formatKeyText(ctaGroup.label)
     }
   }
 }
