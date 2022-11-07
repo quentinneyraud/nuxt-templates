@@ -31,7 +31,7 @@ export default async function () {
     componentsDirectory,
     ...await recursivelyGetAllDirectoriesPaths(componentsDirectory)
   ]
-    .map(directoryPath => path.relative(componentsDirectory, directoryPath))
+    .map(directoryPath => path.relative(componentsDirectory, directoryPath).replace('\\', '/'))
 
   const options = {
     componentsDirectories
