@@ -3,9 +3,11 @@ $wrapper-padding: 3rem;
 @mixin wrapper ($size) {
   position: relative;
   width: 100%;
-  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
   max-width: $size + $wrapper-padding * 2;
-  padding: 0 $wrapper-padding;
+  padding-left: $wrapper-padding;
+  padding-right: $wrapper-padding;
 }
 
 @mixin columns ($numberOfColumns: 1, $totalColumns: 12) {
