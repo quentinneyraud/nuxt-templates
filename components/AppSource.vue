@@ -5,7 +5,7 @@
 <script>
 export default {
   props: {
-    src: {
+    url: {
       type: String,
       required: false,
       default: null
@@ -40,18 +40,18 @@ export default {
     attributes () {
       const attributes = {}
 
-      if (!this.src && !this.srcset) return attributes
+      if (!this.url && !this.srcset) return attributes
 
       // srcset
       if (this.srcset) {
         attributes['data-srcset'] = this.srcset
-      } else if (this.src) {
+      } else if (this.url) {
         if (!this.widths || this.widths.length === 0) {
-          attributes['data-srcset'] = this.src
+          attributes['data-srcset'] = this.url
         } else {
           attributes['data-srcset'] = this.widths
             ?.map(size => {
-              const url = new URL(this.src)
+              const url = new URL(this.url)
               url.searchParams.set('w', size)
               url.searchParams.delete('h')
 

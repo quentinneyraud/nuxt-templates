@@ -6,7 +6,7 @@
                loaded,
                error,
                lazyload,
-               'has-not-src': !src,
+               'has-not-src': !url,
                'has-ratio': !!ratio
              },
              `fit-${fit}`
@@ -30,10 +30,10 @@
 
       <!-- Image -->
       <img
-        v-if="!!src"
+        v-if="!!url"
         ref="image"
         :draggable="draggable"
-        :data-src="src"
+        :data-src="url"
         :alt="(alt && alt.length > 0) ? alt : 'No alternate text'"
         :style="{
           objectFit: fit,
@@ -48,7 +48,7 @@
 <script>
 export default {
   props: {
-    src: {
+    url: {
       type: String,
       required: false,
       default: null
@@ -131,7 +131,7 @@ export default {
   methods: {
     async setPlaceholder () {
       if (this.placeholder === 'blur') {
-        const url = new URL(this.src)
+        const url = new URL(this.url)
         url.searchParams.set('w', url.searchParams.get('w') / 2)
         url.searchParams.set('h', url.searchParams.get('h') / 2)
         url.searchParams.set('blur', 250)
@@ -159,7 +159,7 @@ export default {
     },
     async getImagePalette ({ colors = 1 } = {}) {
       try {
-        const paletteUrl = new URL(this.src)
+        const paletteUrl = new URL(this.url)
         paletteUrl.searchParams.set('palette', 'json')
         paletteUrl.searchParams.set('colors', colors)
 

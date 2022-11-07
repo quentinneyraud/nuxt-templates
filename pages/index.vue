@@ -2,16 +2,16 @@
   <div>
     <AppImage
       class="test"
-      :src="image.url"
+      :url="image.url"
       placeholder="blur"
       fit="unset"
     >
       <AppSource
-        :src="image.Mobile.url"
+        :url="image.Mobile.url"
         media="(max-width:500px)"
       />
       <AppSource
-        :src="image.url"
+        :url="image.url"
         :sizes="{ 768: 50 }"
       />
     </AppImage>
