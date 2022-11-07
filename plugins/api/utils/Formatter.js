@@ -91,11 +91,21 @@ class Formatter {
   formatLink (link, options) {
     if (!link || link.link_type === 'Any') return undefined
 
-    if (link.link_type === 'Document') return this.formatRelationship(link, options)
+    if (link.link_type === 'Document') {
+      const to = this.formatRelationship(link, options)
 
-    if (link.link_type === 'Media') return this.formatLinkToMedia(link, options)
+      if (to) return { to }
+    }
 
-    return link
+    if (link.link_type === 'Media') {
+      const to = this.formatLinkToMedia(link, options)
+
+      if (to) return { to }
+    }
+
+    return {
+      to: link
+    }
   }
 
   formatLinkToMedia (mediaLink, { validKinds, validExtensions, fields = ['link_type', 'name', 'url'] } = {}) {
@@ -247,10 +257,11 @@ class Formatter {
     const link = this.formatLink(ctaGroup?.link, linkFormatterOptions)
     if (requiredLink && isEmptyObject(link)) return undefined
 
+    if (link) link.title = this.formatKeyText(ctaGroup.title) || this.formatKeyText(ctaGroup.label)
+
     return {
       label: this.formatKeyText(ctaGroup.label),
-      ...link,
-      title: this.formatKeyText(ctaGroup.title) || this.formatKeyText(ctaGroup.label)
+      ...link
     }
   }
 }
