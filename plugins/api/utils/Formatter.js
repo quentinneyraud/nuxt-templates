@@ -79,7 +79,12 @@ class Formatter {
     if (Object.keys(allViews).length === 0) return undefined
     if (Object.keys(allViews).length === 1) return allViews[Object.keys(allViews)[0]]
 
-    return allViews
+    const { Main, ...restViews } = allViews
+
+    return {
+      ...Main,
+      ...restViews
+    }
   }
 
   formatRelationship (relationship, { validTypes, fields = ['id', 'type', 'uid', 'lang', 'link_type'] } = {}) {
