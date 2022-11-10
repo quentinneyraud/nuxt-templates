@@ -29,7 +29,33 @@ export default {
 </script>
 
 <style lang="css" scoped>
+div {
+  margin-top: 30px;
+}
+
 h1 {
   font-size: 40px;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 20px;
+}
+
+p + p {
+  margin-top: 10px;
+}
+
+b {
+  font-weight: 700;
+}
+
+pre {
+  background-color: rgb(56, 56, 56);
+  color: white;
+  font-size: 14px;
+  margin-top: 10px;
+  padding: 10px;
+  white-space: pre-wrap;
 }
 </style>
