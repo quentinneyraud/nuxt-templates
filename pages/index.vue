@@ -33,7 +33,7 @@ export default {
     async onSubmit () {
       const formData = new FormData(this.$refs.form)
 
-      const url = `${this.$config.IS_DEV ? 'http://localhost:8888' : ''}/.netlify/functions/my-endpoint`
+      const url = `${this.$config.NETLIFY_ENDPOINT}/my-endpoint`
       const options = {
         method: 'POST',
         body: formData
