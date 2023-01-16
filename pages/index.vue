@@ -30,16 +30,16 @@
       <h2>Slices component</h2>
     </NuxtLink>
 
-    <Slices :slices="slices" />
+    <SlicesExample :slices="slices" />
   </div>
 </template>
 
 <script>
-import Slices from '@/components/Slices.vue'
+import SlicesExample from '@/components/SlicesExample.vue'
 
 export default {
   components: {
-    Slices
+    SlicesExample
   },
   async asyncData ({ $config, $api, error }) {
     try {

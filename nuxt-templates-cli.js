@@ -8,6 +8,7 @@ module.exports = {
   devDependencies: [],
   files: [
     'plugins/api',
-    'components/Slices.vue'
+    'components/Slices.vue',
+    'components/DefaultSlice.vue'
   ]
 }

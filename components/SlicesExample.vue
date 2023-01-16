@@ -16,6 +16,8 @@
 import DefaultSlice from '~/components/DefaultSlice.vue'
 
 // Slices
+import FirstSlice from '@/components/slices/FirstSlice.vue'
+import SecondSlice from '@/components/slices/SecondSlice.vue'
 
 export default {
   props: {
@@ -28,6 +30,8 @@ export default {
   data () {
     return {
       slicesComponents: {
+        FirstSlice,
+        SecondSlice
       }
     }
   },
