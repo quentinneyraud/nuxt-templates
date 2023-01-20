@@ -23,12 +23,12 @@ export default function (moduleOptions) {
 
   this.options.alias.hasMetas = path.resolve(__dirname, 'mixins/hasMetas.js')
 
-  this.options.head = constructMetas({
+  this.options.head = defu(this.options.head, constructMetas({
     title: options.title,
     description: options.description,
     url: options.BASE_URL,
     image: (options.BASE_URL && options.image) ? options.BASE_URL + options.image : null
-  })
+  }))
 
   this.options.head = defu(this.options.head, {
     htmlAttrs: {
