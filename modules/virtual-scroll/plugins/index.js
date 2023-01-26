@@ -66,7 +66,8 @@ const createVirtualScroll = ctx => new Vue({
       container: null,
       active: !isMobileOrTablet(ctx),
       isLocked: false,
-      ratio: 1,
+      ratio: 0.1,
+      precision: 0,
       target: 0,
       current: 0,
       bounding: 0
@@ -98,6 +99,16 @@ const createVirtualScroll = ctx => new Vue({
       return this.ratio
     },
 
+    setPrecision (precision) {
+      this.precision = precision
+
+      return this
+    },
+
+    getPrecision () {
+      return this.precision
+    },
+
     setContainer (container) {
       this.container = container
 
@@ -113,7 +124,6 @@ const createVirtualScroll = ctx => new Vue({
     start () {
       if (this.active) {
         this.setBoundings()
-        this.setRatio(0.1)
 
         this.virtualScroll = new VirtualScroll({
           mouseMultiplier: navigator.platform.includes('Win') ? 1 : 0.4,
@@ -259,14 +269,26 @@ const createVirtualScroll = ctx => new Vue({
       this.current = lerp(this.current, this.target, this.ratio, 0.01)
 
       this.$emit('scroll', {
-        current: this.current,
+        current: this.current.toFixed(this.precision),
         target: this.target
+      })
+
+      this.$nextTick(_ => {
+        this.$emit('scrolll', {
+          current: this.current.toFixed(this.precision),
+          target: this.target
+        })
       })
     },
 
     onTickInactive () {
       this.$emit('scroll', {
-        current: window.scrollY,
+        current: window.scrollY.toFixed(this.precision),
+        target: window.scrollY
+      })
+
+      this.$emit('scrolll', {
+        current: window.scrollY.toFixed(this.precision),
         target: window.scrollY
       })
     },

@@ -38,8 +38,8 @@ export default function (moduleOptions) {
   })
 
   this.addPlugin({
-    src: path.resolve(__dirname, 'directives/fixed.js'),
-    fileName: path.join(MODULE_NAME, 'directives/fixed.js'),
+    src: path.resolve(__dirname, 'directives/sticky.js'),
+    fileName: path.join(MODULE_NAME, 'directives/sticky.js'),
     options,
     ssr: false
   })
