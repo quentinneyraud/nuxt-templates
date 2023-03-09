@@ -3,6 +3,14 @@ $mobileMockupWidth: 375;
 $desktopMockupWidth: 1440;
 
 @function fs($mobileSize, $desktopSize, $mobileSizeReference: $mobileMockupWidth, $desktopSizeReference: $desktopMockupWidth) {
+  @if (unit($mobileSize) == 'rem') {
+    $mobileSize: strip-unit($mobileSize) * 10;
+  }
+
+  @if (unit($desktopSize) == 'rem') {
+    $desktopSize: strip-unit($desktopSize) * 10;
+  }
+
   $m: math.div($desktopSize - $mobileSize, $desktopSizeReference - $mobileSizeReference);
   $b: $mobileSize - $m * $mobileSizeReference;
 

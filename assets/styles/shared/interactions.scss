@@ -36,6 +36,8 @@
 
 @mixin scrollable-x {
   overflow-x: auto;
+  scrollbar-color: $primary $secondary;
+  scrollbar-width: thin;
 
   &::-webkit-scrollbar {
     height: 1px;

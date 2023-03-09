@@ -25,3 +25,37 @@ Texts
 .AppText-2 {
   @include font($font-sora, 17, 28, $fw-regular);
 }
+
+/*
+
+Styles
+
+*/
+
+.--tal {
+  text-align: left;
+}
+
+.--tar {
+  text-align: right;
+}
+
+.--tac {
+  text-align: center;
+}
+
+.--ttu {
+  text-transform: uppercase;
+}
+
+.--italic {
+  font-style: italic;
+}
+
+.--bold {
+  font-style: $fw-bold;
+}
+
+.--break {
+  word-break: break-word;
+}
