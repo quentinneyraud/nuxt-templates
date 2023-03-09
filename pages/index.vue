@@ -104,7 +104,7 @@ p {
   width: 500px;
   height: 50vh;
   transform: translateX(-50%);
-  border: 1px solid blue;
+  outline: 1px solid blue;
   box-sizing: border-box;
 }
 

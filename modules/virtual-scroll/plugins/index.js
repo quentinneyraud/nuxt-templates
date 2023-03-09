@@ -194,6 +194,8 @@ const createVirtualScroll = ctx => new Vue({
     },
 
     virtualScrollCallback (e) {
+      if (e.originalEvent.target.closest('.no-vs-scroll')) return
+
       if (this.isLocked) return
 
       this.scrollOf(e.deltaY * -1)
@@ -266,28 +268,16 @@ const createVirtualScroll = ctx => new Vue({
     },
 
     onTick () {
-      this.current = lerp(this.current, this.target, this.ratio, 0.01)
+      this.current = lerp(this.current, this.target, this.ratio, 1 / Math.pow(this.precision, this.precision))
 
       this.$emit('scroll', {
         current: this.current.toFixed(this.precision),
         target: this.target
       })
-
-      this.$nextTick(_ => {
-        this.$emit('scrolll', {
-          current: this.current.toFixed(this.precision),
-          target: this.target
-        })
-      })
     },
 
     onTickInactive () {
       this.$emit('scroll', {
-        current: window.scrollY.toFixed(this.precision),
-        target: window.scrollY
-      })
-
-      this.$emit('scrolll', {
         current: window.scrollY.toFixed(this.precision),
         target: window.scrollY
       })
@@ -345,7 +335,7 @@ const createVirtualScroll = ctx => new Vue({
     },
 
     setBoundings () {
-      if (!this.active) return
+      if (!this.active || !this.container) return
 
       this.bounding = this.container.getBoundingClientRect().height - window.innerHeight
 

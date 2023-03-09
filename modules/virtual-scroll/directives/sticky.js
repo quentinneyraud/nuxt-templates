@@ -6,10 +6,11 @@ class Sticky {
   constructor (el, options, virtualScrollPlugin) {
     this.el = el
     this.parent = el.parentNode
-    this.options = Object.assign({}, { marge: 100 }, options)
+    this.options = Object.assign({}, { active: true, marge: 100 }, options)
     this.virtualScrollPlugin = virtualScrollPlugin
     this.bindMethods()
-    this.start()
+
+    if (this.options.active) this.start()
   }
 
   bindMethods () {
@@ -20,11 +21,11 @@ class Sticky {
   start () {
     this.onScrollCallback = this.virtualScrollPlugin.active ? this.onScroll : this.onScrollMobile
 
-    this.virtualScrollPlugin.$on('scrolll', this.onScrollCallback)
+    this.virtualScrollPlugin.$on('scroll', this.onScrollCallback)
   }
 
   destroy () {
-    this.virtualScrollPlugin.$off('scrolll', this.onScrollCallback)
+    this.virtualScrollPlugin.$off('scroll', this.onScrollCallback)
   }
 
   setRect () {
@@ -37,7 +38,7 @@ class Sticky {
     this.parentRect = this.parent.getBoundingClientRect()
 
     if (this.parentRect.top <= this.options.marge && this.parentRect.top + this.parentRect.height - this.elRect.height >= -this.options.marge) {
-      this.el.style.transform = `translateY(${clamp(this.parentRect.top * -1, 0, this.parentRect.height - this.elRect.height).toFixed(0)}px)`
+      this.el.style.transform = `translateY(${clamp(this.parentRect.top * -1, 0, this.parentRect.height - this.elRect.height).toFixed(this.virtualScrollPlugin.getPrecision())}px)`
 
       this.sendProgress()
     }
@@ -73,9 +74,11 @@ Vue.directive('vs-sticky', {
   bind (el, { value }, { context }) {
     const virtualScrollPlugin = context.$virtualScroll
 
-    const state = new Sticky(el, value, virtualScrollPlugin)
+    context.$nextTick(_ => {
+      const state = new Sticky(el, value, virtualScrollPlugin)
 
-    el._vue_sticky = state
+      el._vue_sticky = state
+    })
   },
   unbind (el) {
     const state = el._vue_sticky
