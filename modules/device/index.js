@@ -21,7 +21,7 @@ export default function (moduleOptions) {
     MODULE_NAME
   }
 
-  // Directive
+  // Plugin
   this.addPlugin({
     src: path.resolve(__dirname, 'plugins/index.js'),
     fileName: path.join(MODULE_NAME, 'plugins/index.js'),
