@@ -1,5 +1,8 @@
 import defu from 'defu'
 import featureConfig from './config'
+import viewportObserverfeatureConfig from './configs/nuxt.config.viewport-observer'
+import propsHelperfeatureConfig from './configs/nuxt.config.props-helper'
+import gsapfeatureConfig from './configs/nuxt.config.gsap'
 
 /**
  * Environment informations
@@ -37,13 +40,46 @@ export default async _ => {
     buildModules: [
       '@nuxtjs/eslint-module'
     ],
-    modules: [],
-    build: {
-      transpile: ['gsap']
-    }
+    modules: []
   }
 
   const config = defu(baseConfig, await featureConfig({
+    ENVIRONMENT,
+    IS_DEV,
+    IS_PREPROD,
+    IS_PROD,
+    MODE,
+    BASE_URL,
+    lang,
+    title,
+    description,
+    shareImage,
+    themeColor
+  }), await viewportObserverfeatureConfig({
+    ENVIRONMENT,
+    IS_DEV,
+    IS_PREPROD,
+    IS_PROD,
+    MODE,
+    BASE_URL,
+    lang,
+    title,
+    description,
+    shareImage,
+    themeColor
+  }), await propsHelperfeatureConfig({
+    ENVIRONMENT,
+    IS_DEV,
+    IS_PREPROD,
+    IS_PROD,
+    MODE,
+    BASE_URL,
+    lang,
+    title,
+    description,
+    shareImage,
+    themeColor
+  }), await gsapfeatureConfig({
     ENVIRONMENT,
     IS_DEV,
     IS_PREPROD,

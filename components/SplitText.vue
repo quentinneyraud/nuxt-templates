@@ -1,7 +1,13 @@
 <template>
   <Component
     :is="tag"
-    class="SplitText-component"
+    class="SplitText"
+    :class="[
+      `--type-${type.replace(',', '-')}`,
+      {
+        '--is-splitted': splitted
+      }
+    ]"
     v-html="html"
   />
 </template>
@@ -31,6 +37,11 @@ export default {
     html: {
       type: String,
       required: true
+    },
+    autoSplit: {
+      type: Boolean,
+      required: false,
+      default: _ => false
     },
     /**
      *
@@ -74,15 +85,18 @@ export default {
     this.splittedElementsClassSelector = {
       chars: this.charsClass,
       words: this.wordsClass,
-      lines: this.linesClass
+      lines: this.linesClass,
+      'lines,chars': this.charsClass
     }[this.type]
+
+    if (this.autoSplit) this.split()
   },
   methods: {
     elements () {
-      return this.$el.getElementsByClassName(this.splittedElementsClassSelector)
+      return Array.from(this.$el.getElementsByClassName(this.splittedElementsClassSelector))
     },
     wrappers () {
-      return this.$el.getElementsByClassName(`${this.splittedElementsClassSelector}-wrapper`)
+      return Array.from(this.$el.getElementsByClassName(`${this.splittedElementsClassSelector}-wrapper`))
     },
     split () {
       const el = this.nested ? this.$el.children : this.$el
@@ -134,13 +148,15 @@ export default {
 }
 </script>
 
-<style lang="css" scoped>
-.SplitText-component ::v-deep div {
-  font-family: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-  font-style: inherit;
-  line-height: inherit;
-  letter-spacing: inherit;
+<style lang="scss" scoped>
+.SplitText {
+  &:deep(div) {
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    font-style: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+  }
 }
 </style>
