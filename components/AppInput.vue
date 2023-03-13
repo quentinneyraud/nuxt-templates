@@ -11,26 +11,36 @@
       v-if="label"
       class="AppInput-label"
       :for="id"
-    >{{ label }}</label>
+    >{{ label }}{{ isRequired ? ' *' : '' }}</label>
 
     <!-- Input -->
     <div class="AppInput-inputWrapper">
       <textarea
         v-if="type === 'textarea'"
         :id="id"
-        v-model="internalValue"
-        :name="name"
+        ref="input"
+        :name="inputName"
         class="AppInput-input"
         :type="type"
         :placeholder="placeholder"
         :required="isRequired"
       />
 
+      <template v-else-if="type === 'checkbox'">
+        <input
+          ref="input"
+          :name="inputName"
+          class="AppInput-input"
+          type="checkbox"
+          :required="isRequired"
+        >
+      </template>
+
       <input
         v-else
         :id="id"
-        v-model="internalValue"
-        :name="name"
+        ref="input"
+        :name="inputName"
         class="AppInput-input"
         :type="type"
         :placeholder="placeholder"
@@ -41,6 +51,17 @@
 </template>
 
 <script>
+const slugify = text =>
+  text
+    .toString()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036F]/g, '')
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w-]+/g, '')
+    .replace(/--+/g, '-')
+
 export default {
   props: {
     type: {
@@ -67,70 +88,84 @@ export default {
       type: String,
       required: false,
       default: null
-    },
-    value: {
-      type: String,
-      required: false,
-      default: null
     }
   },
   data () {
     return {
       isInput: true,
       id: null,
-      internalValue: this.value
+      inputName: null
     }
   },
   mounted () {
+    this.setName()
     this.setId()
   },
   methods: {
-    getValue () {
-      return this.internalValue
+    fillWithMockData () {
+      if (this.type === 'checkbox') {
+        this.$refs.input.checked = true
+      } else if (this.type === 'tel') {
+        this.$refs.input.value = '0121326554'
+      } else if (this.type === 'email') {
+        this.$refs.input.value = 'hello@test.com'
+      } else {
+        this.$refs.input.value = 'bla bla bla'
+      }
+    },
+    setName () {
+      this.inputName = this.name || slugify(this.label)
     },
     setId () {
-      this.id = this.name + Math.random().toString(36).substr(2, 9)
-    },
-    clear () {
-      this.internalValue = null
+      this.id = this.inputName + Math.random().toString(36).substr(2, 9)
     }
   }
 
 }
 </script>
 
-<style lang="css" scoped>
-.AppInput.--is-required .AppInput-label:after {
-  content: "*";
-  margin-left: 5px;
-  color: red;
-  vertical-align: top;
-}
+<style lang="scss" scoped>
+.AppInput {
+  &.--type-textarea .AppInput-input {
+    resize: none;
+    height: 230px;
+    border: none;
+  }
 
-.AppInput.--type-textarea .AppInput-input {
-  resize: none;
-  height: 230px;
-  border: none;
-}
+  &.--type-checkbox {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
 
-.AppInput-inputWrapper {
-  position: relative;
-  margin-top: 5px;
-}
+    .AppInput-label {
+      order: 1;
+    }
+  }
 
-.AppInput-input {
-  position: relative;
-  width: 100%;
-  height: 44px;
-  background-color: rgba(228, 228, 228, 0.3);
-  border-radius: 12px;
-  padding: 12px 20px;
-  transition: box-shadow 0.3s;
+  &:not(.--type-checkbox) {
+    .AppInput-inputWrapper {
+      margin-top: 0.5rem;
+    }
+
+    .AppInput-input {
+      width: 100%;
+      background-color: #e6e6e6;
+      padding: 1.3rem 1.2rem;
+      transition: box-shadow 0.3s;
+
+      &:focus {
+        box-shadow: 0 0 0 1px grey;
+      }
+    }
+  }
+
+  &:not(.--type-checkbox):not(.--type-textarea) .AppInput-input {
+    height: 44px;
+  }
 }
 
 .AppInput-input:focus,
 .AppInput-input:focus-visible {
-  box-shadow: 0 0 0 1px grey;
   outline: none;
 }
 

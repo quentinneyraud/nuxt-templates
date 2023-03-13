@@ -8,55 +8,31 @@
 </template>
 
 <script>
-const recursiveFlattenComponentChildren = component => {
-  return component
-    .$children
-    .reduce((acc, curr) => {
-      acc.push(curr)
-
-      if (curr.$children && Array.isArray(curr.$children) && curr.$children.length > 0) {
-        acc.push(...recursiveFlattenComponentChildren(curr))
-      }
-
-      return acc
-    }, [])
-}
-
 export default {
-  data () {
-    return {
-      inputChildren: []
-    }
-  },
-  computed: {
-    values () {
-      return this.inputChildren
-        .reduce((acc, curr) => {
-          acc[curr.name] = curr.getValue()
-
-          return acc
-        }, {})
+  props: {
+    fillWithMockData: {
+      type: Boolean,
+      required: false,
+      default: _ => false
     }
   },
   mounted () {
-    this.setInputChildren()
+    if (this.fillWithMockData) this.fillInputsWithMockData()
   },
   methods: {
-    onSubmit () {
-      this.$emit('submit', this.values)
-    },
-    setInputChildren () {
-      this.inputChildren = recursiveFlattenComponentChildren(this)
+    fillInputsWithMockData () {
+      this.$children
         .filter(component => component.isInput)
+        .forEach(component => component.fillWithMockData())
+    },
+    onSubmit () {
+      const formData = new FormData(this.$el)
+
+      this.$emit('submit', formData)
     },
     clear () {
-      return this.inputChildren
-        .forEach(inputChild => inputChild.clear())
+      return this.$el.reset()
     }
   }
 }
 </script>
-
-<style>
-
-</style>

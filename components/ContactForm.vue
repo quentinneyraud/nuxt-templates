@@ -6,32 +6,47 @@
     <AppForm
       ref="form"
       class="ContactForm-form"
+      fill-with-mock-data
       @submit="onSubmit"
     >
       <div class="ContactForm-fields">
 
-        <div class="ContactForm-simpleFields">
-          <AppInput
-            v-for="(field, fieldIndex) in simpleFields"
-            :key="fieldIndex"
-            :label="field.label"
-            :type="field.type"
-            :name="field.name"
-            :placeholder="field.placeholder"
-            :is-required="field.isRequired"
-            :value="field.value"
-          />
-        </div>
+        <AppInput
+          type="text"
+          name="firstname"
+          is-required
+          label="Votre prénom"
+        />
 
         <AppInput
-          v-if="messageField"
-          :label="messageField.label"
-          :type="messageField.type"
-          :name="messageField.name"
-          :placeholder="messageField.placeholder"
-          :is-required="messageField.isRequired"
-          :value="messageField.value"
+          type="text"
+          name="name"
+          is-required
+          label="Votre nom"
         />
+
+        <AppInput
+          type="email"
+          name="email"
+          is-required
+          label="Votre email"
+        />
+
+        <AppInput
+          type="tel"
+          name="tel"
+          is-required
+          label="Votre tel"
+        />
+
+        <AppInput
+          type="textarea"
+          name="message"
+          is-required
+          label="Votre message"
+          class="full-width"
+        />
+
       </div>
 
       <div class="ContactForm-actions">
@@ -140,7 +155,7 @@ export default {
 }
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
 .ContactForm {
   width: 100%;
   max-width: 1400px;
@@ -183,7 +198,13 @@ export default {
 }
 
 .ContactForm-simpleFields::v-deep .AppInput {
-  flex: 0 0 calc(((100% - (var(--fields-by-line) - 1) * var(--fields-gutter)) / var(--fields-by-line)));
+  flex: 0 0
+    calc(
+      (
+        (100% - (var(--fields-by-line) - 1) * var(--fields-gutter)) /
+          var(--fields-by-line)
+      )
+    );
 }
 
 .ContactForm-actions {
