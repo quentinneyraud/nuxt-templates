@@ -1,5 +1,8 @@
 <template>
-  <source v-if="attributes['data-srcset']" v-bind="attributes">
+  <source
+    v-if="attributes['data-srcset']"
+    v-bind="attributes"
+  >
 </template>
 
 <script>

@@ -2,18 +2,18 @@
   <div
     class="AppImage"
     :class="[{
-               loading,
-               loaded,
-               error,
-               lazyload,
-               'has-not-src': !url,
-               'has-ratio': !!ratio
+               '--is-loading': loading,
+               '--is-loaded': loaded,
+               '--has-error': error,
+               '--has-lazyload': lazyload,
+               '--has-empty-src': !url,
+               '--is-animated': animation === true,
+               ...(animationObserver ? {
+                 [animationObserver.options.activeClass]: animationObserver.isIntersecting
+               }:{})
              },
              `fit-${fit}`
     ]"
-    :style="{
-      '--ratio': `${ratio * 100}%`
-    }"
   >
     <!-- Placeholder -->
     <div
@@ -34,7 +34,7 @@
         ref="image"
         :draggable="draggable"
         :data-src="url"
-        :alt="(alt && alt.length > 0) ? alt : 'No alternate text'"
+        :alt="alt"
         :style="{
           objectFit: fit,
           objectPosition: position
@@ -46,6 +46,8 @@
 </template>
 
 <script>
+import Observer from '../modules/viewport-observer/Observer'
+
 export default {
   props: {
     url: {
@@ -56,7 +58,7 @@ export default {
     alt: {
       type: String,
       required: false,
-      default: 'No alternate text'
+      default: ''
     },
     fit: {
       type: String,
@@ -69,38 +71,43 @@ export default {
       required: false,
       default: 'center center'
     },
-    ratio: {
-      type: Number,
-      required: false,
-      default: null
-    },
     lazyload: {
-      type: [Boolean, String],
+      type: Boolean,
       required: false,
       default: true
     },
-    lazyloadOffset: {
-      type: Number,
+    lazyloadObserverParams: {
+      type: Object,
       required: false,
-      default: -500
-    },
-    lazyloadThreshold: {
-      type: Number,
-      required: false,
-      default: 0
+      default: _ => ({
+        threshold: 0,
+        offset: -500
+      })
     },
     draggable: {
       type: Boolean,
       required: false,
       default: false
     },
-    /**
-     * 'blur', 'color' or an URL
-     */
+    // blur, color, an url
     placeholder: {
       type: String,
       required: false,
       default: null
+    },
+    // true (animateEnter method), false (no observer, no animation), 'custom' (observer and emit 'custom-animation' event)
+    animation: {
+      type: [Boolean, String],
+      required: false,
+      default: _ => true
+    },
+    animationObserverParams: {
+      type: Object,
+      required: false,
+      default: _ => ({
+        threshold: 0,
+        autoOffset: true
+      })
     }
   },
   data () {
@@ -108,7 +115,8 @@ export default {
       loaded: false,
       loading: false,
       error: false,
-      placeholderStyle: null
+      placeholderStyle: null,
+      inView: false
     }
   },
   computed: {
@@ -120,13 +128,13 @@ export default {
   mounted () {
     if (this.placeholder) this.setPlaceholder()
 
-    if (this.lazyload === true || this.lazyload === 'observer') {
+    if (this.lazyload) {
       this.createLazyloadObserver()
-    }
-
-    if (this.lazyload === false) {
+    } else {
       this.$nextTick(this.load)
     }
+
+    if (this.animation) this.createAnimationObserver()
   },
   methods: {
     async setPlaceholder () {
@@ -172,37 +180,35 @@ export default {
       }
     },
     createLazyloadObserver () {
-      this.observer = new IntersectionObserver(
-        this.handleIntersect,
-        {
-          root: null,
-          rootMargin: `0px 0px ${-this.lazyloadOffset}px 0px`,
-          threshold: this.lazyloadThreshold
-        }
-      )
+      this.lazyloadObserver = new Observer(this.$el, {
+        ...this.lazyloadObserverParams,
+        activeClass: null,
+        onEnter: this.onEnterLazyload
+      })
 
-      this.observer.observe(this.$el)
+      this.lazyloadObserver.observe()
     },
-    handleIntersect (entries, observer) {
-      let entry = entries[0]
-
-      // Fix bug multiple entries
-      if (entries.length > 1) {
-        const intersectingEntry = entries.find(e => e.isIntersecting)
-        if (intersectingEntry) {
-          entry = intersectingEntry
-        }
+    onEnterLazyload () {
+      this.load()
+      this.lazyloadObserver.destroy()
+    },
+    createAnimationObserver () {
+      const animationObserverParams = {
+        ...this.animationObserverParams,
+        onEnter: this.onEnterAnimation
       }
 
-      const isIntersecting = entry.isIntersecting && entry.intersectionRatio >= observer.thresholds[0]
+      if (this.animation === 'custom') animationObserverParams.activeClass = null
 
-      if (isIntersecting) {
-        this.load()
-      }
+      this.animationObserver = new Observer(this.$el, animationObserverParams)
+      this.animationObserver.observe()
+    },
+    onEnterAnimation () {
+      this.inView = true
+
+      if (this.loaded) this.animateEffect()
     },
     load () {
-      this.observer?.disconnect()
-
       if (this.loaded) return Promise.resolve()
 
       this.loading = true
@@ -234,59 +240,62 @@ export default {
       })
     },
     onLoaded () {
+      if (!this.loaded && this.inView) this.animateEffect()
+
       this.loaded = true
       this.loading = false
       this.error = false
       this.$emit('loaded')
 
       // Update virtual scroll bounding here
+      // this.$virtualScroll.setBoundings()
     },
     onError () {
       this.loaded = false
       this.loading = false
       this.error = true
+    },
+    animateEffect () {
+      if (this.animation === 'custom') {
+        this.$emit('custom-animation')
+        return
+      }
+
+      // gsap animation or css
+      console.log('animation')
     }
   }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .AppImage {
   position: relative;
   overflow: hidden;
   font-size: 0px;
   user-select: none;
-}
 
-.AppImage.fit-cover .AppImage-image, .AppImage.fit-contain .AppImage-image {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-}
+  &.fit-cover,
+  &.fit-contain {
+    .AppImage-image {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+  }
 
-.AppImage.has-ratio::before {
-  content: "";
-  width: 1px;
-  margin-left: -1px;
-  float: left;
-  height: 0;
-  padding-top: var(--ratio);
-}
+  &.--is-animated {
+    .AppImage-image {
+      transform: scale(1.5);
+    }
 
-.AppImage.has-ratio::after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-.AppImage.loaded .AppImage-image {
-  opacity: 1;
-  transition: opacity 0.3s;
-}
-
-.AppImage.loaded .AppImage-placeholder {
-  opacity: 0;
-  transition: opacity 0.15s;
+    &.--is-loaded.in-view {
+      .AppImage-image {
+        transform: scale(1);
+        transition: transform 0.5s ease-in-out;
+      }
+    }
+  }
 }
 
 .AppImage-placeholder {
@@ -298,7 +307,6 @@ export default {
 
 .AppImage-image {
   position: relative;
-  opacity: 0;
   width: 100%;
   height: 100%;
 }
