@@ -13,10 +13,11 @@
   >
 
     <!-- Label -->
-    <span class="AppButton-label AppText-button">{{ label }}</span>
+    <span class="AppButton-label">{{ label }}</span>
 
     <!-- Icon -->
     <AppSvg
+      v-if="icon"
       :name="icon"
       class="AppButton-svg"
     />
@@ -48,35 +49,35 @@ export default {
 }
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
 .AppButton {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   min-width: 20rem;
-  padding: 2rem 3.5rem 1.8rem 3.5rem;
+  padding: 2rem 3.5rem;
   border-radius: 80px;
   box-shadow: 0 0 0 1px black;
-}
 
-.AppButton.--is-hover, .AppButton:hover, .AppButton:focus {
+  &.--is-hover,
+  &:hover,
+  &:focus {
     outline: none;
     background-color: black;
+
+    .AppButton-label {
+      color: white;
+    }
+
+    .AppButton-svg {
+      fill: white;
+    }
   }
-
-.AppButton.--is-hover .AppButton-label, .AppButton:hover .AppButton-label, .AppButton:focus .AppButton-label {
-  color: white;
-}
-
-.AppButton.--is-hover .AppButton-svg, .AppButton:hover .AppButton-svg, .AppButton:focus .AppButton-svg {
-  fill: white;
 }
 
 .AppButton-svg {
-  position: absolute;
-  top: 50%;
-  right: 2rem;
+  margin-left: 1rem;
   max-width: 1.2rem;
   max-height: 1.2rem;
   fill: black;
