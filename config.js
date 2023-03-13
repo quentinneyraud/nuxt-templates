@@ -6,7 +6,7 @@ module.exports = _ => ({
     /**
       Add an helper to toggle activeClass (Default: true in dev)
      */
-    // helper: true,
+    helper: true,
 
     /**
       Default directive options
