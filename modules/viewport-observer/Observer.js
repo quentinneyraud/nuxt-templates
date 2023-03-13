@@ -74,7 +74,7 @@ export default class Observer {
   }
 
   unobserve () {
-    this.observer.unobserve(this.el)
+    this.observer?.unobserve(this.el)
   }
 
   handleIntersect (entries) {
@@ -96,7 +96,7 @@ export default class Observer {
       this.onEnter({ entry })
 
       if (this.options.once) {
-        this.unobserve()
+        this.destroy()
       }
     } else {
       this.onLeave({ entry })
@@ -106,15 +106,7 @@ export default class Observer {
   onEnter ({ entry }) {
     this.isIntersecting = true
 
-    if (this.context.$viewportObserverHelper.active && this.context.$viewportObserverHelper.show) this.addClass()
-
-    this.options?.onChange?.({
-      el: this.el,
-      options: this.options,
-      observer: this.observer,
-      entry,
-      isVisible: this.isVisible
-    })
+    if (this.context.$viewportObserverHelper.active && this.context.$viewportObserverHelper.show && this.options.activeClass) this.addClass()
 
     this.options?.onEnter?.({
       el: this.el,
@@ -126,14 +118,6 @@ export default class Observer {
 
   onLeave ({ entry }) {
     this.isIntersecting = false
-
-    this.options?.onChange?.({
-      el: this.el,
-      options: this.options,
-      observer: this.observer,
-      entry,
-      isVisible: this.isVisible
-    })
 
     this.options?.onLeave?.({
       el: this.el,
