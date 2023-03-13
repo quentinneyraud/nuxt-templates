@@ -1,8 +1,15 @@
 <template>
-  <div>
+  <div
+    :id="componentName.toLowerCase()"
+    :class="componentName"
+  >
     <h1>Unregistered component</h1>
 
-    <p><b>Component name:</b> {{ componentName }}</p>
+    <p>
+      <b>Component name:</b><NuxtLink :to="{ hash: componentName.toLowerCase() }">
+        {{ componentName }}
+      </NuxtLink>
+    </p>
 
     <p><b>Component props</b></p>
     <pre>
@@ -23,6 +30,11 @@ export default {
       type: String,
       required: false,
       default: null
+    }
+  },
+  mounted () {
+    if (this.$route.hash.replace('#', '') === this.componentName.toLowerCase()) {
+      this.$el.scrollIntoView()
     }
   }
 }

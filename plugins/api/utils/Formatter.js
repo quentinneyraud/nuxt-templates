@@ -15,10 +15,14 @@ class Formatter {
     return this.formatRichText(title)
   }
 
-  formatRichText (richText, { removeWrappingPTag = false, ellispsis } = {}) {
+  formatRichText (richText, { removeWrappingPTag = false, ellispsis, asText = false } = {}) {
     if (!richText || richText.length === 0) return undefined
 
     if (typeof richText === 'string') return richText
+
+    if (asText) {
+      return this.$prismic.asText(richText)
+    }
 
     if (ellispsis) {
       const text = this.$prismic.asText(richText)
@@ -87,19 +91,26 @@ class Formatter {
     }
   }
 
-  formatRelationship (relationship, { validTypes, fields = ['id', 'type', 'uid', 'lang', 'link_type'] } = {}) {
+  formatRelationship (relationship, { validTypes, asLink = false, fields = ['id', 'type', 'uid', 'lang', 'link_type', 'url'] } = {}) {
     if (!isValidRelationShip(relationship, validTypes)) return undefined
 
-    return filterObjectKeys(relationship, fields)
+    if (asLink) {
+      return {
+        to: filterObjectKeys(relationship, fields)
+      }
+    } else {
+      return filterObjectKeys(relationship, fields)
+    }
   }
 
   formatLink (link, options) {
     if (!link || link.link_type === 'Any') return undefined
 
     if (link.link_type === 'Document') {
-      const to = this.formatRelationship(link, options)
-
-      if (to) return { to }
+      return this.formatRelationship(link, {
+        ...options,
+        asLink: true
+      })
     }
 
     if (link.link_type === 'Media') {
@@ -256,11 +267,17 @@ class Formatter {
     }
   }
 
+  /**
+   * @param {object} ctaGroup
+   * @param {object} ctaGroup.link
+   * @param {string} ctaGroup.label
+   * @param {string} ctaGroup.title
+   */
   formatButton (ctaGroup, { linkFormatterOptions, requiredLink = true } = {}) {
     if (!ctaGroup || !isObject(ctaGroup)) return undefined
 
     const link = this.formatLink(ctaGroup?.link, linkFormatterOptions)
-    if (requiredLink && isEmptyObject(link)) return undefined
+    if (requiredLink && (isEmptyObject(link) || !link)) return undefined
 
     if (link) link.title = this.formatKeyText(ctaGroup.title) || this.formatKeyText(ctaGroup.label)
 
@@ -268,6 +285,12 @@ class Formatter {
       label: this.formatKeyText(ctaGroup.label),
       ...link
     }
+  }
+
+  formatIcon (iconRelationship) {
+    if (!iconRelationship || !isValidRelationShip(iconRelationship, 'icon')) return null
+
+    return iconRelationship.uid
   }
 }
 
