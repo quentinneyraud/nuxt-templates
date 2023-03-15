@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-escape */
 module.exports = {
   metas: {
     title: 'Eslint',
@@ -18,10 +17,8 @@ module.exports = {
   postInstall: Log => {
     Log.info('Add these lines to package.json scripts :')
 
-    Log.blankLine()
-
     Log.log(`
-"lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
+"lint:js": "eslint --ext \\".js,.vue\\" --ignore-path .gitignore .",
 "lint": "yarn lint:js",
 "lintfix": "yarn lint:js --fix"`)
   }
