@@ -23,7 +23,6 @@ module.exports = {
     Log.log(`
 "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
 "lint": "yarn lint:js",
-"lintfix": "yarn lint:js --fix"
-    `)
+"lintfix": "yarn lint:js --fix"`)
   }
 }
