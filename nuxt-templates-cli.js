@@ -14,5 +14,12 @@ module.exports = {
     'svgo.config.js',
     'modules/svg',
     'assets/svg'
-  ]
+  ],
+  postInstall: Log => {
+    Log.info('Add this line to package.json scripts :')
+
+    Log.blankLine()
+
+    Log.log('"optimize-icons": "svgo -f assets/svg --exclude \\".*_clean.svg\\""')
+  }
 }
