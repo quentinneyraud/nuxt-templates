@@ -16,7 +16,7 @@ module.exports = {
     'npx install-peerdeps @qneyraud/eslint-config --dev'
   ],
   postInstall: Log => {
-    Log.log('⚠️ Add these lines to package.json scripts :')
+    Log.info('Add these lines to package.json scripts :')
 
     Log.blankLine()
 
