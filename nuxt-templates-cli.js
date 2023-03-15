@@ -6,7 +6,7 @@ module.exports = {
   },
   dependencies: [],
   devDependencies: [
-    '@babel/eslint-parser'
+    '@nuxtjs/eslint-module@nuxt2'
   ],
   files: [
     '.eslintrc.js'
