@@ -5,7 +5,7 @@ module.exports = {
     category: 'Hosting / Deployment'
   },
   dependencies: [
-    '@nuxtjs/robots'
+    '@nuxtjs/robots@2.5.0'
   ],
   devDependencies: [],
   files: []
