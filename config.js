@@ -1,7 +1,5 @@
 module.exports = _ => ({
-  buildModules: [
-    '@nuxtjs/style-resources'
-  ],
+  buildModules: ['@nuxtjs/style-resources'],
 
   css: ['~/assets/styles/global/index.scss'],
 

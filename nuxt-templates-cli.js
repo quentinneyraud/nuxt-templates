@@ -10,7 +10,5 @@ module.exports = {
     'sass',
     'sass-loader@10.1.1'
   ],
-  files: [
-    'assets/styles'
-  ]
+  files: ['assets/styles']
 }
