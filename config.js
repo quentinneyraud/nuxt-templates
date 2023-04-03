@@ -1,7 +1,6 @@
 module.exports = ({ IS_INDEXED }) => ({
-  modules: [
-    '@nuxtjs/robots'
-  ],
+  modules: ['@nuxtjs/robots'],
+
   robots: _ => {
     return IS_INDEXED
       ? {
