@@ -4,9 +4,7 @@ module.exports = {
     description: 'Add the config to be PWA compatible',
     category: 'Hosting / Deployment'
   },
-  dependencies: [
-    '@nuxtjs/pwa'
-  ],
+  dependencies: ['@nuxtjs/pwa'],
   devDependencies: [],
   files: []
 }

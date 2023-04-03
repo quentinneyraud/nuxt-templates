@@ -1,7 +1,5 @@
 module.exports = ({ title = 'My company', description = 'My company is doing something', lang = 'en', themeColor = '#FFFFFF' }) => ({
-  modules: [
-    '@nuxtjs/pwa'
-  ],
+  modules: ['@nuxtjs/pwa'],
 
   pwa: {
     // https://pwa.nuxtjs.org/icon/
