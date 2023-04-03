@@ -3,9 +3,7 @@ module.exports = ({ MODE }) => ({
 
   css: ['~/modules/transitions/assets/index.css'],
 
-  modules: [
-    '~/modules/transitions'
-  ],
+  modules: ['~/modules/transitions'],
 
   publicRuntimeConfig: {
     MODE

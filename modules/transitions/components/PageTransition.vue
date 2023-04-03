@@ -22,14 +22,17 @@ export default {
       preloadPromises: []
     }
   },
+
   mounted () {
     this.$transitionsBus.$on('transition:show', this.show)
     this.$transitionsBus.$on('transition:hide', this.hide)
   },
+
   beforeDestroy () {
     this.$transitionsBus.$off('transition:show', this.show)
     this.$transitionsBus.$off('transition:hide', this.hide)
   },
+
   methods: {
     async hide ({ el, to, from, promises = [], done } = {}) {
       this.resetProgress()
@@ -52,6 +55,7 @@ export default {
         this.resetProgress()
       }, 500)
     },
+
     async show ({ el, to, from, promises = [], done } = {}) {
       document.body.classList.add('cursor-loading')
 

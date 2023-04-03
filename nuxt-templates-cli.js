@@ -6,7 +6,5 @@ module.exports = {
   },
   dependencies: [],
   devDependencies: [],
-  files: [
-    'modules/transitions'
-  ]
+  files: ['modules/transitions']
 }

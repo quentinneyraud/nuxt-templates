@@ -1,6 +1,10 @@
 <template>
   <div>
-    <img ref="image" src="https://source.unsplash.com/1600x900/?dog" alt="">
+    <img
+      ref="image"
+      src="https://source.unsplash.com/1600x900/?dog"
+      alt=""
+    >
   </div>
 </template>
 
@@ -16,6 +20,7 @@ export default {
       })
         .catch(_ => {})
     },
+
     transitionHide () {
       return _ => {
         this.$refs.image.classList.add('--is-hidden')

@@ -18,10 +18,11 @@
 
 <script>
 // Mixins
-import HasTransition from 'hasTransition'
+import hasTransition from '../modules/transitions/mixins/hasTransition'
 
 export default {
-  mixins: [HasTransition],
+  mixins: [hasTransition],
+
   methods: {
     preload () {
       return _ => new Promise(resolve => {

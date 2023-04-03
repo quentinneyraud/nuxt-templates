@@ -24,20 +24,21 @@ export default {
       preloadPromises: []
     }
   },
+
   mounted () {
     this.$transitionsBus.$on('loader:hide', this.hide)
   },
+
   beforeDestroy () {
     this.$transitionsBus.$off('loader:hide', this.hide)
   },
+
   methods: {
     async hide ({ el, to, from, promises = [], done } = {}) {
       document.body.classList.add('cursor-loading')
       this.preloadPromises = promises
 
-      await Promise.allSettled([
-        ...this.preloadPromises.map(p => p()?.finally(this.preloadPromisesCallback))
-      ])
+      await Promise.allSettled([...this.preloadPromises.map(p => p()?.finally(this.preloadPromisesCallback))])
 
       this.$transitionsBus.$emit('loader:hide:page-loaded', { el, to, from })
 
@@ -49,6 +50,7 @@ export default {
         document.body.classList.remove('cursor-loading')
       }, 500)
     },
+
     preloadPromisesCallback () {
       this.fulfilledPromises++
       this.progress = this.fulfilledPromises / this.preloadPromises.length
