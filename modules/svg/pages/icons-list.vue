@@ -29,19 +29,23 @@
 <script>
 export default {
   layout: 'basic-layout',
+
   data () {
     return {
       svgNames: []
     }
   },
+
   head () {
     return {
       title: 'Icons list'
     }
   },
+
   mounted () {
     this.getAllSvgNames()
   },
+
   methods: {
     getAllSvgNames () {
       const r = require.context('../../../assets/svg/', true, /\.svg$/)

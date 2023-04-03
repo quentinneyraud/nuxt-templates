@@ -1,8 +1,14 @@
 <template>
   <div>
-    <AppSvg name="akaru" type="inline" />
+    <AppSvg
+      name="akaru"
+      type="inline"
+    />
 
-    <AppSvg name="akaru" type="sprite" />
+    <AppSvg
+      name="akaru"
+      type="sprite"
+    />
   </div>
 </template>
 

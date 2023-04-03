@@ -1,8 +1,5 @@
 module.exports = _ => ({
-  buildModules: [
-    '@nuxtjs/svg'
-  ],
-  modules: [
-    '~/modules/svg'
-  ]
+  buildModules: ['@nuxtjs/svg'],
+
+  modules: ['~/modules/svg']
 })
