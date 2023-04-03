@@ -42,6 +42,7 @@ export default (ctx, inject) => {
         isMobileOrTablet: isMobileOrTablet(ctx)
       }
     },
+
     created () {
       this.setAllBreakpointValues(options.defaultWindowWidth)
       if (process.browser) {
@@ -49,6 +50,7 @@ export default (ctx, inject) => {
         window.addEventListener('resize', _ => this.setAllBreakpointValues())
       }
     },
+
     methods: {
       setBreakpointValues (breakpointName, breakpointValue, width) {
         const capitalizedBreakpointName = capitalize(breakpointName)
@@ -57,6 +59,7 @@ export default (ctx, inject) => {
         this[`lt${capitalizedBreakpointName}`] = width < breakpointValue
         this[`lte${capitalizedBreakpointName}`] = width <= breakpointValue
       },
+
       setAllBreakpointValues (width) {
         Object.entries(options.breakpoints).forEach(
           ([breakpointName, breakpointValue]) => {

@@ -1,7 +1,6 @@
 module.exports = _ => ({
-  modules: [
-    '~/modules/device'
-  ],
+  modules: ['~/modules/device'],
+
   device: {
     /**
       Simulated window width in SSR mode (Default: 1440)
