@@ -4,11 +4,7 @@ module.exports = {
     description: 'Add RgpdBanner and RgpdPopup components and a plugin to manage RGPD services',
     category: 'Components'
   },
-  dependencies: [
-    'js-cookie'
-  ],
+  dependencies: ['js-cookie'],
   devDependencies: [],
-  files: [
-    'modules/rgpd'
-  ]
+  files: ['modules/rgpd']
 }

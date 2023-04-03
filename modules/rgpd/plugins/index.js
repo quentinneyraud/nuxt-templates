@@ -11,6 +11,7 @@ export default (_, inject) => {
         services: []
       }
     },
+
     methods: {
       init (services) {
         if (options.deleteCookieOnInit) Cookies.remove(options.cookieName)
@@ -26,6 +27,7 @@ export default (_, inject) => {
           this.save()
         }
       },
+
       getCookie () {
         const cookieValue = Cookies.get(options.cookieName)
         if (cookieValue) this.cookie = JSON.parse(cookieValue)

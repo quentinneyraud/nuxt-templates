@@ -5,7 +5,10 @@
       '--is-displayed': isDisplayed
     }"
   >
-    <div class="RgpdBanner-text" v-html="t('text')" />
+    <div
+      class="RgpdBanner-text"
+      v-html="t('text')"
+    />
 
     <div class="RgpdBanner-actions">
       <button
@@ -50,19 +53,23 @@ export default {
       }
     }
   },
+
   data () {
     return {
       isDisplayed: false
     }
   },
+
   mounted () {
     this.$rgpd.$on('show', this.show)
     this.$rgpd.$on('hide', this.hide)
   },
+
   methods: {
     t (key) {
       return this.textContents?.[key] || key
     },
+
     onAcceptAllButtonClick () {
       this.$rgpd.enableAll()
       this.$rgpd.save()

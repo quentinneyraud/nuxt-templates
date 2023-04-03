@@ -25,18 +25,20 @@
 <script>
 export default {
   mounted () {
-    this.$rgpd.init([{
-      id: 'base',
-      name: 'Cookies de fonctionnement de site',
-      description: 'Nous utilisons les cookies nécessaires pour exécuter les fonctions essentielles du site Web. Sur ce site, nous utilisons des cookies pour mesurer notre audience, entretenir la relation avec vous et vous adresser de temps à autre du contenu qualitif ainsi que de la publicité. Ces cookies sont nécessaires au fonctionnement de notre site Web.',
-      required: true
-    }, {
-      id: 'analytics',
-      name: 'Cookies de tracking',
-      description: "Permet d'analyser les statistiques de consultation de notre site. Plus de détails",
-      required: false,
-      defaultValue: true
-    }])
+    this.$rgpd.init([
+      {
+        id: 'base',
+        name: 'Cookies de fonctionnement de site',
+        description: 'Nous utilisons les cookies nécessaires pour exécuter les fonctions essentielles du site Web. Sur ce site, nous utilisons des cookies pour mesurer notre audience, entretenir la relation avec vous et vous adresser de temps à autre du contenu qualitif ainsi que de la publicité. Ces cookies sont nécessaires au fonctionnement de notre site Web.',
+        required: true
+      }, {
+        id: 'analytics',
+        name: 'Cookies de tracking',
+        description: "Permet d'analyser les statistiques de consultation de notre site. Plus de détails",
+        required: false,
+        defaultValue: true
+      }
+    ])
   }
 }
 </script>

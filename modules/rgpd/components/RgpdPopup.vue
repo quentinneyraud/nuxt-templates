@@ -9,9 +9,15 @@
     <div class="RgpdPopup-background" />
 
     <!-- Popup -->
-    <div ref="popup" class="RgpdPopup-popup">
+    <div
+      ref="popup"
+      class="RgpdPopup-popup"
+    >
       <!-- Close -->
-      <button class="RgpdPopup-close" @click="close" />
+      <button
+        class="RgpdPopup-close"
+        @click="close"
+      />
 
       <!-- Title -->
       <p class="RgpdPopup-title">
@@ -19,7 +25,11 @@
       </p>
 
       <!-- Text -->
-      <p v-if="textContents.text" class="RgpdPopup-text" v-html="t('text')" />
+      <p
+        v-if="textContents.text"
+        class="RgpdPopup-text"
+        v-html="t('text')"
+      />
 
       <!-- Main content -->
       <div class="RgpdPopup-servicesWrapper">
@@ -40,12 +50,18 @@
             </p>
 
             <!-- Service description -->
-            <p v-if="service.description" class="RgpdPopup-serviceDescription">
+            <p
+              v-if="service.description"
+              class="RgpdPopup-serviceDescription"
+            >
               {{ service.description }}
             </p>
 
             <!-- Service actions -->
-            <div v-if="!service.required" class="RgpdPopup-serviceActions">
+            <div
+              v-if="!service.required"
+              class="RgpdPopup-serviceActions"
+            >
               <button
                 class="RgpdPopup-serviceAction RgpdPopup-serviceAccept"
                 @click="$rgpd.enable(service)"
@@ -112,23 +128,28 @@ export default {
       }
     }
   },
+
   data () {
     return {
       isDisplayed: false
     }
   },
+
   mounted () {
     this.$rgpd.$on('open-popup', this.open)
     this.$rgpd.$on('hide', this.close)
   },
+
   beforeDestroy () {
     window.removeEventListener('keydown', this.onKeyDown)
     document.removeEventListener('click', this.onClick)
   },
+
   methods: {
     t (key) {
       return this.textContents?.[key] || key
     },
+
     /**
      * Events
      */

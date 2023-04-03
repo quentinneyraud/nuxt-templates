@@ -1,7 +1,6 @@
 module.exports = _ => ({
-  modules: [
-    '~/modules/rgpd'
-  ],
+  modules: ['~/modules/rgpd'],
+
   rgpd: {
     /**
       Log errors and warnings (Default: true in dev mode)
