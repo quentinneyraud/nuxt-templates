@@ -1,7 +1,6 @@
 module.exports = _ => ({
-  modules: [
-    '~/modules/signature'
-  ],
+  modules: ['~/modules/signature'],
+
   signature: {
     /**
       Agency name (Default: null)
