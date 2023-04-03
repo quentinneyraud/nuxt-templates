@@ -1,6 +1,6 @@
 <template>
   <div
-    class="VirtualScrollScrollBar-component"
+    class="VirtualScrollScrollBar"
     :class="{
       '--is-scrolling': isScrolling,
       '--is-dragging': mouseDown
@@ -72,7 +72,7 @@ export default {
 </script>
 
 <style>
-.VirtualScrollScrollBar-component {
+.VirtualScrollScrollBar {
   position: fixed;
   top: 0;
   right: 0;
@@ -84,15 +84,15 @@ export default {
   opacity: 0;
 }
 
-.VirtualScrollScrollBar-component:hover {
+.VirtualScrollScrollBar:hover {
   transform: scaleX(1.45);
 }
 
-.VirtualScrollScrollBar-component:hover, .VirtualScrollScrollBar-component.--is-scrolling {
+.VirtualScrollScrollBar:hover, .VirtualScrollScrollBar.--is-scrolling {
   opacity: 1;
 }
 
-.VirtualScrollScrollBar-component.--is-dragging .VirtualScrollScrollBar-thumb {
+.VirtualScrollScrollBar.--is-dragging .VirtualScrollScrollBar-thumb {
   cursor: grabbing;
 }
 

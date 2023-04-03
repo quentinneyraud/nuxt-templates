@@ -144,10 +144,8 @@ const createVirtualScroll = ctx => new Vue({
           overflow: 'hidden'
         })
 
-        window.addEventListener('resize', this.onResize, {
-          capture: false,
-          passive: true
-        })
+        this.resizeObserver = new ResizeObserver(this.onResize)
+        this.resizeObserver.observe(this.container)
 
         window.addEventListener('keydown', this.onKeyDown, {
           capture: false,
@@ -171,7 +169,7 @@ const createVirtualScroll = ctx => new Vue({
 
     destroy () {
       this.virtualScroll?.destroy()
-      window.removeEventListener('resize', this.onResize)
+      this.resizeObserver.disconnect()
       window.removeEventListener('keydown', this.onKeyDown)
 
       this.$emit('destroy')
