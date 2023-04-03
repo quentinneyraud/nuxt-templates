@@ -4,11 +4,7 @@ module.exports = {
     description: 'Generate a sitemap',
     category: 'Hosting / Deployment'
   },
-  dependencies: [
-    '@nuxtjs/sitemap'
-  ],
+  dependencies: ['@nuxtjs/sitemap'],
   devDependencies: [],
-  files: [
-    'modules/sitemap'
-  ]
+  files: ['modules/sitemap']
 }
