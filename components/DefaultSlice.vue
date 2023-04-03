@@ -32,6 +32,7 @@ export default {
       default: null
     }
   },
+
   mounted () {
     if (this.$route.hash.replace('#', '') === this.componentName.toLowerCase()) {
       this.$el.scrollIntoView()

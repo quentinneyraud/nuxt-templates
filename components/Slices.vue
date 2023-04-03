@@ -17,9 +17,7 @@ import DefaultSlice from '~/components/DefaultSlice.vue'
 
 // Slices
 
-let ONLY_SHOW = [
-  // 'HomeHeader'
-]
+let ONLY_SHOW = []
 
 export default {
   props: {
@@ -29,23 +27,24 @@ export default {
       default: null
     }
   },
+
   data () {
     return {
       slicesComponents: {
       }
     }
   },
+
   methods: {
     sliceComponentExists (componentName) {
       return Object.keys(this.slicesComponents).includes(componentName)
     },
+
     getSliceComponent ({ componentName }) {
       if (this.sliceComponentExists(componentName)) {
-        if (this.$config.IS_DEV && typeof ONLY_SHOW !== 'undefined') {
-          // eslint-disable-next-line no-undef
+        if (this.$config.IS_DEV && ONLY_SHOW.length > 0) {
           if (!Array.isArray(ONLY_SHOW)) ONLY_SHOW = [ONLY_SHOW]
 
-          // eslint-disable-next-line no-undef
           if (!ONLY_SHOW.includes(componentName)) {
             return null
           }
@@ -61,6 +60,7 @@ export default {
 
       return null
     },
+
     getSliceProps (slice) {
       const { sliceId: _, componentName, ...props } = slice
 
@@ -68,6 +68,7 @@ export default {
         ? props
         : { props, componentName }
     },
+
     getSliceClasses (sliceIndex) {
       const classes = []
 

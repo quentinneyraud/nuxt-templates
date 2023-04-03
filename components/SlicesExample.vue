@@ -44,13 +44,10 @@ export default {
       return Object.keys(this.slicesComponents).includes(componentName)
     },
     getSliceComponent ({ componentName }) {
-      console.log('componentName:', componentName)
       if (this.sliceComponentExists(componentName)) {
-        if (this.$config.IS_DEV && typeof ONLY_SHOW !== 'undefined') {
-          // eslint-disable-next-line no-undef
+        if (this.$config.IS_DEV && ONLY_SHOW.length > 0) {
           if (!Array.isArray(ONLY_SHOW)) ONLY_SHOW = [ONLY_SHOW]
 
-          // eslint-disable-next-line no-undef
           if (!ONLY_SHOW.includes(componentName)) {
             return null
           }
