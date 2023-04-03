@@ -5,8 +5,6 @@ module.exports = {
     category: 'Hosting / Deployment'
   },
   dependencies: [],
-  devDependencies: [
-    '@aceforth/nuxt-netlify'
-  ],
+  devDependencies: ['@aceforth/nuxt-netlify'],
   files: []
 }
