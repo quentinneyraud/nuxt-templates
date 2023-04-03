@@ -1,5 +1,6 @@
 import defu from 'defu'
 import featureConfig from './config'
+import sassFeatureConfig from './configs/nuxt.config.sass'
 
 /**
  * Environment informations
@@ -42,6 +43,18 @@ export default async _ => {
   }
 
   const config = defu(baseConfig, await featureConfig({
+    ENVIRONMENT,
+    IS_DEV,
+    IS_PREPROD,
+    IS_PROD,
+    MODE,
+    BASE_URL,
+    lang,
+    title,
+    description,
+    shareImage,
+    themeColor
+  }), await sassFeatureConfig({
     ENVIRONMENT,
     IS_DEV,
     IS_PREPROD,

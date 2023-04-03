@@ -6,7 +6,6 @@
     <AppForm
       ref="form"
       class="ContactForm-form"
-      fill-with-mock-data
       @submit="onSubmit"
     >
       <div class="ContactForm-fields">
@@ -21,7 +20,6 @@
         <AppInput
           type="text"
           name="name"
-          is-required
           label="Votre nom"
         />
 

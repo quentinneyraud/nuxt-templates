@@ -1,9 +1,11 @@
 <template>
   <div
     class="AppInput"
-    :class="[{
-      '--is-required': isRequired
-    }, `--type-${type}`]"
+    :class="[
+      {
+        '--is-required': isRequired
+      }, `--type-${type}`
+    ]"
   >
 
     <!-- Label -->
@@ -11,7 +13,7 @@
       v-if="label"
       class="AppInput-label"
       :for="id"
-    >{{ label }}{{ isRequired ? ' *' : '' }}</label>
+    >{{ fullLabel }}</label>
 
     <!-- Input -->
     <div class="AppInput-inputWrapper">
@@ -90,6 +92,7 @@ export default {
       default: null
     }
   },
+
   data () {
     return {
       isInput: true,
@@ -97,10 +100,18 @@ export default {
       inputName: null
     }
   },
+
+  computed: {
+    fullLabel () {
+      return this.label + (this.isRequired && this.type !== 'checkbox' ? ' *' : '')
+    }
+  },
+
   mounted () {
     this.setName()
     this.setId()
   },
+
   methods: {
     fillWithMockData () {
       if (this.type === 'checkbox') {
@@ -113,9 +124,11 @@ export default {
         this.$refs.input.value = 'bla bla bla'
       }
     },
+
     setName () {
       this.inputName = this.name || slugify(this.label)
     },
+
     setId () {
       this.id = this.inputName + Math.random().toString(36).substr(2, 9)
     }
@@ -144,17 +157,18 @@ export default {
 
   &:not(.--type-checkbox) {
     .AppInput-inputWrapper {
-      margin-top: 0.5rem;
+      margin-top: 1rem;
     }
 
     .AppInput-input {
       width: 100%;
-      background-color: #e6e6e6;
       padding: 1.3rem 1.2rem;
       transition: box-shadow 0.3s;
+      box-shadow: 0 0 0 1px #d1d1d1;
+      border-radius: 5px;
 
       &:focus {
-        box-shadow: 0 0 0 1px grey;
+        box-shadow: 0 0 0 1px #d1d1d1;
       }
     }
   }

@@ -11,25 +11,29 @@
 export default {
   props: {
     fillWithMockData: {
-      type: Boolean,
+      type: [String, Boolean],
       required: false,
-      default: _ => false
+      default: _ => 'auto'
     }
   },
+
   mounted () {
-    if (this.fillWithMockData) this.fillInputsWithMockData()
+    if ((this.fillWithMockData === 'auto' && this.$config.IS_DEV) || this.fillInputsWithMockData === true) this.fillInputsWithMockData()
   },
+
   methods: {
     fillInputsWithMockData () {
       this.$children
         .filter(component => component.isInput)
         .forEach(component => component.fillWithMockData())
     },
+
     onSubmit () {
       const formData = new FormData(this.$el)
 
       this.$emit('submit', formData)
     },
+
     clear () {
       return this.$el.reset()
     }
