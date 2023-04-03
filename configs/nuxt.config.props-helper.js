@@ -1,5 +1,3 @@
 module.exports = () => ({
-  modules: [
-    '~/modules/props-helper'
-  ]
+  modules: ['~/modules/props-helper']
 })

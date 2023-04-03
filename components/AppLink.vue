@@ -45,6 +45,7 @@ export default {
       default: false
     }
   },
+
   methods: {
     getComponentTag () {
       if (this.tag) return this.tag
@@ -69,6 +70,7 @@ export default {
 
       return 'button'
     },
+
     getComponentAttributes () {
       const attributes = {}
 
