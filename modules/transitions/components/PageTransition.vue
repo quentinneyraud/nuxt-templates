@@ -34,14 +34,18 @@ export default {
   },
 
   methods: {
-    async hide ({ el, to, from, promises = [], done } = {}) {
+    async hide ({ el, to, from, promises: preloadPromises = [], done } = {}) {
       this.resetProgress()
 
-      this.preloadPromises = promises
+      this.preloadPromises = preloadPromises
       await Promise.allSettled([
-        ...this.preloadPromises.map(p =>
-          p().finally(this.preloadPromisesCallback)
-        )
+        ...this.preloadPromises.map(async p => {
+          try {
+            return await p({ to, from })
+          } finally {
+            this.preloadPromisesCallback()
+          }
+        })
       ])
 
       this.$transitionsBus.$emit('transition:hide:next-page-loaded', { el, to, from })
@@ -56,10 +60,14 @@ export default {
       }, 500)
     },
 
-    async show ({ el, to, from, promises = [], done } = {}) {
+    async show ({ el, to, from, promises: hidePromises = [], done } = {}) {
       document.body.classList.add('cursor-loading')
 
-      await Promise.allSettled(promises)
+      await Promise.allSettled([
+        ...hidePromises.map(async p => {
+          return await p({ to, from })
+        })
+      ])
 
       this.$transitionsBus.$emit('transition:show:previous-page-hidden', { el, to, from })
 

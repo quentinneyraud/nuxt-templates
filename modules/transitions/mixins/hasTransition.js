@@ -17,15 +17,10 @@ const recursiveFlattenComponentChildren = component => {
 
 const isFunction = v => typeof v === 'function'
 
-const getAllFunctionsRecursively = (page, functionName, params) => {
+const getAllFunctionsRecursively = (page, functionName) => {
   return recursiveFlattenComponentChildren(page)
     .filter(component => component[functionName] && isFunction(component[functionName]))
-    .map(component => {
-      const promiseFunction = component[functionName](params)
-      if (isFunction(promiseFunction)) return promiseFunction
-      return null
-    })
-    .filter(v => !!v)
+    .map(component => component[functionName])
 }
 
 export default {
@@ -40,7 +35,7 @@ export default {
       transition = {
         ...transition,
         enter (el, done) {
-          const promises = getAllFunctionsRecursively(this.$root, 'preload', { to, from })
+          const promises = getAllFunctionsRecursively(this.$root, 'preload')
 
           TransitionBus.$emit('loader:hide', {
             el,
@@ -55,7 +50,7 @@ export default {
       transition = {
         ...transition,
         enter (el, done) {
-          const promises = getAllFunctionsRecursively(this.$root, 'preload', { to, from })
+          const promises = getAllFunctionsRecursively(this.$root, 'preload')
 
           TransitionBus.$emit('transition:hide', {
             el,
@@ -66,7 +61,7 @@ export default {
           })
         },
         leave (el, done) {
-          const promises = getAllFunctionsRecursively(this.$root, 'transitionHide', { to, from })
+          const promises = getAllFunctionsRecursively(this.$root, 'transitionHide')
 
           TransitionBus.$emit('transition:show', {
             el,

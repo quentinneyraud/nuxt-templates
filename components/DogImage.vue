@@ -9,26 +9,31 @@
 </template>
 
 <script>
+const loadAsync = img => {
+  return new Promise((resolve, reject) => {
+    if (img.complete) resolve()
+
+    img.addEventListener('load', resolve)
+    img.addEventListener('error', reject)
+  })
+}
+
+const delay = ms => new Promise(resolve => {
+  window.setTimeout(_ => {
+    resolve()
+  }, ms)
+})
+
 export default {
   methods: {
-    preload () {
-      return _ => new Promise((resolve, reject) => {
-        if (this.$refs.image.complete) resolve()
-
-        this.$refs.image.addEventListener('load', resolve)
-        this.$refs.image.addEventListener('error', reject)
-      })
-        .catch(_ => {})
+    async preload () {
+      await loadAsync(this.$refs.image)
     },
 
-    transitionHide () {
-      return _ => {
-        this.$refs.image.classList.add('--is-hidden')
+    async transitionHide () {
+      this.$refs.image.classList.add('--is-hidden')
 
-        return new Promise(resolve => {
-          window.setTimeout(resolve, 500)
-        })
-      }
+      await delay(500)
     }
   }
 }

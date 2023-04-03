@@ -16,6 +16,12 @@
 </template>
 
 <script>
+const delay = ms => new Promise(resolve => {
+  window.setTimeout(_ => {
+    resolve()
+  }, ms)
+})
+
 export default {
   data () {
     return {
@@ -38,7 +44,15 @@ export default {
       document.body.classList.add('cursor-loading')
       this.preloadPromises = promises
 
-      await Promise.allSettled([...this.preloadPromises.map(p => p()?.finally(this.preloadPromisesCallback))])
+      await Promise.allSettled([
+        ...this.preloadPromises.map(async p => {
+          try {
+            return await p({ to, from })
+          } finally {
+            this.preloadPromisesCallback()
+          }
+        })
+      ])
 
       this.$transitionsBus.$emit('loader:hide:page-loaded', { el, to, from })
 

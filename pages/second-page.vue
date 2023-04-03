@@ -14,15 +14,18 @@
 // Mixins
 import hasTransition from '../modules/transitions/mixins/hasTransition'
 
+const delay = ms => new Promise(resolve => {
+  window.setTimeout(_ => {
+    resolve()
+  }, ms)
+})
+
 export default {
   mixins: [hasTransition],
 
   methods: {
-    preload () {
-      return _ => new Promise(resolve => {
-        console.log('loading something in second page')
-        window.setTimeout(resolve, 1000)
-      })
+    async preload ({ to, from }) {
+      await delay(1500)
     }
   }
 }
