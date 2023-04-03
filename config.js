@@ -1,13 +1,11 @@
 module.exports = ({ IS_PROD } = {}) => ({
-  modules: [
-    '~/modules/gsap'
-  ],
+  modules: ['~/modules/gsap'],
+
   publicRuntimeConfig: {
     IS_PROD
   },
+
   build: {
-    transpile: [
-      'gsap'
-    ]
+    transpile: ['gsap']
   }
 })

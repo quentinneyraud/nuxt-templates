@@ -4,9 +4,7 @@ module.exports = {
     description: 'Add gsap library',
     category: 'Animations'
   },
-  dependencies: [
-    'gsap'
-  ],
+  dependencies: ['gsap'],
   devDependencies: [],
   files: [
     'modules/gsap',
