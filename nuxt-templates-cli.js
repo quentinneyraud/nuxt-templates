@@ -4,11 +4,7 @@ module.exports = {
     description: 'Add netlify function helpers to parse and validate form endpoints',
     category: 'CMS'
   },
-  dependencies: [
-    'busboy'
-  ],
+  dependencies: ['busboy'],
   devDependencies: [],
-  files: [
-    'netlify'
-  ]
+  files: ['netlify']
 }

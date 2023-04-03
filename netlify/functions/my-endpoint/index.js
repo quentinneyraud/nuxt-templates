@@ -46,24 +46,28 @@ module.exports.handler = async event => {
       },
       email: {
         data: fields.email,
-        validations: [{
-          validation: 'isString',
-          errorMessage: 'Champ requis'
-        }, {
-          validation: 'isEmail',
-          errorMessage: 'Email invalide'
-        }],
+        validations: [
+          {
+            validation: 'isString',
+            errorMessage: 'Champ requis'
+          }, {
+            validation: 'isEmail',
+            errorMessage: 'Email invalide'
+          }
+        ],
         errorMessage: 'Champ invalide'
       },
       select: {
         data: fields.select,
-        validations: [{
-          validation: 'isOneOf',
-          errorMessage: 'Valeur non permise',
-          validationOptions: {
-            values: ['all', 'a']
+        validations: [
+          {
+            validation: 'isOneOf',
+            errorMessage: 'Valeur non permise',
+            validationOptions: {
+              values: ['all', 'a']
+            }
           }
-        }],
+        ],
         errorMessage: 'Champ invalide'
       }
     })

@@ -1,21 +1,40 @@
 <template>
   <div>
-    <form ref="form" @submit.prevent="onSubmit">
+    <form
+      ref="form"
+      @submit.prevent="onSubmit"
+    >
       <label for="firstname">
         firstname
-        <input id="firstname" type="text" name="firstname" value="Quentin">
+        <input
+          id="firstname"
+          type="text"
+          name="firstname"
+          value="Quentin"
+        >
       </label>
 
       <label for="email">
         email
-        <input id="email" type="text" name="email" value="quentin@akaru.fr">
+        <input
+          id="email"
+          type="text"
+          name="email"
+          value="quentin@akaru.fr"
+        >
       </label>
 
       <label for="select">
         select
 
-        <select id="select" name="select">
-          <option selected="selected" value="all">All</option>
+        <select
+          id="select"
+          name="select"
+        >
+          <option
+            selected="selected"
+            value="all"
+          >All</option>
           <option value="a">A</option>
           <option value="b">B</option>
           <option value="c">C</option>
