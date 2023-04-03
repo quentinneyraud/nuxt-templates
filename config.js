@@ -1,5 +1,3 @@
 module.exports = _ => ({
-  buildModules: [
-    '@nuxtjs/eslint-module'
-  ]
+  buildModules: ['@nuxtjs/eslint-module']
 })

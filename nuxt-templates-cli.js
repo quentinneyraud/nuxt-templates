@@ -5,15 +5,9 @@ module.exports = {
     category: 'Development helpers'
   },
   dependencies: [],
-  devDependencies: [
-    '@nuxtjs/eslint-module@nuxt2'
-  ],
-  files: [
-    '.eslintrc.js'
-  ],
-  installCommands: [
-    'npx install-peerdeps @qneyraud/eslint-config --dev'
-  ],
+  devDependencies: ['@nuxtjs/eslint-module@nuxt2'],
+  files: ['.eslintrc.js'],
+  installCommands: ['npx install-peerdeps @qneyraud/eslint-config --dev'],
   postInstall: Log => {
     Log.info('Add these lines to package.json scripts :')
 

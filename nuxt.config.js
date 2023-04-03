@@ -34,9 +34,6 @@ export default async _ => {
     css: [],
     plugins: [],
     components: true,
-    buildModules: [
-      '@nuxtjs/eslint-module'
-    ],
     modules: [],
     build: {}
   }
