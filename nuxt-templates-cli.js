@@ -6,7 +6,5 @@ module.exports = {
   },
   dependencies: [],
   devDependencies: [],
-  files: [
-    'modules/pixel-perfect'
-  ]
+  files: ['modules/pixel-perfect']
 }

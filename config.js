@@ -1,7 +1,6 @@
 module.exports = _ => ({
-  modules: [
-    '~/modules/pixel-perfect'
-  ],
+  modules: ['~/modules/pixel-perfect'],
+
   pixelPerfect: {
     /**
       Enable module in other environments than dev (Default: false)

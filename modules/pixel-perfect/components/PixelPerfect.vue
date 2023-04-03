@@ -22,14 +22,33 @@
 
       <!-- Opacity -->
       <div class="PixelPerfect-opacity">
-        <svg class="PixelPerfect-opacityLevel" viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="50" />
+        <svg
+          class="PixelPerfect-opacityLevel"
+          viewBox="0 0 100 100"
+        >
+          <circle
+            cx="50"
+            cy="50"
+            r="50"
+          />
         </svg>
-        <svg class="PixelPerfect-opacitySun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48.9 48.9" xml:space="preserve"><circle cx="24.4" cy="24.4" r="10.6" /><path d="M24.4 9.8c.7 0 1.3-.6 1.3-1.3V1.3c0-.7-.6-1.3-1.3-1.3s-1.3.6-1.3 1.3v7.2c0 .7.6 1.3 1.3 1.3zm0 29.3c-.7 0-1.3.6-1.3 1.3v7.2c0 .7.6 1.3 1.3 1.3s1.3-.6 1.3-1.3v-7.2c.1-.7-.5-1.3-1.3-1.3zm-12.2-25c.5.5 1.3.5 1.9 0s.5-1.3 0-1.9L9 7.2c-.5-.5-1.3-.5-1.9 0-.5.5-.5 1.3.1 1.8l5 5.1zm24.4 20.7c-.5-.5-1.3-.5-1.9 0s-.5 1.3 0 1.9l5.1 5.1c.5.5 1.3.5 1.9 0s.5-1.3 0-1.9l-5.1-5.1zm0-20.7L41.7 9c.5-.5.5-1.3 0-1.9-.5-.5-1.3-.5-1.9 0l-5.1 5.1c-.5.5-.5 1.3 0 1.9s1.4.5 1.9 0zM12.2 34.8l-5.1 5.1c-.5.5-.5 1.3 0 1.9s1.3.5 1.9 0l5.1-5.1c.5-.5.5-1.3 0-1.9s-1.3-.5-1.9 0zm35.4-11.7h-7.2c-.7 0-1.3.6-1.3 1.3s.6 1.3 1.3 1.3h7.2c.7 0 1.3-.6 1.3-1.3s-.6-1.3-1.3-1.3zM9.8 24.4c0-.7-.6-1.3-1.3-1.3H1.3c-.7 0-1.3.6-1.3 1.3s.6 1.3 1.3 1.3h7.2c.7.1 1.3-.5 1.3-1.3z" /></svg>
+        <svg
+          class="PixelPerfect-opacitySun"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 48.9 48.9"
+          xml:space="preserve"
+        ><circle
+          cx="24.4"
+          cy="24.4"
+          r="10.6"
+        /><path d="M24.4 9.8c.7 0 1.3-.6 1.3-1.3V1.3c0-.7-.6-1.3-1.3-1.3s-1.3.6-1.3 1.3v7.2c0 .7.6 1.3 1.3 1.3zm0 29.3c-.7 0-1.3.6-1.3 1.3v7.2c0 .7.6 1.3 1.3 1.3s1.3-.6 1.3-1.3v-7.2c.1-.7-.5-1.3-1.3-1.3zm-12.2-25c.5.5 1.3.5 1.9 0s.5-1.3 0-1.9L9 7.2c-.5-.5-1.3-.5-1.9 0-.5.5-.5 1.3.1 1.8l5 5.1zm24.4 20.7c-.5-.5-1.3-.5-1.9 0s-.5 1.3 0 1.9l5.1 5.1c.5.5 1.3.5 1.9 0s.5-1.3 0-1.9l-5.1-5.1zm0-20.7L41.7 9c.5-.5.5-1.3 0-1.9-.5-.5-1.3-.5-1.9 0l-5.1 5.1c-.5.5-.5 1.3 0 1.9s1.4.5 1.9 0zM12.2 34.8l-5.1 5.1c-.5.5-.5 1.3 0 1.9s1.3.5 1.9 0l5.1-5.1c.5-.5.5-1.3 0-1.9s-1.3-.5-1.9 0zm35.4-11.7h-7.2c-.7 0-1.3.6-1.3 1.3s.6 1.3 1.3 1.3h7.2c.7 0 1.3-.6 1.3-1.3s-.6-1.3-1.3-1.3zM9.8 24.4c0-.7-.6-1.3-1.3-1.3H1.3c-.7 0-1.3.6-1.3 1.3s.6 1.3 1.3 1.3h7.2c.7.1 1.3-.5 1.3-1.3z" /></svg>
       </div>
 
       <!-- Items -->
-      <div ref="items" class="PixelPerfect-items">
+      <div
+        ref="items"
+        class="PixelPerfect-items"
+      >
         <div
           v-for="(mockup, mockupIndex) in mockups"
           :key="mockupIndex"
@@ -73,25 +92,27 @@ export default {
       editModeTimeoutId: null
     }
   },
+
   computed: {
     currentMockup () {
       return this.mockups[this.currentMockupIndex]
     }
   },
+
   watch: {
     $route () {
       if (!this?.$route?.name || !options.changeOnNavigation) return
 
-      const mockupIndex = this.mockups.findIndex(mockup => {
-        if (mockup.routeName === this.$route.name) return true
-      })
+      const mockupIndex = this.mockups.findIndex(mockup => (mockup.routeName === this.$route.name))
 
       if (mockupIndex >= 0) this.currentMockupIndex = mockupIndex
     },
-    currentMockupIndex (a) {
+
+    currentMockupIndex () {
       this.persistToLocaleStorage()
     }
   },
+
   mounted () {
     this.addEvents()
 
@@ -99,9 +120,11 @@ export default {
     this.opacity = opacity
     this.currentMockupIndex = mockupIndex
   },
+
   beforeDestroy () {
     this.removeEvents()
   },
+
   methods: {
     /**
      *
@@ -115,6 +138,7 @@ export default {
         passive: false
       })
     },
+
     removeEvents () {
       window.removeEventListener('keydown', this.onKeyDown)
       window.removeEventListener('keyup', this.onKeyUp)
