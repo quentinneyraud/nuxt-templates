@@ -1,4 +1,4 @@
-module.exports = ({ lang, title, description, shareImage, BASE_URL, IS_PROD }) => ({
+module.exports = ({ lang, title, description, shareImage, BASE_URL, IS_INDEXED }) => ({
   modules: [
     '~/modules/metas'
   ],
@@ -15,6 +15,6 @@ module.exports = ({ lang, title, description, shareImage, BASE_URL, IS_PROD }) =
     image: shareImage,
     siteName: null, // Default to title
     twitterUser: null,
-    noIndex: !IS_PROD
+    noIndex: !IS_INDEXED
   }
 })
