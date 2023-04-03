@@ -6,7 +6,5 @@ module.exports = {
   },
   dependencies: [],
   devDependencies: [],
-  files: [
-    'modules/viewport-observer'
-  ]
+  files: ['modules/viewport-observer']
 }

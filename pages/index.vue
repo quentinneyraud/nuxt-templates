@@ -58,10 +58,12 @@ export default {
   mounted () {
     this.$viewportObserverState.active = true
   },
+
   methods: {
     onEnter () {
       console.log('on enter')
     },
+
     onLeave () {
       console.log('on leave')
     }
