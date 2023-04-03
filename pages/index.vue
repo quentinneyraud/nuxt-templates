@@ -1,8 +1,6 @@
 <template>
   <div>
-    <VimeoPlayer
-      id="254310132"
-    />
+    <VimeoPlayer id="254310132" />
   </div>
 </template>
 

@@ -17,7 +17,7 @@
       }
     ]"
     :style="{
-      '--ratio': ratio * 100 + '%'
+      '--ratio': `${ratio * 100}%`
     }"
     @fullscreenchange="onFullscreenChange"
     @mozfullscreenchange="onFullscreenChange"
@@ -62,9 +62,7 @@
       </button>
 
       <!-- Actions -->
-      <Transition
-        name="actions"
-      >
+      <Transition name="actions">
         <div
           v-if="state.isPlaying"
           class="VimeoPlayer-actions"
@@ -125,7 +123,10 @@
     </div>
 
     <!-- Player -->
-    <div ref="player" class="VimeoPlayer-video" />
+    <div
+      ref="player"
+      class="VimeoPlayer-video"
+    />
   </div>
 </template>
 
@@ -279,6 +280,7 @@ export default {
       default: false
     }
   },
+
   data () {
     return {
       ratio: 0,
@@ -299,15 +301,18 @@ export default {
       }
     }
   },
+
   mounted () {
     this.initialize()
 
     this.onEnter()
   },
+
   beforeDestroy () {
     this.$events?.$off('resize', this.setLayout)
     this.$events?.$off('tick', this.onTick)
   },
+
   methods: {
     initialize () {
       if (this.state.isLoaded || this.state.isLoading) return
@@ -344,6 +349,7 @@ export default {
         })
         .catch(_ => {})
     },
+
     async setDuration () {
       this.duration = await this.player.getDuration().catch(_ => {})
     },
@@ -385,11 +391,11 @@ export default {
       this.containerRatio = height / width
 
       if (this.ratio > this.containerRatio) {
-        if (this.$refs.player) this.$refs.player.style.width = width + 'px'
-        if (this.$refs.player) this.$refs.player.style.height = Math.round(width * this.ratio) + 'px'
+        if (this.$refs.player) this.$refs.player.style.width = `${width}px`
+        if (this.$refs.player) this.$refs.player.style.height = `${Math.round(width * this.ratio)}px`
       } else {
-        if (this.$refs.player) this.$refs.player.style.height = height + 'px'
-        if (this.$refs.player) this.$refs.player.style.width = Math.round(height / this.ratio) + 'px'
+        if (this.$refs.player) this.$refs.player.style.height = `${height}px`
+        if (this.$refs.player) this.$refs.player.style.width = `${Math.round(height / this.ratio)}px`
       }
     },
     /**
