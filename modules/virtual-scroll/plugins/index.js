@@ -73,11 +73,13 @@ const createVirtualScroll = ctx => new Vue({
       bounding: 0
     }
   },
+
   computed: {
     scrollDelta () {
       return this.target - this.current
     }
   },
+
   watch: {
     active: {
       immediate: true,
@@ -88,6 +90,7 @@ const createVirtualScroll = ctx => new Vue({
       }
     }
   },
+
   methods: {
     setRatio (ratio) {
       this.ratio = ratio

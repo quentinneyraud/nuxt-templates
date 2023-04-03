@@ -21,6 +21,7 @@ export default {
       mouseDown: false
     }
   },
+
   computed: {
     isScrolling () {
       if (!this.$virtualScroll) return false
@@ -28,21 +29,25 @@ export default {
       return Math.abs(this.$virtualScroll.target - this.$virtualScroll.current) > 10
     }
   },
+
   mounted () {
     this.$virtualScroll.$on('scroll', this.onScroll)
     window.addEventListener('mouseup', this.onScrollBarRelease)
     window.addEventListener('mousemove', this.onScrollbarDrag)
   },
+
   beforeDestroy () {
     this.$virtualScroll.$off('scroll', this.onScroll)
     window.removeEventListener('mouseup', this.onScrollBarRelease)
     window.removeEventListener('mousemove', this.onScrollbarDrag)
   },
+
   methods: {
     onScroll () {
       const t = this.$virtualScroll.current / this.$virtualScroll.bounding * (this.$el.clientHeight - this.$refs.thumb.clientHeight - 4)
       this.$refs.thumb.style.transform = `translate3d(0px, ${t.toFixed(2)}px, 0px)`
     },
+
     updateThumbHeight () {
       this.$refs.thumb.style.height = `${
                 (this.scrollbarHeight * this.scrollbarHeight) /

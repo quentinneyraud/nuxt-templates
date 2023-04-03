@@ -64,9 +64,10 @@
 export default {
   mounted () {
     this.$virtualScroll.$on('scroll', opts => {
-      // console.log('opts:', opts)
+      console.log('opts:', opts)
     })
   },
+
   methods: {
     onProgress (progress) {
       console.log('progress:', progress)

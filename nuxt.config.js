@@ -34,12 +34,8 @@ export default async _ => {
     css: [],
     plugins: [],
     components: true,
-    buildModules: [
-      '@nuxtjs/eslint-module'
-    ],
-    modules: [
-      '~/modules/events'
-    ],
+    buildModules: ['@nuxtjs/eslint-module'],
+    modules: ['~/modules/events'],
     build: {},
     events: {
       events: ['tick']

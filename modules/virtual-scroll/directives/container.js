@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import Vue from 'vue'
 
 Vue.directive('vs-container', {

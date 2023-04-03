@@ -4,11 +4,7 @@ module.exports = {
     description: 'Add virtual scroll',
     category: 'Animations'
   },
-  dependencies: [
-    'virtual-scroll'
-  ],
+  dependencies: ['virtual-scroll'],
   devDependencies: [],
-  files: [
-    'modules/virtual-scroll'
-  ]
+  files: ['modules/virtual-scroll']
 }

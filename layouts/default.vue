@@ -1,5 +1,8 @@
 <template>
-  <div v-vs-container class="Site">
+  <div
+    v-vs-container
+    class="Site"
+  >
     <VirtualScrollScrollBar />
     <main>
       <Nuxt />

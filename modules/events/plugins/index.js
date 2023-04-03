@@ -135,7 +135,6 @@ const getGsapTicker = _ => ({
   init () {
     this.onTick = this.onTick.bind(this)
 
-    // eslint-disable-next-line no-undef
     this.gsap = require('gsap').default
 
     return this

@@ -1,5 +1,3 @@
 module.exports = _ => ({
-  modules: [
-    '~/modules/virtual-scroll'
-  ]
+  modules: ['~/modules/virtual-scroll']
 })
