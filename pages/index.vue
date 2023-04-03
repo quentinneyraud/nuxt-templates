@@ -50,10 +50,12 @@ export default {
       alert(JSON.stringify(options))
     })
   },
+
   methods: {
     onTick (options) {
       console.log('tick', options)
     },
+
     onMouseMove (options) {
       console.log('mousemove', options)
     }

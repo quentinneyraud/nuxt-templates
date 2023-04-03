@@ -12,11 +12,6 @@ module.exports = {
     'plugin:nuxt/recommended',
     '@qneyraud/eslint-config/nuxt'
   ],
-  plugins: [
-  ],
-  rules: {
-    indent: ['error', 2, {
-      SwitchCase: 1
-    }]
-  }
+  plugins: [],
+  rules: {}
 }

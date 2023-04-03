@@ -1,7 +1,6 @@
 module.exports = _ => ({
-  modules: [
-    '~/modules/events'
-  ],
+  modules: ['~/modules/events'],
+
   events: {
     /**
       Array of event names that will be used (Default: [])
