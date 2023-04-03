@@ -1,7 +1,6 @@
 module.exports = _ => ({
-  modules: [
-    '~/modules/prismic-translations'
-  ],
+  modules: ['~/modules/prismic-translations'],
+
   prismicTranslations: {
     /**
       console.warn if key is missing (Default: true in dev mode)

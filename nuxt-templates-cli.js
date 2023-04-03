@@ -6,7 +6,5 @@ module.exports = {
   },
   dependencies: [],
   devDependencies: [],
-  files: [
-    'modules/prismic-translations'
-  ]
+  files: ['modules/prismic-translations']
 }

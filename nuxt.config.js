@@ -34,9 +34,7 @@ export default async _ => {
     css: [],
     plugins: [],
     components: true,
-    buildModules: [
-      '@nuxtjs/eslint-module'
-    ],
+    buildModules: ['@nuxtjs/eslint-module'],
     modules: [
       '@nuxtjs/prismic',
       'nuxt-i18n'
@@ -47,15 +45,17 @@ export default async _ => {
     },
     i18n: {
       strategy: 'prefix',
-      locales: [{
-        code: 'en',
-        iso: 'en',
-        prismicCode: 'en-en'
-      }, {
-        code: 'fr',
-        iso: 'fr',
-        prismicCode: 'fr-fr'
-      }],
+      locales: [
+        {
+          code: 'en',
+          iso: 'en',
+          prismicCode: 'en-en'
+        }, {
+          code: 'fr',
+          iso: 'fr',
+          prismicCode: 'fr-fr'
+        }
+      ],
       defaultLocale: 'fr',
       vueI18n: {
         fallbackLocale: 'fr'

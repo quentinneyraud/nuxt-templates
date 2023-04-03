@@ -13,11 +13,13 @@ const prismicTranslations = new Vue({
       locale: null
     }
   },
+
   computed: {
     currentTranslations () {
       return this.translations.find(translation => translation.locale === this.locale)
     }
   },
+
   async created () {
     if (!options.translations) {
       this.translations = await getTranslations({
@@ -28,10 +30,12 @@ const prismicTranslations = new Vue({
       this.translations = options.translations
     }
   },
+
   methods: {
     setLocale (locale) {
       this.locale = locale
     },
+
     getTranslation (key, { defaultText = key, variables = {} } = {}) {
       let translation = this.currentTranslations?.translations?.[key]
 
