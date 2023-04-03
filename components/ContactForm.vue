@@ -85,52 +85,58 @@ export default {
     return {
       STATES,
       state: STATES.IDLE,
-      inputs: [{
-        label: 'Name',
-        type: 'text',
-        name: 'lastname',
-        placeholder: 'Your name',
-        isRequired: true
-      }, {
-        label: 'First name',
-        type: 'text',
-        name: 'firstname',
-        placeholder: 'Yout first name',
-        isRequired: true
-      }, {
-        label: 'Tel',
-        type: 'tel',
-        name: 'tel',
-        placeholder: 'Your tel number',
-        isRequired: false
-      }, {
-        label: 'Email',
-        type: 'email',
-        name: 'email',
-        placeholder: 'Your email',
-        isRequired: true
-      }, {
-        label: 'Message',
-        type: 'textarea',
-        name: 'message',
-        placeholder: 'Your message',
-        isRequired: true
-      }]
+      inputs: [
+        {
+          label: 'Name',
+          type: 'text',
+          name: 'lastname',
+          placeholder: 'Your name',
+          isRequired: true
+        }, {
+          label: 'First name',
+          type: 'text',
+          name: 'firstname',
+          placeholder: 'Yout first name',
+          isRequired: true
+        }, {
+          label: 'Tel',
+          type: 'tel',
+          name: 'tel',
+          placeholder: 'Your tel number',
+          isRequired: false
+        }, {
+          label: 'Email',
+          type: 'email',
+          name: 'email',
+          placeholder: 'Your email',
+          isRequired: true
+        }, {
+          label: 'Message',
+          type: 'textarea',
+          name: 'message',
+          placeholder: 'Your message',
+          isRequired: true
+        }
+      ]
     }
   },
+
   computed: {
     simpleFields () {
       return this.inputs.filter(item => item.name !== 'message')
     },
+
     messageField () {
       return this.inputs.find(item => item.name === 'message')
     }
   },
+
   watch: {
     state (state) {
       if (state === this.STATES.SUCCESS) this.$refs.form.clear()
     }
   },
+
   methods: {
     async onSubmit () {
       try {
