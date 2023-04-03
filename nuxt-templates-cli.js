@@ -6,7 +6,5 @@ module.exports = {
   },
   dependencies: [],
   devDependencies: [],
-  files: [
-    'modules/screen-based-animation'
-  ]
+  files: ['modules/screen-based-animation']
 }

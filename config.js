@@ -1,7 +1,6 @@
 module.exports = _ => ({
-  modules: [
-    '~/modules/screen-based-animation'
-  ],
+  modules: ['~/modules/screen-based-animation'],
+
   screenBasedAnimation: {
     /**
       Directive options
