@@ -1,6 +1,6 @@
 <template>
   <div
-    class="PageTransition-component"
+    class="PageTransition"
     :style="{
       '--progress': progress
     }"
@@ -80,7 +80,7 @@ export default {
 </script>
 
 <style scoped>
-.PageTransition-component {
+.PageTransition {
   position: fixed;
   top: 0;
   left: 0;
@@ -98,7 +98,7 @@ export default {
   transform: translateY(-100%);
 }
 
-.PageTransition-component:after {
+.PageTransition:after {
   content: '';
   position: absolute;
   top: 50vh;

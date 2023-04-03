@@ -1,6 +1,6 @@
 <template>
   <div
-    class="Loader-component"
+    class="Loader"
     :style="{
       '--progress': progress
     }"
@@ -58,7 +58,7 @@ export default {
 </script>
 
 <style scoped>
-.Loader-component {
+.Loader {
   position: fixed;
   top: 0;
   left: 0;
@@ -75,7 +75,7 @@ export default {
   transition: transform 0.5s ease-out;
 }
 
-.Loader-component:after {
+.Loader:after {
   content: '';
   position: absolute;
   top: 50vh;
