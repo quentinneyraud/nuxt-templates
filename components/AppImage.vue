@@ -1,18 +1,19 @@
 <template>
   <div
     class="AppImage"
-    :class="[{
-               '--is-loading': loading,
-               '--is-loaded': loaded,
-               '--has-error': error,
-               '--has-lazyload': lazyload,
-               '--has-empty-src': !url,
-               '--is-animated': animation === true,
-               ...(animationObserver ? {
-                 [animationObserver.options.activeClass]: animationObserver.isIntersecting
-               }:{})
-             },
-             `fit-${fit}`
+    :class="[
+      {
+        '--is-loading': loading,
+        '--is-loaded': loaded,
+        '--has-error': error,
+        '--has-lazyload': lazyload,
+        '--has-empty-src': !url,
+        '--is-animated': animation === true,
+        ...(animationObserver ? {
+          [animationObserver.options.activeClass]: animationObserver.isIntersecting
+        }:{})
+      },
+      `fit-${fit}`
     ]"
   >
     <!-- Placeholder -->
@@ -26,7 +27,21 @@
     <picture>
 
       <!-- Sources -->
-      <slot />
+      <slot v-if="'default' in $slots" />
+
+      <template v-else>
+        <AppSource
+          v-if="Mobile"
+          v-bind="$pickProps(Mobile, 'AppSource')"
+          media="(max-width: 768px)"
+          :widths="[375, 768]"
+        />
+
+        <AppSource
+          :widths="[375, 768, 1200, 1440, 1920, 2400]"
+          v-bind="$pickProps({ url }, 'AppSource')"
+        />
+      </template>
 
       <!-- Image -->
       <img
@@ -108,23 +123,33 @@ export default {
         threshold: 0,
         autoOffset: true
       })
+    },
+    // eslint-disable-next-line vue/prop-name-casing
+    Mobile: {
+      type: Object,
+      required: false,
+      default: null
     }
   },
+
   data () {
     return {
       loaded: false,
       loading: false,
       error: false,
       placeholderStyle: null,
-      inView: false
+      inView: false,
+      animationObserver: null
     }
   },
+
   computed: {
     sources () {
       return this.$children
         .filter(child => child.type === 'AppSource')
     }
   },
+
   mounted () {
     if (this.placeholder) this.setPlaceholder()
 
@@ -136,6 +161,7 @@ export default {
 
     if (this.animation) this.createAnimationObserver()
   },
+
   methods: {
     async setPlaceholder () {
       if (this.placeholder === 'blur') {
@@ -145,7 +171,7 @@ export default {
         url.searchParams.set('blur', 250)
 
         this.placeholderStyle = {
-          backgroundImage: `url(${ url })`,
+          backgroundImage: `url(${url})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center center'
         }
@@ -165,6 +191,7 @@ export default {
         }
       }
     },
+
     async getImagePalette ({ colors = 1 } = {}) {
       try {
         const paletteUrl = new URL(this.url)
@@ -179,19 +206,20 @@ export default {
         return null
       }
     },
+
     createLazyloadObserver () {
       this.lazyloadObserver = new Observer(this.$el, {
         ...this.lazyloadObserverParams,
         activeClass: null,
         onEnter: this.onEnterLazyload
       })
-
-      this.lazyloadObserver.observe()
     },
+
     onEnterLazyload () {
       this.load()
       this.lazyloadObserver.destroy()
     },
+
     createAnimationObserver () {
       const animationObserverParams = {
         ...this.animationObserverParams,
@@ -201,13 +229,14 @@ export default {
       if (this.animation === 'custom') animationObserverParams.activeClass = null
 
       this.animationObserver = new Observer(this.$el, animationObserverParams)
-      this.animationObserver.observe()
     },
+
     onEnterAnimation () {
       this.inView = true
 
       if (this.loaded) this.animateEffect()
     },
+
     load () {
       if (this.loaded) return Promise.resolve()
 
@@ -239,6 +268,7 @@ export default {
           })
       })
     },
+
     onLoaded () {
       if (!this.loaded && this.inView) this.animateEffect()
 
@@ -246,23 +276,20 @@ export default {
       this.loading = false
       this.error = false
       this.$emit('loaded')
-
-      // Update virtual scroll bounding here
-      // this.$virtualScroll.setBoundings()
     },
+
     onError () {
       this.loaded = false
       this.loading = false
       this.error = true
     },
+
     animateEffect () {
       if (this.animation === 'custom') {
         this.$emit('custom-animation')
-        return
+      } else {
+        console.log('default animation here')
       }
-
-      // gsap animation or css
-      console.log('animation')
     }
   }
 }
@@ -285,16 +312,7 @@ export default {
   }
 
   &.--is-animated {
-    .AppImage-image {
-      transform: scale(1.5);
-    }
-
-    &.--is-loaded.in-view {
-      .AppImage-image {
-        transform: scale(1);
-        transition: transform 0.5s ease-in-out;
-      }
-    }
+    // State before default animation
   }
 }
 
