@@ -74,12 +74,14 @@ export default {
       default: 'lines'
     }
   },
+
   data () {
     return {
       splittedElementsClassSelector: null,
       splitted: false
     }
   },
+
   mounted () {
     gsap.registerPlugin(SplitText)
     this.splittedElementsClassSelector = {
@@ -91,10 +93,12 @@ export default {
 
     if (this.autoSplit) this.split()
   },
+
   methods: {
     elements () {
       return Array.from(this.$el.getElementsByClassName(this.splittedElementsClassSelector))
     },
+
     wrappers () {
       return Array.from(this.$el.getElementsByClassName(`${this.splittedElementsClassSelector}-wrapper`))
     },

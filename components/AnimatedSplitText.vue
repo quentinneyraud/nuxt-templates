@@ -3,9 +3,7 @@
     ref="main"
     v-bind="$pickProps(this, 'SplitText')"
     class="AnimatedSplitText"
-    :class="[
-      `--${animation}-animation`
-    ]"
+    :class="[`--${animation}-animation`]"
     :auto-split="false"
     :wrap="animation === 'text'"
   />
@@ -44,6 +42,7 @@ export default {
       })
     }
   },
+
   mounted () {
     gsap.set(this.$el, {
       autoAlpha: 0
@@ -51,6 +50,7 @@ export default {
 
     this.createAnimationObserver()
   },
+
   methods: {
     createAnimationObserver () {
       const animationObserverParams = {
@@ -61,6 +61,7 @@ export default {
       this.animationObserver = new Observer(this.$el, animationObserverParams)
       this.animationObserver.observe()
     },
+
     onEnter () {
       if (!this.notAnimated) {
         this.$nextTick(this.animate)

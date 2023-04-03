@@ -1,7 +1,5 @@
 module.exports = _ => ({
-  modules: [
-    '~/modules/viewport-observer'
-  ],
+  modules: ['~/modules/viewport-observer'],
   viewportObserver: {
     /**
       Add an helper to toggle activeClass (Default: true in dev)
