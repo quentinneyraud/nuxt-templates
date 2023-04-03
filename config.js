@@ -1,7 +1,5 @@
 module.exports = ({ lang, title, description, shareImage, BASE_URL, IS_INDEXED }) => ({
-  modules: [
-    '~/modules/metas'
-  ],
+  modules: ['~/modules/metas'],
 
   publicRuntimeConfig: {
     BASE_URL

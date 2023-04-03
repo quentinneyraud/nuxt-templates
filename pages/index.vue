@@ -8,6 +8,7 @@ import hasMetas from 'hasMetas'
 
 export default {
   mixins: [hasMetas],
+
   data () {
     return {
       metas: {

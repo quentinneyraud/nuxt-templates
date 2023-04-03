@@ -53,8 +53,6 @@ export default function (moduleOptions) {
       // No index
       ...(options.noIndex ? [{ name: 'robots', content: 'noindex' }] : [])
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   })
 }
