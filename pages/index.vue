@@ -39,28 +39,32 @@
 </template>
 
 <script>
-import ambient from 'assets/sounds/ambient.mp3'
-import click from 'assets/sounds/click.mp3'
+import ambient from '../assets/sounds/ambient.mp3'
+import click from '../assets/sounds/click.mp3'
 
 export default {
   mounted () {
     this.$audio.init()
 
-    this.$audio.add([{
-      name: 'ambient',
-      url: ambient,
-      loop: true
-    }, {
-      name: 'click',
-      url: click
-    }])
+    this.$audio.add([
+      {
+        name: 'ambient',
+        url: ambient,
+        loop: true
+      }, {
+        name: 'click',
+        url: click
+      }
+    ])
 
     this.$audio.load('ambient')
   },
+
   methods: {
     mute () {
       this.$audio.mute()
     },
+
     unmute () {
       this.$audio.unmute()
     },

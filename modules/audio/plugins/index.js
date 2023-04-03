@@ -6,7 +6,7 @@ import silence from './silence.js'
 // Class
 import Sound from './Sound'
 
-const randomId = _ => '_' + Math.random().toString(36).substr(2, 9)
+const randomId = _ => `_${Math.random().toString(36).substr(2, 9)}`
 
 const AudioManager = new Vue({
   data () {
@@ -17,6 +17,7 @@ const AudioManager = new Vue({
       iosDebugged: false // https://adactio.com/journal/17709
     }
   },
+
   watch: {
     isMuted (isMuted) {
       if (isMuted) {
@@ -26,12 +27,14 @@ const AudioManager = new Vue({
       }
     }
   },
+
   methods: {
     disableMediaControls (keys = ['play', 'pause', 'seekbackward', 'seekforward', 'previoustrack', 'nexttrack']) {
       keys.forEach(key => {
         navigator?.mediaSession?.setActionHandler(key, function () { })
       })
     },
+
     init () {
       this.disableMediaControls()
 

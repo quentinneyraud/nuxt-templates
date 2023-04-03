@@ -6,7 +6,5 @@ module.exports = {
   },
   dependencies: [],
   devDependencies: [],
-  files: [
-    'modules/audio'
-  ]
+  files: ['modules/audio']
 }

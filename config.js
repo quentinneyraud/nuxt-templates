@@ -1,5 +1,3 @@
 module.exports = _ => ({
-  modules: [
-    '~/modules/audio'
-  ]
+  modules: ['~/modules/audio']
 })
