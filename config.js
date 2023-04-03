@@ -1,9 +1,9 @@
-module.exports = ({ IS_PROD }) => ({
+module.exports = ({ IS_INDEXED }) => ({
   modules: [
     '@nuxtjs/robots'
   ],
   robots: _ => {
-    return IS_PROD
+    return IS_INDEXED
       ? {
         UserAgent: '*',
         Disallow: ''
