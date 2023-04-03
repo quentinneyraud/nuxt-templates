@@ -6,7 +6,7 @@
     }"
     :style="{
       '--columns': columns,
-      '--gutter': gutter + 'px'
+      '--gutter': `${gutter}px`
     }"
   >
     <!-- Grid -->
@@ -32,7 +32,11 @@
           class="Debug-option"
         >
           <span class="Debug-optionText">{{ option.text }}</span>
-          <input v-model="option.active" class="Debug-optionInput" type="checkbox">
+          <input
+            v-model="option.active"
+            class="Debug-optionInput"
+            type="checkbox"
+          >
         </li>
       </ul>
 
@@ -69,32 +73,37 @@ export default {
       default: 0
     }
   },
+
   data () {
     return {
       isOpen: false,
-      options: [{
-        key: 'image-alt',
-        text: 'Outline images without alt attribute',
-        active: false
-      }, {
-        key: 'link-title',
-        text: 'Outline links without title attribute',
-        active: false
-      }, {
-        key: 'button-title',
-        text: 'Outline buttons without title attribute',
-        active: false
-      }, {
-        key: 'grid',
-        text: 'Show grid',
-        active: false
-      }]
+      options: [
+        {
+          key: 'image-alt',
+          text: 'Outline images without alt attribute',
+          active: false
+        }, {
+          key: 'link-title',
+          text: 'Outline links without title attribute',
+          active: false
+        }, {
+          key: 'button-title',
+          text: 'Outline buttons without title attribute',
+          active: false
+        }, {
+          key: 'grid',
+          text: 'Show grid',
+          active: false
+        }
+      ]
     }
   },
+
   computed: {
     buttonText () {
       return this.isOpen ? 'Close' : 'Open'
     },
+
     featuresState () {
       return this.options
         .reduce((acc, option) => {
@@ -104,6 +113,7 @@ export default {
         }, {})
     }
   },
+
   watch: {
     options: {
       deep: true,
@@ -114,9 +124,11 @@ export default {
       }
     }
   },
+
   mounted () {
     this.setOptionsFromLocalStorage()
   },
+
   methods: {
     setOptionsFromLocalStorage () {
       if (!process.browser) return
@@ -130,6 +142,7 @@ export default {
           option.active = localStorageOptions?.[option.key] ?? false
         })
     },
+
     persistToLocalStorage () {
       if (!process.browser) return
 
