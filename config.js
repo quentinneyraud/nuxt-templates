@@ -11,10 +11,12 @@ module.exports = ({ ENVIRONMENT, IS_DEV, IS_PREPROD, IS_PROD, MODE, BASE_URL }) 
   },
 
   // Global register without directory prefix
-  components: [{
-    path: '~/components',
-    pathPrefix: false
-  }],
+  components: [
+    {
+      path: '~/components',
+      pathPrefix: false
+    }
+  ],
 
   // Provide constants to app
   publicRuntimeConfig: {
