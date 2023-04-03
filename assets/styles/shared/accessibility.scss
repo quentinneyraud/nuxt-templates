@@ -43,7 +43,7 @@
 
 @mixin focus {
   @include mouse {
-    &:focus {
+    &:focus-visible {
       @content;
     }
   }
@@ -51,7 +51,7 @@
 
 @mixin hover-focus {
   @include mouse {
-    &:hover, &:focus {
+    &:hover, &:focus-visible {
       @content;
     }
   }
