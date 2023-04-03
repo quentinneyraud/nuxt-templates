@@ -4,7 +4,7 @@
       Hello
     </h1>
 
-    <div class="AppWrapper--1280">
+    <div class="AppWrapper-1280">
 
       <div class="AppText-1 --rich side">
         <p>Lorem ipsum, dolor sit amet consectetur <em>adipisicing <a href="">link</a> elit</em>. Quisquam autem voluptates impedit eveniet fuga facilis, soluta vero laudantium numquam ratione!</p>
@@ -25,7 +25,7 @@ export default {}
 </script>
 
 <style lang="scss" scoped>
-.AppWrapper--1280 {
+.AppWrapper-1280 {
   display: flex;
   flex-wrap: wrap;
 }

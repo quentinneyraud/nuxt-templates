@@ -17,11 +17,11 @@ $wrapper-padding: 2rem;
   height: calc(var(--vh, 1vh) * $vh);
 }
 
-@mixin columns ($numberOfColumns: 1, $totalColumns: 36) {
+@mixin columns ($numberOfColumns: 1, $totalColumns: 12) {
   @include flex-size(math.percentage(math.div($numberOfColumns, $totalColumns)));
 }
 
-@mixin push ($numberOfColumns: 1, $totalColumns: 36) {
+@mixin push ($numberOfColumns: 1, $totalColumns: 12) {
   margin-left: math.percentage(math.div($numberOfColumns, $totalColumns));
 }
 
