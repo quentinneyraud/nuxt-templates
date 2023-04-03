@@ -2,17 +2,17 @@
   <!-- Inline -->
   <Component
     :is="inlineComponent"
-    v-if="type === 'inline'"
+    v-if="name && type === 'inline'"
     :class="classes"
   />
 
   <!-- Sprite -->
   <svg
-    v-else-if="type === 'sprite'"
+    v-else-if="name && type === 'sprite'"
     :class="classes"
     :viewBox="spriteIcon.viewBox"
   >
-    <use :xlink:href="'#' + spriteIcon.id" />
+    <use :xlink:href="`#${spriteIcon.id}`" />
   </svg>
 </template>
 
@@ -21,7 +21,8 @@ export default {
   props: {
     name: {
       type: String,
-      required: true
+      required: false,
+      default: null
     },
     type: {
       type: String,
@@ -29,15 +30,18 @@ export default {
       default: _ => 'inline'
     }
   },
+
   data () {
     return {
-      classes: ['SvgIcon', `${this.name}-icon`]
+      classes: ['AppSvg', `${this.name}-svg`]
     }
   },
+
   computed: {
     inlineComponent () {
       return require(`@/assets/svg/${this.name}.svg?inline`)
     },
+
     spriteIcon () {
       return require(`@/assets/svg/${this.name}.svg?sprite`).default
     }
