@@ -19,9 +19,7 @@ import DefaultSlice from '~/components/DefaultSlice.vue'
 import FirstSlice from '@/components/slices/FirstSlice.vue'
 import SecondSlice from '@/components/slices/SecondSlice.vue'
 
-let ONLY_SHOW = [
-  // 'FirstSlice'
-]
+let ONLY_SHOW = []
 
 export default {
   props: {
@@ -31,6 +29,7 @@ export default {
       default: null
     }
   },
+
   data () {
     return {
       slicesComponents: {
@@ -39,10 +38,12 @@ export default {
       }
     }
   },
+
   methods: {
     sliceComponentExists (componentName) {
       return Object.keys(this.slicesComponents).includes(componentName)
     },
+
     getSliceComponent ({ componentName }) {
       if (this.sliceComponentExists(componentName)) {
         if (this.$config.IS_DEV && ONLY_SHOW.length > 0) {

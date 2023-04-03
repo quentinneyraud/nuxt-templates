@@ -6,7 +6,7 @@
       :key="elementIndex"
       class="element"
     >
-      <NuxtLink :to="{ path: '/', hash: element.hash}">
+      <NuxtLink :to="{ path: '/', hash: element.hash }">
         <h2>{{ element.name }}</h2>
       </NuxtLink>
 
@@ -20,13 +20,13 @@
       </div>
     </div>
 
-    <NuxtLink :to="{ path: '/', hash: 'slices'}">
+    <NuxtLink :to="{ path: '/', hash: 'slices' }">
       <h2>Slices</h2>
     </NuxtLink>
 
     <pre id="slices">{{ slices }}</pre>
 
-    <NuxtLink :to="{ path: '/', hash: 'slices-component'}">
+    <NuxtLink :to="{ path: '/', hash: 'slices-component' }">
       <h2>Slices component</h2>
     </NuxtLink>
 
@@ -41,6 +41,7 @@ export default {
   components: {
     SlicesExample
   },
+
   async asyncData ({ $config, $api, error }) {
     try {
       const { elements, slices } = await $api.getTestPage()
@@ -54,6 +55,7 @@ export default {
       // })
     }
   },
+
   data () {
     return {
       elements: [],

@@ -4,7 +4,5 @@ module.exports = ({ IS_DEV, IS_PROD }) => ({
     IS_PROD
   },
 
-  plugins: [
-    '~/plugins/api'
-  ]
+  plugins: ['~/plugins/api']
 })
