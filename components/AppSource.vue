@@ -34,11 +34,13 @@ export default {
       default: null
     }
   },
+
   data () {
     return {
       type: 'AppSource'
     }
   },
+
   computed: {
     attributes () {
       const attributes = {}
