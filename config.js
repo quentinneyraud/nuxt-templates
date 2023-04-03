@@ -1,6 +1,6 @@
-module.exports = ({ IS_PROD }) => {
+module.exports = ({ IS_INDEXED }) => {
   let headers = {}
-  if (!IS_PROD) {
+  if (!IS_INDEXED) {
     headers = {
       '/*': [
         'X-Robots-Tag: noindex'
