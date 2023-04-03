@@ -1,0 +1,54 @@
+$wrapper-padding: 2rem;
+
+@mixin wrapper ($size: null) {
+  position: relative;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  @if ($size) {
+    max-width: $size + $wrapper-padding * 2;
+  }
+  padding-left: $wrapper-padding;
+  padding-right: $wrapper-padding;
+}
+
+@mixin vh-height($vh) {
+  height: calc(#{$vh} * 1vh);
+  height: calc(var(--vh, 1vh) * $vh);
+}
+
+@mixin columns ($numberOfColumns: 1, $totalColumns: 36) {
+  @include flex-size(math.percentage(math.div($numberOfColumns, $totalColumns)));
+}
+
+@mixin push ($numberOfColumns: 1, $totalColumns: 36) {
+  margin-left: math.percentage(math.div($numberOfColumns, $totalColumns));
+}
+
+@mixin flex-size ($size) {
+  flex: 0 0 $size;
+  width: $size;
+}
+
+@mixin flex-list () {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  column-gap: var(--items-gap, 0rem);
+}
+
+@mixin flex-list-item () {
+  @include flex-size(
+    calc(
+      (
+        (100% - (var(--items-by-line, 1) - 1) * var(--items-gap, 0rem)) /
+          var(--items-by-line, 1)
+      )
+    )
+  );
+}
+
+@mixin pseudo () {
+  content: "";
+  display: block
+}

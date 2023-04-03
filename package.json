@@ -18,6 +18,8 @@
     "@babel/eslint-parser": "^7.17.0",
     "@nuxtjs/eslint-config": "^8.0.0",
     "@nuxtjs/eslint-module": "^3.0.2",
+    "@nuxtjs/style-resources": "^1.2.1",
+    "@nuxtjs/svg": "^0.4.0",
     "@qneyraud/eslint-config": "1.0.18",
     "eslint": "^8.10.0",
     "eslint-config-standard": "^16.0.3",
@@ -26,6 +28,9 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-nuxt": "^3.1.0",
     "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-standard": "^5.0.0"
+    "eslint-plugin-standard": "^5.0.0",
+    "sass": "^1.60.0",
+    "sass-loader": "10.1.1",
+    "svgo": "^3.0.2"
   }
 }

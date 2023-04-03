@@ -1,26 +1,25 @@
 <template>
   <AppLink
-    :tag="tag"
-    :title="title"
-    :type="type"
-    :to="to"
-    :force-reload="forceReload"
-    :open-in-new-tab="openInNewTab"
+    v-bind="$pickProps(this, 'AppLink')"
     class="AppButton"
     :class="{
-      '--is-hover': isHover
+      '--is-hover': isHover,
+      '--is-only-icon': !!icon && !label
     }"
   >
-
-    <!-- Label -->
-    <span class="AppButton-label">{{ label }}</span>
-
     <!-- Icon -->
     <AppSvg
       v-if="icon"
       :name="icon"
       class="AppButton-svg"
     />
+
+    <!-- Label -->
+    <span
+      v-if="label"
+      class="AppButton-label"
+    >{{ label }}</span>
+
   </AppLink>
 </template>
 
@@ -36,9 +35,9 @@ export default {
       default: null
     },
     isHover: {
-      type: String,
+      type: Boolean,
       required: false,
-      default: null
+      default: false
     },
     icon: {
       type: String,
@@ -50,36 +49,54 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@mixin hover-state {
+  outline: none;
+  background-color: rgb(200, 169, 169);
+
+  .AppButton-label {
+    color: black;
+  }
+
+  .AppButton-svg {
+    fill: black;
+  }
+}
+
 .AppButton {
   position: relative;
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
   min-width: 20rem;
   padding: 2rem 3.5rem;
   border-radius: 80px;
-  box-shadow: 0 0 0 1px black;
+  gap: 1rem;
+  background-color: black;
 
-  &.--is-hover,
-  &:hover,
-  &:focus {
-    outline: none;
-    background-color: black;
+  &.--is-only-icon {
+    min-width: unset;
+    width: 6rem;
+    height: 6rem;
+    padding: 0;
+  }
 
-    .AppButton-label {
-      color: white;
-    }
+  &.--is-hover {
+    @include hover-state;
+  }
 
-    .AppButton-svg {
-      fill: white;
-    }
+  @include hover-focus {
+    @include hover-state;
   }
 }
 
-.AppButton-svg {
-  margin-left: 1rem;
-  max-width: 1.2rem;
-  max-height: 1.2rem;
-  fill: black;
+.AppSvg.AppButton-svg {
+  max-width: 1.4rem;
+  max-height: 1.4rem;
+  width: 100%;
+  fill: white;
+}
+
+.AppButton-label {
+  color: white;
 }
 </style>
