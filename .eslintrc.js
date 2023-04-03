@@ -12,8 +12,7 @@ module.exports = {
     'plugin:nuxt/recommended',
     '@qneyraud/eslint-config/nuxt'
   ],
-  plugins: [
-  ],
+  plugins: [],
   // add your custom rules here
   rules: {}
 }
