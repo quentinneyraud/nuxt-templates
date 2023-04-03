@@ -10,6 +10,7 @@ export default {
       subtitle: 'subtitle'
     }
   },
+
   mounted () {
     console.log(this.$pickProps(this, 'Test'))
     console.log(this.$pickProps(this, 'Test2'))

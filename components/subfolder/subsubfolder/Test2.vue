@@ -10,6 +10,7 @@ import mixin2 from '@/mixins/mixin2'
 
 export default {
   mixins: [mixin, mixin2],
+
   props: {
     subtitle: notRequiredString
   }
