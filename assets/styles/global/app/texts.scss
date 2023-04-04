@@ -53,9 +53,13 @@ Styles
 }
 
 .--bold {
-  font-style: $fw-bold;
+  font-weight: $fw-bold;
 }
 
 .--break {
   word-break: break-word;
+}
+
+.--line-return {
+  white-space: pre-line;
 }
