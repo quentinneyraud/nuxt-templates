@@ -1,5 +1,11 @@
 import defu from 'defu'
 import featureConfig from './config'
+import gsapFeatureConfig from './configs/nuxt.config.gsap'
+import propsHelperFeatureConfig from './configs/nuxt.config.props-helper'
+import sassFeatureConfig from './configs/nuxt.config.sass'
+import deviceFeatureConfig from './configs/nuxt.config.device'
+import eventsFeatureConfig from './configs/nuxt.config.events'
+import viewportObserverFeatureConfig from './configs/nuxt.config.viewport-observer'
 
 /**
  * Environment informations
@@ -40,6 +46,78 @@ export default async _ => {
   }
 
   const config = defu(baseConfig, await featureConfig({
+    ENVIRONMENT,
+    IS_DEV,
+    IS_PREPROD,
+    IS_PROD,
+    MODE,
+    BASE_URL,
+    lang,
+    title,
+    description,
+    shareImage,
+    themeColor
+  }), await gsapFeatureConfig({
+    ENVIRONMENT,
+    IS_DEV,
+    IS_PREPROD,
+    IS_PROD,
+    MODE,
+    BASE_URL,
+    lang,
+    title,
+    description,
+    shareImage,
+    themeColor
+  }), await propsHelperFeatureConfig({
+    ENVIRONMENT,
+    IS_DEV,
+    IS_PREPROD,
+    IS_PROD,
+    MODE,
+    BASE_URL,
+    lang,
+    title,
+    description,
+    shareImage,
+    themeColor
+  }), await sassFeatureConfig({
+    ENVIRONMENT,
+    IS_DEV,
+    IS_PREPROD,
+    IS_PROD,
+    MODE,
+    BASE_URL,
+    lang,
+    title,
+    description,
+    shareImage,
+    themeColor
+  }), await deviceFeatureConfig({
+    ENVIRONMENT,
+    IS_DEV,
+    IS_PREPROD,
+    IS_PROD,
+    MODE,
+    BASE_URL,
+    lang,
+    title,
+    description,
+    shareImage,
+    themeColor
+  }), await eventsFeatureConfig({
+    ENVIRONMENT,
+    IS_DEV,
+    IS_PREPROD,
+    IS_PROD,
+    MODE,
+    BASE_URL,
+    lang,
+    title,
+    description,
+    shareImage,
+    themeColor
+  }), await viewportObserverFeatureConfig({
     ENVIRONMENT,
     IS_DEV,
     IS_PREPROD,

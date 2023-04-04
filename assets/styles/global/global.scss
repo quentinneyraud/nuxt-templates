@@ -1,0 +1,17 @@
+:root {
+  --sbw: 0px;
+}
+
+html {
+  font-size: math.percentage(math.div(10, 16));
+  line-height: normal;
+
+  @include xxlarge {
+    font-size: #{math.div(1000, map-get($width-breakpoints, 'xxlarge'))}vw;
+    font-size: calc(#{math.div(1000, map-get($width-breakpoints, 'xxlarge'))}vw - var(--sbw)/ #{math.div(map-get($width-breakpoints, 'xxlarge'), 10)});
+  }
+}
+
+a.nuxt-link-exact-active {
+  pointer-events: none;
+}

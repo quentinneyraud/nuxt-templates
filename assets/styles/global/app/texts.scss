@@ -1,0 +1,61 @@
+/*
+
+Titles
+
+*/
+
+.AppTitle-1 {
+  @include font($font-sora, fs(35, 100), fs(45, 110), $fw-semi-bold);
+}
+
+.AppTitle-2 {
+  @include font($font-sora, fs(25, 35), fs(35, 45), $fw-semi-bold);
+}
+
+/*
+
+Texts
+
+*/
+
+.AppText-1 {
+  @include font($font-sora, 22, 38, $fw-regular);
+}
+
+.AppText-2 {
+  @include font($font-sora, 17, 28, $fw-regular);
+}
+
+/*
+
+Styles
+
+*/
+
+.--tal {
+  text-align: left;
+}
+
+.--tar {
+  text-align: right;
+}
+
+.--tac {
+  text-align: center;
+}
+
+.--ttu {
+  text-transform: uppercase;
+}
+
+.--italic {
+  font-style: italic;
+}
+
+.--bold {
+  font-style: $fw-bold;
+}
+
+.--break {
+  word-break: break-word;
+}

@@ -1,0 +1,34 @@
+.--rich {
+  & > *:first-child {
+    margin-top: 0;
+  }
+
+  & > *:last-child {
+    margin-bottom: 0;
+  }
+
+  & > * {
+    margin-top: 2.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  strong, b {
+    font-weight: bold;
+
+    * {
+      font-weight: inherit;
+    }
+  }
+
+  em, i {
+    font-style: italic;
+
+    * {
+      font-style: inherit;
+    }
+  }
+}
