@@ -95,9 +95,9 @@ class ScreenBased {
 
     this.options?.callback?.({
       current: this.progress.current,
-      lerped: this.options.lerped ? this.progress.lerped : undefined,
-      nCurrent: this.options.normalized ? this.nProgress.current : undefined,
-      nLerped: this.options.lerped && this.options.normalized ? this.nProgress.lerped : undefined
+      ...(this.options.lerped ? { lerped: this.progress.lerped } : {}),
+      ...(this.options.normalized ? { nCurrent: this.nProgress.current } : {}),
+      ...(this.options.lerped && this.options.normalized ? { nLerped: this.nProgress.lerped } : {})
     })
 
     this.options?.timeline?.progress(this.progress.current)
@@ -157,7 +157,10 @@ function update (el, { value }) {
 function unbind (el) {
   const state = el._vue_sb_animation
 
-  if (state) delete el._vue_sb_animation
+  if (state) {
+    el._vue_sb_animation.stop()
+    delete el._vue_sb_animation
+  }
 }
 
 Vue.directive('sb-animation', {
