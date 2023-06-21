@@ -11,6 +11,7 @@ module.exports = _ => ({
         - visibility
         - orientation
         - mousemove
+        - mouseviewport (mouseleave and mouseenter)
      */
     events: []
   }

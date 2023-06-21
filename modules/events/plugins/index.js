@@ -125,7 +125,6 @@ const getGsapTicker = _ => ({
   init () {
     this.onTick = this.onTick.bind(this)
 
-    // eslint-disable-next-line no-undef
     this.gsap = require('gsap').default
 
     return this
@@ -218,6 +217,30 @@ const getMouseMove = _ => ({
 
 /**
  *
+ * Mouseviewport
+ *
+ */
+const getMouseviewport = _ => ({
+  init () {
+    this.onMouseEnter = this.onMouseEnter.bind(this)
+    this.onMouseLeave = this.onMouseLeave.bind(this)
+
+    return this
+  },
+  start () {
+    document.addEventListener('mouseenter', this.onMouseEnter)
+    document.addEventListener('mouseleave', this.onMouseLeave)
+  },
+  onMouseEnter (event) {
+    Events.$emit('mouseenter', event)
+  },
+  onMouseLeave (event) {
+    Events.$emit('mouseleave', event)
+  }
+})
+
+/**
+ *
  * Init events
  *
  */
@@ -276,6 +299,15 @@ options.events.forEach(event => {
         .start()
 
       Events.eventsState.mousemove = true
+
+      break
+
+    case 'mouseviewport':
+      getMouseviewport()
+        .init()
+        .start()
+
+      Events.eventsState.mouseviewport = true
 
       break
 
