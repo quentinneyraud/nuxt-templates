@@ -136,7 +136,7 @@ export default class Observer {
   }
 
   setAutoOffset () {
-    this.options.offset = window.innerHeight / 3
+    this.options.offset = window.innerHeight / 4
   }
 
   onResize () {
