@@ -219,20 +219,20 @@ class Formatter {
     return valueMapping ? (valueMapping[selectValue] || selectValue) : selectValue
   }
 
-  formatEmbed (embed, { fields = ['provider_name', 'title', 'video_id', 'thumbnail_url', 'embed_url'] } = {}) {
+  formatEmbed (embed) {
     if (!embed || isEmptyObject(embed)) return undefined
 
     if (embed.provider_name === 'Vimeo') {
       const customControlsAvailable = embed.account_type && embed.account_type !== 'basic'
 
       return {
-        ...filterObjectKeys(embed, fields),
+        id: embed.video_id.toString(),
         customControlsAvailable
       }
     } else if (embed.provider_name === 'YouTube') {
-      return filterObjectKeys(embed, fields)
+      return embed
     } else if (embed.provider_name === 'website') {
-      return filterObjectKeys(embed, fields)
+      return embed
     }
 
     return embed

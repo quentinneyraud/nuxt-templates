@@ -1,12 +1,26 @@
+import { toArrayIfNeeded } from './helpers'
+
+const pick = (obj, keys) => {
+  if (!obj) return null
+
+  return keys
+    .reduce((acc, curr) => {
+      if (obj[curr]) acc[curr] = obj[curr]
+
+      return acc
+    }, {})
+}
+
 // Recursive get all documents (bypass 100 results limit)
-export const getAll = async (prismic, documentType, predicates = [], queryOptions) => {
+export const getAll = async (app, documentType, predicates = [], queryOptions) => {
   const fetch = async (acc, page = 1) => {
-    const document = await prismic.api.query([
-      prismic.predicates.at('document.type', documentType),
+    const document = await app.$prismic.api.query([
+      app.$prismic.predicates.at('document.type', documentType),
       ...(Array.isArray(predicates) ? predicates : [])
     ],
     {
       ...queryOptions,
+      lang: app.$config.LOCALE,
       pageSize: 100,
       page
     }
@@ -22,4 +36,19 @@ export const getAll = async (prismic, documentType, predicates = [], queryOption
   }
 
   return await fetch([], 1)
+}
+
+export const getTranslations = async (app, keys) => {
+  keys = toArrayIfNeeded(keys)
+
+  const document = (await app.$prismic.api.getSingle('global', {
+    lang: app.$config.LOCALE,
+    graphQuery: `{
+      global {
+        translations
+      }
+    }`
+  })).data
+
+  return pick(document.translations[0], keys)
 }

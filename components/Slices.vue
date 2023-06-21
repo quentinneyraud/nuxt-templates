@@ -1,5 +1,8 @@
 <template>
-  <main class="Slices">
+  <main
+    v-if="slices && slices.length"
+    class="Slices"
+  >
     <Component
       :is="getSliceComponent(slice)"
       v-for="(slice, sliceIndex) in slices"
@@ -12,6 +15,8 @@
 </template>
 
 <script>
+import { notRequiredArray } from '~/modules/props-helper/scripts/nuxt-prop-types'
+
 // Default Slice
 import DefaultSlice from '~/components/DefaultSlice.vue'
 
@@ -21,11 +26,7 @@ let ONLY_SHOW = []
 
 export default {
   props: {
-    slices: {
-      type: Array,
-      required: false,
-      default: null
-    }
+    slices: notRequiredArray
   },
 
   data () {
