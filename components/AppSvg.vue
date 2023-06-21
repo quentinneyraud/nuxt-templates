@@ -50,6 +50,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss">
+.AppSvg {
+  overflow: visible;
+}
 </style>
