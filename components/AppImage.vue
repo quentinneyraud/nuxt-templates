@@ -32,14 +32,14 @@
       <template v-else>
         <AppSource
           v-if="Mobile"
-          v-bind="$pickProps(Mobile, 'AppSource')"
+          v-bind="$pickProps({ ...Mobile, sizes }, 'AppSource')"
           media="(max-width: 768px)"
           :widths="[375, 768]"
         />
 
         <AppSource
           :widths="[375, 768, 1200, 1440, 1920, 2400]"
-          v-bind="$pickProps({ url }, 'AppSource')"
+          v-bind="$pickProps({ url, sizes }, 'AppSource')"
         />
       </template>
 
@@ -62,74 +62,36 @@
 
 <script>
 import Observer from '../modules/viewport-observer/Observer'
+import AppSource from '@/components/AppSource.vue'
+import { notRequiredBooleanWithDefault, notRequiredObject, notRequiredObjectWithDefault, notRequiredString, notRequiredStringWithDefault } from '~/modules/props-helper/scripts/nuxt-prop-types'
 
 export default {
   props: {
-    url: {
-      type: String,
-      required: false,
-      default: null
-    },
-    alt: {
-      type: String,
-      required: false,
-      default: ''
-    },
-    fit: {
-      type: String,
-      required: false,
-      default: 'cover',
-      validator: value => ['cover', 'contain', 'none', 'unset'].includes(value)
-    },
-    position: {
-      type: String,
-      required: false,
-      default: 'center center'
-    },
-    lazyload: {
-      type: Boolean,
-      required: false,
-      default: true
-    },
-    lazyloadObserverParams: {
-      type: Object,
-      required: false,
-      default: _ => ({
-        threshold: 0,
-        offset: -500
-      })
-    },
-    draggable: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
+    url: notRequiredString,
+    alt: notRequiredStringWithDefault(''),
+    fit: notRequiredStringWithDefault('cover'),
+    position: notRequiredStringWithDefault('center center'),
+    lazyload: notRequiredBooleanWithDefault(true),
+    lazyloadObserverParams: notRequiredObjectWithDefault({
+      threshold: 0,
+      offset: -500
+    }),
+    draggable: notRequiredBooleanWithDefault(false),
     // blur, color, an url
-    placeholder: {
-      type: String,
-      required: false,
-      default: null
-    },
+    placeholder: notRequiredString,
     // true (animateEnter method), false (no observer, no animation), 'custom' (observer and emit 'custom-animation' event)
     animation: {
       type: [Boolean, String],
       required: false,
       default: _ => true
     },
-    animationObserverParams: {
-      type: Object,
-      required: false,
-      default: _ => ({
-        threshold: 0,
-        autoOffset: true
-      })
-    },
+    animationObserverParams: notRequiredObjectWithDefault({
+      threshold: 0,
+      autoOffset: true
+    }),
     // eslint-disable-next-line vue/prop-name-casing
-    Mobile: {
-      type: Object,
-      required: false,
-      default: null
-    }
+    Mobile: notRequiredObject,
+    sizes: AppSource.props.sizes
   },
 
   data () {

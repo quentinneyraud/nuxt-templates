@@ -6,33 +6,15 @@
 </template>
 
 <script>
+import { notRequiredArray, notRequiredObject, notRequiredString } from '~/modules/props-helper/scripts/nuxt-prop-types'
+
 export default {
   props: {
-    url: {
-      type: String,
-      required: false,
-      default: null
-    },
-    srcset: {
-      type: String,
-      required: false,
-      default: null
-    },
-    widths: {
-      type: Array,
-      required: false,
-      default: null
-    },
-    media: {
-      type: String,
-      required: false,
-      default: null
-    },
-    sizes: {
-      type: Object,
-      required: false,
-      default: null
-    }
+    url: notRequiredString,
+    srcset: notRequiredString,
+    widths: notRequiredArray,
+    media: notRequiredString,
+    sizes: notRequiredObject
   },
 
   data () {
@@ -51,7 +33,7 @@ export default {
       if (this.srcset) {
         attributes['data-srcset'] = this.srcset
       } else if (this.url) {
-        if (!this.widths || this.widths.length === 0) {
+        if (!this.widths || this.widths.length === 0 || this.url.includes('_nuxt')) {
           attributes['data-srcset'] = this.url
         } else {
           attributes['data-srcset'] = this.widths
