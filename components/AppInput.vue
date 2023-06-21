@@ -28,15 +28,14 @@
         :required="isRequired"
       />
 
-      <template v-else-if="type === 'checkbox'">
-        <input
-          ref="input"
-          :name="inputName"
-          class="AppInput-input"
-          type="checkbox"
-          :required="isRequired"
-        >
-      </template>
+      <input
+        v-else-if="type === 'checkbox'"
+        ref="input"
+        :name="inputName"
+        class="AppInput-input"
+        type="checkbox"
+        :required="isRequired"
+      >
 
       <input
         v-else
@@ -53,6 +52,8 @@
 </template>
 
 <script>
+import { notRequiredBoolean, notRequiredString } from '~/modules/props-helper/scripts/nuxt-prop-types'
+
 const slugify = text =>
   text
     .toString()
@@ -66,31 +67,11 @@ const slugify = text =>
 
 export default {
   props: {
-    type: {
-      type: String,
-      required: false,
-      default: null
-    },
-    name: {
-      type: String,
-      required: false,
-      default: null
-    },
-    isRequired: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
-    label: {
-      type: String,
-      required: false,
-      default: null
-    },
-    placeholder: {
-      type: String,
-      required: false,
-      default: null
-    }
+    type: notRequiredString,
+    name: notRequiredString,
+    isRequired: notRequiredBoolean,
+    label: notRequiredString,
+    placeholder: notRequiredString
   },
 
   data () {
