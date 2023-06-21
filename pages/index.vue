@@ -26,6 +26,17 @@
       open-in-new-tab
       is-hover
     />
+
+    <AppButton
+      label="Replace link"
+      :to="{
+        name: 'index',
+        query: {
+          test: 'ok'
+        }
+      }"
+      replace
+    />
   </div>
 </template>
 

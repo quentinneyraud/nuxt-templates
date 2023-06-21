@@ -25,25 +25,14 @@
 
 <script>
 import AppLink from './AppLink.vue'
+import { notRequiredBooleanWithDefault, notRequiredString } from '~/modules/props-helper/scripts/nuxt-prop-types'
 
 export default {
   props: {
     ...AppLink.props,
-    label: {
-      type: String,
-      required: false,
-      default: null
-    },
-    isHover: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
-    icon: {
-      type: String,
-      required: false,
-      default: null
-    }
+    label: notRequiredString,
+    icon: notRequiredString,
+    isHover: notRequiredBooleanWithDefault(false)
   }
 }
 </script>

@@ -9,41 +9,24 @@
 </template>
 
 <script>
-const TYPES = ['email', 'tel', 'place']
+import { notRequiredBooleanWithDefault, notRequiredString } from '~/modules/props-helper/scripts/nuxt-prop-types'
+
+const SPECIAL_TYPES = ['email', 'tel', 'place']
 
 export default {
   props: {
-    tag: {
-      type: String,
-      required: false,
-      default: null
-    },
-    title: {
-      type: String,
-      required: false,
-      default: null
-    },
+    tag: notRequiredString,
+    title: notRequiredString,
     // email, tel, place
-    type: {
-      type: String,
-      required: false,
-      default: null
-    },
+    specialType: notRequiredString,
     to: {
       type: [String, Object],
       required: false,
       default: null
     },
-    forceReload: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
-    openInNewTab: {
-      type: Boolean,
-      required: false,
-      default: false
-    }
+    forceReload: notRequiredBooleanWithDefault(false),
+    openInNewTab: notRequiredBooleanWithDefault(false),
+    replace: notRequiredBooleanWithDefault(false)
   },
 
   methods: {
@@ -74,17 +57,13 @@ export default {
     getComponentAttributes () {
       const attributes = {}
 
-      if (this.type === 'submit') {
-        attributes.type = 'submit'
-      }
-
       if (this.tag || !this.to) return attributes
 
       if (typeof this.to === 'string') {
-        if (TYPES.includes(this.type)) {
-          if (this.type === 'email') attributes.href = `mailto:${this.to}`
-          if (this.type === 'tel') attributes.href = `tel:${this.to}`
-          if (this.type === 'place') attributes.href = `https://www.google.com/maps/search/?api=1&query=${encodeURI(this.to)}`
+        if (SPECIAL_TYPES.includes(this.specialType)) {
+          if (this.specialType === 'email') attributes.href = `mailto:${this.to}`
+          if (this.specialType === 'tel') attributes.href = `tel:${this.to}`
+          if (this.specialType === 'place') attributes.href = `https://www.google.com/maps/search/?api=1&query=${encodeURI(this.to)}`
 
           attributes.target = '_blank'
           attributes.rel = 'noreferrer'
@@ -102,6 +81,8 @@ export default {
           attributes.href = this.$router.resolve(this.to).href
         } else {
           attributes.to = this.to
+
+          if (this.replace) attributes.replace = true
         }
       } else {
         return null
