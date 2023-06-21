@@ -17,18 +17,12 @@
 </template>
 
 <script>
+import { notRequiredString, notRequiredStringWithDefault } from '~/modules/props-helper/scripts/nuxt-prop-types'
+
 export default {
   props: {
-    name: {
-      type: String,
-      required: false,
-      default: null
-    },
-    type: {
-      type: String,
-      required: false,
-      default: _ => 'inline'
-    }
+    name: notRequiredString,
+    type: notRequiredStringWithDefault('inline')
   },
 
   data () {
@@ -50,7 +44,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="css">
 .AppSvg {
   overflow: visible;
 }
