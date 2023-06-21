@@ -212,7 +212,8 @@ const createVirtualScroll = ctx => new Vue({
       if (this.isLocked && !force) return
 
       if (!this.active) {
-        window.scrollTo(0, yValue, {
+        window.scrollTo({
+          top: yValue,
           behavior: 'smooth'
         })
       } else {
@@ -224,7 +225,10 @@ const createVirtualScroll = ctx => new Vue({
       if (this.isLocked && !force) return
 
       if (!this.active) {
-        window.scrollTo(0, yValue)
+        window.scrollTo({
+          top: 0,
+          behavior: 'auto'
+        })
       } else {
         this.target = yValue
         this.current = yValue
@@ -269,7 +273,7 @@ const createVirtualScroll = ctx => new Vue({
     },
 
     onTick () {
-      this.current = lerp(this.current, this.target, this.ratio, 1 / Math.pow(this.precision, this.precision))
+      this.current = lerp(this.current, this.target, this.ratio, 1 / (Math.pow(10, this.precision)))
 
       this.$emit('scroll', {
         current: this.current.toFixed(this.precision),

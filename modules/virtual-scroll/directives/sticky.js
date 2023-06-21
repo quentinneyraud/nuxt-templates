@@ -55,9 +55,9 @@ class Sticky {
 
       this.sendProgress()
     } else {
-      this.el.style.position = 'relative'
-      this.el.style.top = 'unset'
-      this.el.style.width = 'unset'
+      this.el.style.removeProperty('position')
+      this.el.style.removeProperty('top')
+      this.el.style.removeProperty('width')
 
       if (this.parentRect.top <= 0) {
         this.el.style.transform = `translateY(${this.parentRect.height - this.elRect.height}px)`

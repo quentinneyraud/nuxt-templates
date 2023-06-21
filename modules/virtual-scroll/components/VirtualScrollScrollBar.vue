@@ -54,6 +54,7 @@ export default {
                 (this.instance.limit.y + this.scrollbarHeight)
             }px`
     },
+
     /**
      *
      * Events
@@ -62,9 +63,11 @@ export default {
     onScrollbarDragStart () {
       this.mouseDown = true
     },
+
     onScrollBarRelease () {
       this.mouseDown = false
     },
+
     onScrollbarDrag (e) {
       if (!this.mouseDown) return
 
