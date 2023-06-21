@@ -39,6 +39,7 @@ export default (ctx, inject) => {
           acc[`lte${capitalizedBreakpointName}`] = null
           return acc
         }, {}),
+        breakpoints: options.breakpoints,
         isMobileOrTablet: isMobileOrTablet(ctx)
       }
     },
