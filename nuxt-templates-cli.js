@@ -5,7 +5,7 @@ module.exports = {
     category: 'Development helpers'
   },
   dependencies: [],
-  devDependencies: ['@nuxtjs/eslint-module@nuxt2'],
+  devDependencies: ['@nuxtjs/eslint-module@nuxt2', 'eslint-import-resolver-nuxt'],
   files: ['.eslintrc.js'],
   installCommands: ['npx install-peerdeps @qneyraud/eslint-config --dev'],
   postInstall: Log => {
