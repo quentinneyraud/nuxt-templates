@@ -5,7 +5,7 @@ module.exports = {
     category: 'CMS'
   },
   dependencies: [],
-  devDependencies: ['@nuxtjs/prismic'],
+  devDependencies: ['@nuxtjs/prismic@1.4.2'],
   files: [
     'app',
     'modules/prismic'
