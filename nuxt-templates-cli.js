@@ -6,7 +6,7 @@ module.exports = {
   },
   dependencies: [],
   devDependencies: [
-    '@nuxtjs/style-resources',
+    '@nuxtjs/style-resources@^1',
     'sass',
     'sass-loader@10.1.1'
   ],
