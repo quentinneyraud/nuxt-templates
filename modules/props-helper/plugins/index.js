@@ -5,7 +5,7 @@ export const pick = (obj, keys) => {
 
   return keys
     .reduce((acc, curr) => {
-      if (obj[curr]) acc[curr] = obj[curr]
+      if (curr in obj) acc[curr] = obj[curr]
 
       return acc
     }, {})
@@ -32,7 +32,7 @@ export default (_, inject) => {
         }
 
         return pick(obj, Object.keys(props))
-      } catch (_) {}
+      } catch (_) { }
     }
   })
 }
