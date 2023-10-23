@@ -2,6 +2,12 @@ import Vue from 'vue'
 
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max)
 
+let ctx = null
+
+const POSITIONS_ABOVE = 'POSITIONS_ABOVE'
+const POSITIONS_BELOW = 'POSITIONS_BELOW'
+const POSITIONS_INSIDE = 'POSITIONS_INSIDE'
+
 class Sticky {
   constructor (el, options, virtualScrollPlugin) {
     this.el = el
@@ -9,6 +15,19 @@ class Sticky {
     this.options = Object.assign({}, { active: true, marge: 100 }, options)
     this.virtualScrollPlugin = virtualScrollPlugin
     this.bindMethods()
+
+    this.state = Vue.observable({ position: 'above' })
+    ctx.$watch(_ => this.state.position, newVal => {
+      if (newVal === POSITIONS_ABOVE) {
+        this.setTransform(0)
+        this.sendProgress(0)
+      }
+
+      if (newVal === POSITIONS_BELOW) {
+        this.setTransform(this.parentRect.height - this.elRect.height)
+        this.sendProgress(1)
+      }
+    })
 
     if (this.options.active) this.start()
   }
@@ -34,12 +53,16 @@ class Sticky {
   }
 
   onScroll () {
-    this.elRect = this.el.getBoundingClientRect()
-    this.parentRect = this.parent.getBoundingClientRect()
+    this.setRect()
 
-    if (this.parentRect.top <= this.options.marge && this.parentRect.top + this.parentRect.height - this.elRect.height >= -this.options.marge) {
-      this.el.style.transform = `translateY(${clamp(this.parentRect.top * -1, 0, this.parentRect.height - this.elRect.height).toFixed(this.virtualScrollPlugin.getPrecision())}px)`
+    if (this.parentRect.top >= this.options.marge) {
+      this.state.position = POSITIONS_ABOVE
+    } else if (this.parentRect.top + this.parentRect.height - this.elRect.height <= -this.options.marge) {
+      this.state.position = POSITIONS_BELOW
+    } else {
+      this.state.position = POSITIONS_INSIDE
 
+      this.setTransform()
       this.sendProgress()
     }
   }
@@ -65,13 +88,20 @@ class Sticky {
     }
   }
 
-  sendProgress () {
-    if (this.options.onProgress) this.options.onProgress((this.elRect.top - this.parentRect.top) / (this.parentRect.height - this.elRect.height))
+  setTransform (value) {
+    value = value ?? this.parentRect.top * -1
+    this.el.style.transform = `translateY(${clamp(value, 0, this.parentRect.height - this.elRect.height).toFixed(this.virtualScrollPlugin.getPrecision())}px)`
+  }
+
+  sendProgress (value) {
+    value = value ?? (this.elRect.top - this.parentRect.top) / (this.parentRect.height - this.elRect.height)
+    this.options?.onProgress(value)
   }
 }
 
 Vue.directive('vs-sticky', {
   bind (el, { value }, { context }) {
+    ctx = context
     const virtualScrollPlugin = context.$virtualScroll
 
     context.$nextTick(_ => {
